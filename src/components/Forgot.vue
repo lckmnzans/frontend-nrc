@@ -1,61 +1,52 @@
 <template>
-    <div id="login-form-container">
-        <form @submit.prevent="login">
+    <div id="forgot-form-container">
+        <form @submit.prevent="forgot">
             <label for="username">Username:</label>
-            <input type="text" id="username" required><br>
+            <input type="text" id="username" v-model="username" required><br>
     
-            <label for="password">Password:</label>
-            <input type="password" id="password" required><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" v-model="email" required><br>
     
-            <button type="submit">Login</button>
-            <a :href="link.url" :title="link.title">Lupa password?</a>
+            <button type="submit">Forgot Password</button>
         </form><br>
     </div>
 </template>
     
 <script>
 export default {
-    data() {
-        return {
-            link: {
-                url:'Forgot.html',
-                title: 'Reset password'
-            }
-        }
-    },
     methods: {
         async showValue() {
             let username = document.getElementById('username').value;
-            let password = document.getElementById('password').value;
-            alert(username + ' ' + password);
+            let email = document.getElementById('email').value;
+            alert(username + ' ' + email);
         },
-        async login() {
+        async forgot() {
             let username = document.getElementById('username').value;
-            let password = document.getElementById('password').value;
+            let email = document.getElementById('email').value;
 
             const formData = new URLSearchParams();
             formData.append('username', username);
-            formData.append('password', password);
+            formData.append('email', email);
 
             try {
-                const response = await fetch('http://localhost:8000/api/v1/account/login', {
+                const response = await fetch('http://localhost:8000/api/v1/account/request-reset', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/json'
                     },
                     body: formData
                 })
 
                 if (response.ok) {
                     const responseData = await response.json();
-                    const data = responseData.data;
-                    alert('Login successful!');
+                    const message = responseData.message;
+                    alert(message);
                 } else {
-                    alert('Login failed. Please check your credentials.')
+                    alert('Permintaan gagal diproses, cek kembali username dan email');
                 }
             } catch (error) {
                 console.error('Error:', error)
-                alert('An error occurred. Please try again later.')
+                alert('Ada kesalahan. Silakan coba lagi.')
             }
         }
     }
