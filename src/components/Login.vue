@@ -1,13 +1,19 @@
 <template>
-    <div id="login-form-container">
+    <div class="container mb-3" id="login-container">
         <form @submit.prevent="login">
-            <label for="username">Username:</label>
-            <input type="text" id="username" required><br>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="username" :value="username" @input="(ev) => username = ev.target.value" required><br>
+            </div>
     
-            <label for="password">Password:</label>
-            <input type="password" id="password" required><br>
+            <div class="mb-3">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" v-model="password" required><br>
+            </div>
     
-            <button type="submit">Login</button>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
             <a :href="link.url" :title="link.title">Lupa password?</a>
         </form><br>
     </div>
@@ -15,27 +21,22 @@
     
 <script>
 export default {
+    props: ['formFilled'],
     data() {
         return {
             link: {
                 url:'Forgot.html',
                 title: 'Reset password'
-            }
+            },
+            username: '',
+            password: ''
         }
     },
     methods: {
-        async showValue() {
-            let username = document.getElementById('username').value;
-            let password = document.getElementById('password').value;
-            alert(username + ' ' + password);
-        },
         async login() {
-            let username = document.getElementById('username').value;
-            let password = document.getElementById('password').value;
-
             const formData = new URLSearchParams();
-            formData.append('username', username);
-            formData.append('password', password);
+            formData.append('username', this.username);
+            formData.append('password', this.password);
 
             try {
                 const response = await fetch('http://localhost:8000/api/v1/account/login', {
@@ -49,6 +50,7 @@ export default {
                 if (response.ok) {
                     const responseData = await response.json();
                     const data = responseData.data;
+                    this.storeLogin(data.token);
                     alert('Login successful!');
                 } else {
                     alert('Login failed. Please check your credentials.')
@@ -57,13 +59,16 @@ export default {
                 console.error('Error:', error)
                 alert('An error occurred. Please try again later.')
             }
+        },
+        storeLogin(accessToken) {
+            localStorage.setItem('accessToken', accessToken);
         }
     }
 }
 </script>
     
-<!-- <style>
-#login-form-container {
+<style>
+#login-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,33 +76,13 @@ export default {
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
+    width: 50vh;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #f9f9f9;
-}
-
-label, input, button {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-button {
-    padding: 10px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
 }
 
 button:hover {
     background-color: #45a049;
 }
-</style> -->
+</style>
