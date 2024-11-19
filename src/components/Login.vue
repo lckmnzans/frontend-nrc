@@ -14,22 +14,23 @@
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
-            <a href="" @click.prevent="goToForgotPassword" title="Forgot password">Lupa password?</a>
+            <router-link to="/forgot-password">Lupa password?</router-link>
         </form><br>
     </div>
 </template>
     
 <script setup>
-import { inject } from 'vue';
 import { useRouter } from 'vue-router';
+import { inject } from 'vue';
 const router = useRouter();
 const auth = inject('$auth');
 
-let user = {username: '', password: ''};
-
-function goToForgotPassword() {
-    router.push({ path: 'forgot-password' });
+const token = auth.getToken();
+if (token) {
+    router.replace({ path: '/' });
 }
+
+let user = {username: '', password: ''};
 
 async function login() {
     const formData = new URLSearchParams();
@@ -48,8 +49,8 @@ async function login() {
         if (response.ok) {
             const responseData = await response.json();
             const data = responseData.data;
-            console.log(`Your access token : ${data.token}`)
             auth.setToken(data.token);
+            router.replace({ path: '/' });
             alert('Login successful!');
         } else {
             alert('Login failed. Please check your credentials.')

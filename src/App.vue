@@ -4,8 +4,17 @@
 
 <script>
 export default {
+    inject: ['$auth'],
     created() {
-        this.getLogin();
+        const token = this.$auth.getToken();
+
+        if (!token) {
+            console.log('Anda belum login');
+            this.$router.replace({ path:'/login' });
+            return;
+        } else {
+            this.$router.replace({ path:'/dashboard' });
+        }
     },
     data() {
         return {
@@ -15,14 +24,6 @@ export default {
     methods: {
         showValue(object) {
             console.log(object);
-        },
-        getLogin() {
-            let token = localStorage.getItem('accessToken');
-
-            if (token) {
-                console.log(`Your access token : ${token}`);
-                this.token = token;
-            }
         }
     }
 }
