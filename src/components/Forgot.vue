@@ -1,18 +1,24 @@
 <template>
-    <div id="forgot-form-container">
-        <form @submit.prevent="forgot">
-            <label for="username">Username:</label>
-            <input type="text" id="username" v-model="username" required><br>
+    <div class="container mb-3" id="forgot-form-container">
+        <form @submit.prevent="">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="username" required><br>
+            </div>
     
-            <label for="email">Email:</label>
-            <input type="email" id="email" v-model="email" required><br>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="email" required><br>
+            </div>
     
-            <button type="submit">Forgot Password</button>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Forgot Password</button>
+            </div>
         </form><br>
     </div>
 </template>
     
-<script>
+<!-- <script>
 export default {
     methods: {
         async showValue() {
@@ -51,10 +57,10 @@ export default {
         }
     }
 }
-</script>
-    
-<!-- <style>
-#login-form-container {
+</script> -->
+
+<style scoped>
+#forgot-form-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,33 +68,9 @@ export default {
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
+    width: 50vh;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #f9f9f9;
 }
-
-label, input, button {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-button {
-    padding: 10px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-</style> -->
+</style>

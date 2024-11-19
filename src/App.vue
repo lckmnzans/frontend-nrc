@@ -1,14 +1,9 @@
 <template>
-    <Login :form-filled="showValue"></Login>
+    <router-view></router-view>
 </template>
 
 <script>
-import Login from './components/Login.vue';
-
 export default {
-    components: {
-        Login
-    },
     created() {
         this.getLogin();
     },
