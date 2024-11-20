@@ -1,63 +1,62 @@
 <template>
     <div class="container mb-3" id="forgot-form-container">
-        <form @submit.prevent="">
+        <form @submit.prevent="forgotPassword">
+            <h3 class="text-center">NRC-Archiving</h3>
+            <p class="text-center">Password Change Request</p>
             <div class="mb-3">
                 <label for="username" class="form-label">Username:</label>
-                <input type="text" class="form-control" id="username" required><br>
+                <input type="text" class="form-control border border-grey border-2" id="username" v-model="username" required><br>
             </div>
     
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="email" required><br>
+                <input type="email" class="form-control border border-grey border-2" id="email" v-model="email" required><br>
             </div>
     
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Forgot Password</button>
+                <button type="submit" class="btn btn-primary w-100">Forgot Password</button>
             </div>
         </form><br>
     </div>
 </template>
-    
-<!-- <script>
-export default {
-    methods: {
-        async showValue() {
-            let username = document.getElementById('username').value;
-            let email = document.getElementById('email').value;
-            alert(username + ' ' + email);
-        },
-        async forgot() {
-            let username = document.getElementById('username').value;
-            let email = document.getElementById('email').value;
+<script setup>
+import { useRouter } from 'vue-router';
+import { inject, ref } from 'vue';
+const router = useRouter();
+const auth = inject('$auth');
 
-            const formData = new URLSearchParams();
-            formData.append('username', username);
-            formData.append('email', email);
+const username = ref('');
+const email = ref('');
 
-            try {
-                const response = await fetch('http://localhost:8000/api/v1/account/request-reset', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: formData
-                })
+async function forgotPassword() {
+    const formData = {
+        username: username.value,
+        email: email.value
+    };
+    const bodyData = JSON.stringify(formData);
 
-                if (response.ok) {
-                    const responseData = await response.json();
-                    const message = responseData.message;
-                    alert(message);
-                } else {
-                    alert('Permintaan gagal diproses, cek kembali username dan email');
-                }
-            } catch (error) {
-                console.error('Error:', error)
-                alert('Ada kesalahan. Silakan coba lagi.')
-            }
+    try {
+        const response = await fetch('http://localhost:8000/api/v1/account/request-reset', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: bod
+        })
+
+        if (response.ok) {
+            const responseData = await response.json();
+            const message = responseData.message;
+            alert(message);
+        } else {
+            alert('Permintaan gagal diproses, cek kembali username dan email');
         }
+    } catch (error) {
+        console.error('Error:', error)
+        alert('Ada kesalahan. Silakan coba lagi.')
     }
 }
-</script> -->
+</script>
 
 <style scoped>
 #forgot-form-container {
@@ -68,9 +67,10 @@ export default {
 }
 
 form {
-    width: 50vh;
-    padding: 20px;
+    width: 70vh;
+    padding: 6vh 12vh;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #f9f9f9;
+    background-color: rgba(249, 249, 249, 0.3);
+    border-radius: 6vh;
 }
 </style>

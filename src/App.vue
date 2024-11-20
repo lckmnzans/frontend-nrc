@@ -14,6 +14,7 @@ export default {
             return;
         } else {
             this.$router.replace({ path:'/dashboard' });
+            this.token = token;
         }
     },
     data() {
@@ -28,3 +29,14 @@ export default {
     }
 }
 </script>
+<style>
+#app {
+  margin: 0;
+  height: 100vh;
+  background-image: url('assets/background.png');
+  background-repeat: no-repeat; /* Mencegah pengulangan */
+  background-size: cover; /* Membuat gambar memenuhi layar */
+  background-position: center; /* Menempatkan gambar di tengah */
+}
+
+</style>
