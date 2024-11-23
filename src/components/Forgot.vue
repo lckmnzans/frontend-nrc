@@ -28,6 +28,11 @@ const auth = inject('$auth');
 const username = ref('');
 const email = ref('');
 
+const token = auth.getToken();
+if (token) {
+    router.replace({ path: '/' });
+}
+
 async function forgotPassword() {
     const formData = {
         username: username.value,
@@ -41,7 +46,7 @@ async function forgotPassword() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: bod
+            body: bodyData
         })
 
         if (response.ok) {

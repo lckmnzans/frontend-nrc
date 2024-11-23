@@ -14,10 +14,11 @@
             </div>
     
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <button type="submit" class="btn btn-primary btn-bkg w-100">Login</button>
             </div>
             <div class="text-center">
-                <router-link to="/forgot-password" style="text-decoration: none;">Lupa kata sandi?</router-link>
+                <a>Lupa </a>
+                <router-link to="/forgot-password" style="text-decoration: none; color: #eb623f;">kata sandi?</router-link>
             </div>
         </form><br>
     </div>

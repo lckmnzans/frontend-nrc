@@ -34,9 +34,8 @@ export default {
   margin: 0;
   height: 100vh;
   background-image: url('assets/background.png');
-  background-repeat: no-repeat; /* Mencegah pengulangan */
-  background-size: cover; /* Membuat gambar memenuhi layar */
-  background-position: center; /* Menempatkan gambar di tengah */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
-
 </style>
