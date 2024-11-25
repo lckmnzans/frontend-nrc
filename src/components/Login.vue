@@ -29,7 +29,8 @@ import { useRouter } from 'vue-router';
 import { inject } from 'vue';
 const router = useRouter();
 const auth = inject('$auth');
-const api = inject('$api');
+const axios = inject('$axios');
+import api from '../api/account.api';
 
 const token = auth.getToken();
 if (token) {
@@ -38,36 +39,21 @@ if (token) {
 
 let user = {username: '', password: ''};
 
-// async function login() {
-//     const formData = new URLSearchParams();
-//     formData.append('username', user.username);
-//     formData.append('password', user.password);
-
-//     try {
-//         const response = await fetch('http://localhost:8000/api/v1/account/login', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/x-www-form-urlencoded'
-//             },
-//             body: formData
-//         })
-
-//         if (response.ok) {
-//             const responseData = await response.json();
-//             const data = responseData.data;
-//             auth.setToken(data.token);
-//             router.replace({ path: '/' });
-//             alert('Login successful!');
-//         } else {
-//             alert('Login failed. Please check your credentials.')
-//         }
-//     } catch (error) {
-//         console.error('Error:', error)
-//         alert('An error occurred. Please try again later.')
-//     }
-// }
 async function login() {
-    api.account.login(user);
+    axios(api.login(user))
+    .then(response => {
+        if (response.status = 200) {
+            const body = response.data;
+            auth.setToken(body.data.token);
+            router.replace({ path: '/' });
+            alert('Login successful!');
+        } else {
+            alert('Login failed. Please check your credentials.')
+        }
+    })
+    .catch(error => {
+        alert('An error occurred. Please try again later.')
+    })
 }
 </script>
     
