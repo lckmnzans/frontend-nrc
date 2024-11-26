@@ -24,6 +24,8 @@ import { useRouter } from 'vue-router';
 import { inject, ref } from 'vue';
 const router = useRouter();
 const auth = inject('$auth');
+const axios = inject('$axios');
+import api from '../api/account.api';
 
 const username = ref('');
 const email = ref('');
@@ -34,32 +36,24 @@ if (token) {
 }
 
 async function forgotPassword() {
-    const formData = {
+    const formdata = {
         username: username.value,
         email: email.value
-    };
-    const bodyData = JSON.stringify(formData);
-
-    try {
-        const response = await fetch('http://localhost:8000/api/v1/account/request-reset', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: bodyData
-        })
-
-        if (response.ok) {
-            const responseData = await response.json();
-            const message = responseData.message;
+    }
+    axios(api.forgot(formdata))
+    .then(response => {
+        if (response.status = 200) {
+            const body = response.data;
+            const message = body.message;
             alert(message);
         } else {
-            alert('Permintaan gagal diproses, cek kembali username dan email');
+            alert('Permintaan gagal diproses, cek kembali username dan email')
         }
-    } catch (error) {
+    })
+    .catch(error => {
         console.error('Error:', error)
-        alert('Ada kesalahan. Silakan coba lagi.')
-    }
+        alert('Ada kesalahan. Silahkan coba lagi.')
+    })
 }
 </script>
 

@@ -12,5 +12,17 @@ export default {
             }
         }
     },
-    register: (userdata) => {},
+    forgot: (userdata) => {
+        return {
+            method: 'POST',
+            url: 'http://localhost:8000/api/v1/account/request-reset',
+            data: {
+                username: userdata.username,
+                email: userdata.email
+            },
+            headers: {
+                'content-type': 'application/json'
+            }
+        }
+    },
 }
