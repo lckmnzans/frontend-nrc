@@ -1,74 +1,64 @@
 <template>
-    <div class="container mb-3" id="login-container">
+    <div class="container mb-3" id="login-form-container">
         <form @submit.prevent="login">
+            <h3 class="text-center">NRC-Archiving</h3>
+            <p class="text-center">Account Login</p>
             <div class="mb-3">
                 <label for="username" class="form-label">Username:</label>
-                <input type="text" class="form-control" id="username" :value="username" @input="(ev) => username = ev.target.value" required><br>
+                <input type="text" class="form-control border border-grey border-2" id="username" :value="user.username" @input="(ev) => user.username = ev.target.value" required><br>
+            </div>
+
+            <div class="mb-3">
+                <label for="password">Kata sandi:</label>
+                <input type="password" class="form-control border border-grey border-2" id="password" v-model="user.password" required><br>
             </div>
     
             <div class="mb-3">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" v-model="password" required><br>
+                <button type="submit" class="btn btn-primary btn-bkg w-100">Login</button>
             </div>
-    
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Login</button>
+            <div class="text-center">
+                <a>Lupa </a>
+                <router-link to="/forgot-password" style="text-decoration: none; color: #eb623f;">kata sandi?</router-link>
             </div>
-            <a :href="link.url" :title="link.title">Lupa password?</a>
         </form><br>
     </div>
 </template>
     
-<script>
-export default {
-    props: ['formFilled'],
-    data() {
-        return {
-            link: {
-                url:'Forgot.html',
-                title: 'Reset password'
-            },
-            username: '',
-            password: ''
-        }
-    },
-    methods: {
-        async login() {
-            const formData = new URLSearchParams();
-            formData.append('username', this.username);
-            formData.append('password', this.password);
+<script setup>
+import { useRouter } from 'vue-router';
+import { inject } from 'vue';
+const router = useRouter();
+const auth = inject('$auth');
+const axios = inject('$axios');
+import api from '../api/account.api';
 
-            try {
-                const response = await fetch('http://localhost:8000/api/v1/account/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: formData
-                })
+const token = auth.getToken();
+if (token) {
+    router.replace({ path: '/' });
+}
 
-                if (response.ok) {
-                    const responseData = await response.json();
-                    const data = responseData.data;
-                    this.storeLogin(data.token);
-                    alert('Login successful!');
-                } else {
-                    alert('Login failed. Please check your credentials.')
-                }
-            } catch (error) {
-                console.error('Error:', error)
-                alert('An error occurred. Please try again later.')
-            }
-        },
-        storeLogin(accessToken) {
-            localStorage.setItem('accessToken', accessToken);
+let user = {username: '', password: ''};
+
+async function login() {
+    axios(api.login(user))
+    .then(response => {
+        if (response.status = 200) {
+            const body = response.data;
+            auth.setToken(body.data.token);
+            router.replace({ path: '/' });
+            alert('Login successful!');
+        } else {
+            alert('Login failed. Please check your credentials.')
         }
-    }
+    })
+    .catch(error => {
+        alert('An error occurred. Please try again later.')
+    })
 }
 </script>
     
-<style>
-#login-container {
+<style scoped>
+#login-form-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,10 +66,11 @@ export default {
 }
 
 form {
-    width: 50vh;
-    padding: 20px;
+    width: 70vh;
+    padding: 6vh 12vh;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #f9f9f9;
+    background-color: rgba(249, 249, 249, 0.3);
+    border-radius: 6vh;
 }
 
 button:hover {

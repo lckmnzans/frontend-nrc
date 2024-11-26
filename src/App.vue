@@ -1,16 +1,21 @@
 <template>
-    <Login :form-filled="showValue"></Login>
+    <router-view></router-view>
 </template>
 
 <script>
-import Login from './components/Login.vue';
-
 export default {
-    components: {
-        Login
-    },
+    inject: ['$auth'],
     created() {
-        this.getLogin();
+        const token = this.$auth.getToken();
+
+        if (!token) {
+            console.log('Anda belum login');
+            this.$router.replace({ path:'/login' });
+            return;
+        } else {
+            this.$router.replace({ path:'/dashboard' });
+            this.token = token;
+        }
     },
     data() {
         return {
@@ -20,15 +25,17 @@ export default {
     methods: {
         showValue(object) {
             console.log(object);
-        },
-        getLogin() {
-            let token = localStorage.getItem('accessToken');
-
-            if (token) {
-                console.log(`Your access token : ${token}`);
-                this.token = token;
-            }
         }
     }
 }
 </script>
+<style>
+#app {
+  margin: 0;
+  height: 100vh;
+  background-image: url('assets/background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+</style>

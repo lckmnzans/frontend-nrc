@@ -1,60 +1,64 @@
 <template>
-    <div id="forgot-form-container">
-        <form @submit.prevent="forgot">
-            <label for="username">Username:</label>
-            <input type="text" id="username" v-model="username" required><br>
+    <div class="container mb-3" id="forgot-form-container">
+        <form @submit.prevent="forgotPassword">
+            <h3 class="text-center">NRC-Archiving</h3>
+            <p class="text-center">Password Change Request</p>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" class="form-control border border-grey border-2" id="username" v-model="username" required><br>
+            </div>
     
-            <label for="email">Email:</label>
-            <input type="email" id="email" v-model="email" required><br>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control border border-grey border-2" id="email" v-model="email" required><br>
+            </div>
     
-            <button type="submit">Forgot Password</button>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary w-100">Forgot Password</button>
+            </div>
         </form><br>
     </div>
 </template>
-    
-<script>
-export default {
-    methods: {
-        async showValue() {
-            let username = document.getElementById('username').value;
-            let email = document.getElementById('email').value;
-            alert(username + ' ' + email);
-        },
-        async forgot() {
-            let username = document.getElementById('username').value;
-            let email = document.getElementById('email').value;
+<script setup>
+import { useRouter } from 'vue-router';
+import { inject, ref } from 'vue';
+const router = useRouter();
+const auth = inject('$auth');
+const axios = inject('$axios');
+import api from '../api/account.api';
 
-            const formData = new URLSearchParams();
-            formData.append('username', username);
-            formData.append('email', email);
+const username = ref('');
+const email = ref('');
 
-            try {
-                const response = await fetch('http://localhost:8000/api/v1/account/request-reset', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: formData
-                })
+const token = auth.getToken();
+if (token) {
+    router.replace({ path: '/' });
+}
 
-                if (response.ok) {
-                    const responseData = await response.json();
-                    const message = responseData.message;
-                    alert(message);
-                } else {
-                    alert('Permintaan gagal diproses, cek kembali username dan email');
-                }
-            } catch (error) {
-                console.error('Error:', error)
-                alert('Ada kesalahan. Silakan coba lagi.')
-            }
-        }
+async function forgotPassword() {
+    const formdata = {
+        username: username.value,
+        email: email.value
     }
+    axios(api.forgot(formdata))
+    .then(response => {
+        if (response.status = 200) {
+            const body = response.data;
+            const message = body.message;
+            alert(message);
+        } else {
+            alert('Permintaan gagal diproses, cek kembali username dan email')
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error)
+        alert('Ada kesalahan. Silahkan coba lagi.')
+    })
 }
 </script>
-    
-<!-- <style>
-#login-form-container {
+
+<style scoped>
+#forgot-form-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,33 +66,10 @@ export default {
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    width: 70vh;
+    padding: 6vh 12vh;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #f9f9f9;
+    background-color: rgba(249, 249, 249, 0.3);
+    border-radius: 6vh;
 }
-
-label, input, button {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-button {
-    padding: 10px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-</style> -->
+</style>
