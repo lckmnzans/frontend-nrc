@@ -59,7 +59,7 @@ async function resetPassword() {
             'Content-Type': 'application/json'
         },
         body: bodyData
-})
+        })
 
         if (response.ok) {
             const responseData = await response.json();

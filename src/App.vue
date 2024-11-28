@@ -25,7 +25,7 @@ export default {
     methods: {
         showValue(object) {
             console.log(object);
-        }
+        },
     }
 }
 </script>
