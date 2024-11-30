@@ -1,8 +1,18 @@
 <template>
-    <h4>Ini adalah halaman dashboard</h4>
+    <div class="dashboard">
+        <Sidebar></Sidebar>
+        <main>
+            <h1>Dashboard Page</h1>
+            <p>Ini adalah halaman dashboard</p>
+        </main>
+    </div>
 </template>
 <script>
+import Sidebar from '@/components/Sidebar.vue';
 export default {
+    components: {
+        Sidebar
+    },
     inject: ['$auth'],
     created() {
         const token = this.$auth.getToken();
@@ -22,3 +32,17 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.dashboard {
+    display: flex;
+
+    main {
+        flex: 1 1 0;
+        padding: 2rem;
+
+        @media (max-width: 768px) {
+            padding-left: 6rem;
+        }
+    }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-    <router-view></router-view>
+    <router-view />
 </template>
 
 <script>
@@ -29,13 +29,28 @@ export default {
     }
 }
 </script>
-<style>
+<style lang="scss">
 #app {
-  margin: 0;
-  height: 100vh;
-  background-image: url('assets/background.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+    margin: 0;
+    height: 100vh;
+    background-image: url('assets/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+:root {
+    --primary: #3498db;
+    --grey: #64748b;
+    --dark: #1e293b;
+    --dark-alt: #334155;
+    --light: #f1f5f9;
+    --sidebar-width: 300px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 </style>

@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, inject } from 'vue';
+import { ref, computed, inject } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
