@@ -3,7 +3,7 @@
         <Sidebar></Sidebar>
         <main>
             <h1>Dashboard Page</h1>
-            <p>Ini adalah halaman dashboard</p>
+            <router-view />
         </main>
     </div>
 </template>

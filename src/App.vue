@@ -13,7 +13,7 @@ export default {
             this.$router.replace({ path:'/login' });
             return;
         } else {
-            this.$router.replace({ path:'/dashboard' });
+            this.$router.replace({ path:'/home' });
             this.token = token;
         }
     },
