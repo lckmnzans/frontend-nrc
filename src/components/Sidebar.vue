@@ -11,24 +11,38 @@
 
         <h3>Menu Dashboard</h3>
         <div class="menu">
-            <router-link class="button" to="/home">
+            <router-link class="button" to="/">
                 <span class="material-icons">home</span>
                 <span class="text">Home</span>
             </router-link>
-            <router-link class="button" to="/category">
+            <div class="button submenu" @click.prevent="toggleSubmenu">
                 <span class="material-icons">list_alt</span>
-                <span class="text">Category</span>
-            </router-link>
-            <router-link class="button" to="/accounts">
+                <span class="text">Kategori</span>
+                <span class="material-icons submenu-icon">
+                    {{ isSubmenuVisible ? 'expand_less' : 'expand_more' }}
+                </span>
+            </div>
+            <div v-if="isSubmenuVisible" class="submenu">
+                <router-link class="button" to="/category/subcat1">
+                    <span class="material-icons">subdirectory_arrow_right</span>
+                    <span class="text">Sub kategori 1</span>
+                </router-link>
+                <router-link class="button" to="/category/subcat2">
+                    <span class="material-icons">subdirectory_arrow_right</span>
+                    <span class="text">Sub kategori 2</span>
+                </router-link>
+            </div>
+            
+            <router-link v-if="isSuperadmin" class="button" to="/accounts">
                 <span class="material-icons">groups</span>
                 <span class="text">Accounts</span>
             </router-link>
         </div>
         <div class="flex"></div>
         <div class="menu">
-                <router-link class="button" to="/settings">
-                    <span class="material-icons">settings</span>
-                    <span class="text">Setting</span>
+                <router-link class="button" to="/login" @click="logout">
+                    <span class="material-icons">logout</span>
+                    <span class="text">Keluar</span>
                 </router-link>
             </div>
     </aside>
@@ -36,13 +50,28 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
+const isSubmenuVisible = ref(localStorage.getItem('isSubmenuExpanded') === "true");
 const isExpanded = ref(localStorage.getItem('isMenuExpanded') === "true");
+const isSuperadmin = ref(localStorage.getItem('role') === "superadmin");
 
 const toggleMenu = () => {
     isExpanded.value = !isExpanded.value;
 
     localStorage.setItem('isMenuExpanded', isExpanded.value);
+}
+
+const toggleSubmenu = () => {
+    isSubmenuVisible.value = !isSubmenuVisible.value;
+
+    localStorage.setItem('isSubmenuExpanded', isSubmenuVisible.value);
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    router.replace({ path: '/login' });
 }
 </script>
 
@@ -145,6 +174,10 @@ aside {
                 border-right: 5px solid var(--primary);
             }
         }
+
+        .submenu {
+            cursor: pointer;
+        }
     }
 
     &.is-expanded {
@@ -182,4 +215,5 @@ aside {
     outline: none;
     background: none;
 }
+
 </style>

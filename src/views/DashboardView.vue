@@ -1,10 +1,15 @@
 <template>
     <div class="dashboard">
         <Sidebar></Sidebar>
-        <main>
-            <h1>Dashboard Page</h1>
-            <router-view />
-        </main>
+        <div class="content">
+            <div class="top-bar">
+                Top Bar
+            </div>
+            <main>
+                <h1>Dashboard Page</h1>
+                <router-view />
+            </main>
+        </div>
     </div>
 </template>
 <script>
@@ -19,7 +24,7 @@ export default {
 
         if (!token) {
             alert('Anda belum punya akses ke halaman ini')
-            this.$router.push({ path: '/login' });
+            this.$router.push({ name: 'login' });
             return;
         } else {
             this.token = token;
@@ -27,7 +32,7 @@ export default {
     },
     data() {
         return {
-            token: '',
+            token: ''
         }
     }
 }
@@ -35,13 +40,32 @@ export default {
 <style lang="scss">
 .dashboard {
     display: flex;
+    height: 100vh;
 
-    main {
-        flex: 1 1 0;
-        padding: 2rem;
+    Sidebar {
+        flex: 0 0 auto;
+    }
 
-        @media (max-width: 768px) {
-            padding-left: 6rem;
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .top-bar {
+            flex: 0 0 auto;
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 1rem 2rem;
+        }
+
+        main {
+            flex: 1 1 0;
+            padding: 2rem;
+            overflow-y: auto;
+
+            @media (max-width: 768px) {
+                padding-left: 6rem;
+            }
         }
     }
 }

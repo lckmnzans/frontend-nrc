@@ -36,7 +36,7 @@ const password = ref('');
 const password2 = ref('');
 
 if (auth.getToken() !== null) {
-    router.replace({ path: '/' });
+    router.replace({ name: 'home' });
 }
 
 const token = route.query.token;

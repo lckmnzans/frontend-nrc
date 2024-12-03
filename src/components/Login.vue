@@ -65,6 +65,7 @@ export default {
                 if (response.status = 200) {
                     const body = response.data;
                     this.$auth.setToken(body.data.token);
+                    this.$auth.setRole(body.data.role);
                     this.$router.replace({ path: '/' });
                     alert('Login successful!');
                 } else {

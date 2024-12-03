@@ -7,30 +7,53 @@ import ForgotV from './components/Forgot.vue';
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        {   path:'/login',
+        {   name: 'login',
+            path: '/login',
             component: LoginV
         },
-        {   path:'/forgot-password',
+        {   name: 'forgot-password',
+            path: '/forgot-password',
             component: ForgotV
         },
-        {   path:'/reset-password',
+        {   name: 'reset-password',
+            path: '/reset-password',
             component: ResetView,
             props: (route) => ({ token: route.query.token })
         },
-        {   path:'/',
+        {   name: 'home',
+            path: '/',
             component: DashboardView,
-            alias: '/dashboard',
             children: [
-                {   path: 'home',
-                    component: () => import('./views/main/HomeView.vue')
+                {   path: '',
+                    component: () => import('./views/main/HomeView.vue'),
+                    alias: 'dashboard'
                 },
-                {   path: 'category',
-                    component: () => import('./views/main/CategoryView.vue')
+                {   name: 'category',
+                    path: 'category',
+                    component: () => import('./views/main/CategoryView.vue'),
+                    children: [
+                        {   path: 'subcat1',
+                            component: () => import('./views/main/category/category1.vue')
+                        },
+                        {   path: 'subcat2',
+                            component: () => import('./views/main/category/category2.vue')
+                        }
+                    ]
                 },
-                {   path: 'accounts',
-                    component: () => import('./views/main/AccountsView.vue')
+                {   name: 'accounts',
+                    path: 'accounts',
+                    children: [
+                        {   path:'',
+                            component: () => import('./views/main/AccountsView.vue')
+                        },
+                        {   name: 'create-account',
+                            path: 'create',
+                            component: () => import('./views/main/CreateAccountView.vue')
+                        }
+                    ]
                 },
-                {   path: 'settings',
+                {   name: 'settings',
+                    path: 'settings',
                     component: () => import('./views/main/SettingsView.vue')
                 }
             ]

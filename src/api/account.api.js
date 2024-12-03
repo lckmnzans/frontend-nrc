@@ -25,4 +25,13 @@ export default {
             }
         }
     },
+    getAllAccounts: () => {
+        return {
+            methos: 'GET',
+            url: 'http://localhost:8000/api/v1/account',
+            headers: {
+                'authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }
+    }
 }

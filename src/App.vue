@@ -10,10 +10,10 @@ export default {
 
         if (!token) {
             console.log('Anda belum login');
-            this.$router.replace({ path:'/login' });
+            this.$router.replace({ name: 'login' });
             return;
         } else {
-            this.$router.replace({ path:'/home' });
+            this.$router.replace({ name: 'home' });
             this.token = token;
         }
     },
