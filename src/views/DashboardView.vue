@@ -6,7 +6,6 @@
                 Top Bar
             </div>
             <main>
-                <h1>Dashboard Page</h1>
                 <router-view />
             </main>
         </div>
@@ -41,6 +40,7 @@ export default {
 .dashboard {
     display: flex;
     height: 100vh;
+    background-color: var(--light);
 
     Sidebar {
         flex: 0 0 auto;

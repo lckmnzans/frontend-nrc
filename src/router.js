@@ -20,11 +20,11 @@ const router = createRouter({
             component: ResetView,
             props: (route) => ({ token: route.query.token })
         },
-        {   name: 'home',
-            path: '/',
+        {   path: '/',
             component: DashboardView,
             children: [
-                {   path: '',
+                {   name: 'home',
+                    path: '',
                     component: () => import('./views/main/HomeView.vue'),
                     alias: 'dashboard'
                 },
@@ -40,15 +40,14 @@ const router = createRouter({
                         }
                     ]
                 },
-                {   name: 'accounts',
-                    path: 'accounts',
+                {   path: 'accounts',
+                    component: () => import('./views/main/AccountsView.vue'),
                     children: [
-                        {   path:'',
-                            component: () => import('./views/main/AccountsView.vue')
+                        {   path: '',
+                            component: () => import('./views/main/account/ListAccountView.vue')
                         },
-                        {   name: 'create-account',
-                            path: 'create',
-                            component: () => import('./views/main/CreateAccountView.vue')
+                        {   path: 'create',
+                            component: () => import('./views/main/account/CreateAccountView.vue')
                         }
                     ]
                 },
