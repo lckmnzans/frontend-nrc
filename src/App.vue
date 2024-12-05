@@ -7,12 +7,18 @@ export default {
     inject: ['$auth'],
     created() {
         const token = this.$auth.getToken();
+        const tokenAge = localStorage.getItem('tokenAge');
 
         if (!token) {
             console.log('Anda belum login');
             this.$router.replace({ name: 'login' });
             return;
         } else {
+            if (tokenAge <= Date.now()) {
+                console.log('Token anda sudah habis masa waktu');
+                this.$router.replace({ name: 'login' });
+                return;
+            }
             this.$router.replace({ name: 'home' });
             this.token = token;
         }

@@ -53,8 +53,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
+const auth = inject('$auth');
 const router = useRouter();
 
 const isSubmenuVisible = ref(localStorage.getItem('isSubmenuExpanded') === "true");
@@ -74,7 +75,7 @@ const toggleSubmenu = () => {
 }
 
 function logout() {
-    localStorage.removeItem('token');
+    auth.logout();
     router.replace({ path: '/login' });
 }
 </script>
