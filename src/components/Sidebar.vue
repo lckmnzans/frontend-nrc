@@ -24,12 +24,16 @@
             </div>
             <div v-if="isSubmenuVisible" class="submenu">
                 <router-link class="button" to="/category/subcat1">
-                    <span class="material-icons">subdirectory_arrow_right</span>
-                    <span class="text">Sub kategori 1</span>
+                    <span class="material-icons">list_alt</span>
+                    <span class="text">Badan Usaha</span>
                 </router-link>
                 <router-link class="button" to="/category/subcat2">
-                    <span class="material-icons">subdirectory_arrow_right</span>
-                    <span class="text">Sub kategori 2</span>
+                    <span class="material-icons">list_alt</span>
+                    <span class="text">Surat Menyurat</span>
+                </router-link>
+                <router-link class="button" to="/category/subcat3">
+                    <span class="material-icons">list_alt</span>
+                    <span class="text">Kepemilikan Tanah</span>
                 </router-link>
             </div>
             
@@ -134,10 +138,10 @@ aside {
     }
 
     h3 {
-            color: var(--grey);
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
+        color: var(--grey);
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
     }
 
     .menu {

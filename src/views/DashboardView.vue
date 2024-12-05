@@ -4,6 +4,9 @@
         <div class="content">
             <div class="top-bar">
                 Top Bar
+                <div class="top-bar-right">
+                    <button class="button" @click="goToProfile"><span class="material-icons" id="btn-profile">account_circle</span></button>
+                </div>
             </div>
             <main>
                 <router-view />
@@ -33,6 +36,14 @@ export default {
         return {
             token: ''
         }
+    },
+    methods: {
+        show() {
+            alert('Hello World');
+        },
+        goToProfile() {
+            this.$router.push({ name: 'profile' });
+        }
     }
 }
 </script>
@@ -52,10 +63,29 @@ export default {
         flex-direction: column;
 
         .top-bar {
-            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background-color: var(--primary);
             color: var(--light);
             padding: 1rem 2rem;
+
+            .top-bar-right {
+                display: flex;
+                justify-content: end;
+
+                button {
+                    border: none;
+                    appearance: none;
+                    outline: none;
+                    background: none;
+                    color: var(--light);
+                }
+
+                #btn-profile {
+                    font-size: 2rem;
+                }   
+            }
         }
 
         main {

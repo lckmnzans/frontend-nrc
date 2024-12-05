@@ -57,5 +57,19 @@ export default {
                 'authorization': 'Bearer ' + localStorage.getItem('token')
             }
         }
+    },
+    changePassword: (username, oldPassword, newPassword) => {
+        return {
+            method: 'PATCH',
+            url: 'http://localhost:8000/api/v1/account',
+            data: {
+                "username": username,
+                "oldPassword": oldPassword,
+                "newPassword": newPassword
+            },
+            headers: {
+                'authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }
     }
 }

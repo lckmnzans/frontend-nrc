@@ -3,6 +3,7 @@ import DashboardView from './views/DashboardView.vue';
 import ResetView from './views/ResetView.vue';
 import LoginV from './components/Login.vue';
 import ForgotV from './components/Forgot.vue';
+import ChangePassword from './components/ChangePassword.vue';
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -20,9 +21,17 @@ const router = createRouter({
             component: ResetView,
             props: (route) => ({ token: route.query.token })
         },
+        {
+            path: '/change-password',
+            components: ChangePassword
+        },
         {   path: '/',
             component: DashboardView,
             children: [
+                {   name: 'profile',
+                    path: '/profile',
+                    component: () => import('./views/main/ProfileView.vue')
+                },
                 {   name: 'home',
                     path: '',
                     component: () => import('./views/main/HomeView.vue'),
@@ -33,10 +42,13 @@ const router = createRouter({
                     component: () => import('./views/main/CategoryView.vue'),
                     children: [
                         {   path: 'subcat1',
-                            component: () => import('./views/main/category/category1.vue')
+                            component: () => import('./views/main/category/Cat1.vue')
                         },
                         {   path: 'subcat2',
-                            component: () => import('./views/main/category/category2.vue')
+                            component: () => import('./views/main/category/Cat2.vue')
+                        },
+                        {   path: 'subcat3',
+                            component: () => import('./views/main/category/Cat3.vue')
                         }
                     ]
                 },

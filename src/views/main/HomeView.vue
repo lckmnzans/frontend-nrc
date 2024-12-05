@@ -1,5 +1,5 @@
 <template>
-    <h3>Home Page</h3>
+    <h3>Halaman Utama</h3>
     <div class="upload-form">
     <h4>Upload Dokumen PDF</h4>
         <form @submit.prevent="handleSubmit">

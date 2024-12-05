@@ -79,46 +79,6 @@ export default {
     }
 }
 </script>
-
-<!-- <script setup>
-import { useRouter } from 'vue-router';
-import { reactive, ref, inject, computed } from 'vue';
-const router = useRouter();
-const auth = inject('$auth');
-const axios = inject('$axios');
-import api from '../api/account.api';
-
-const isPasswordVisible = ref(false);
-const togglePasswordVisibility = () => {
-    isPasswordVisible.value = !isPasswordVisible.value;
-}
-const token = auth.getToken();
-if (token) {
-    router.replace({ path: '/' });
-}
-
-const user = reactive({username: '', password: ''});
-const isFormInvalid = computed(() => {
-    return (!user.username || !user.password);
-});
-
-async function login() {
-    axios(api.login(user))
-    .then(response => {
-        if (response.status = 200) {
-            const body = response.data;
-            auth.setToken(body.data.token);
-            router.replace({ path: '/' });
-            alert('Login successful!');
-        } else {
-            alert('Login failed. Please check your credentials.')
-        }
-    })
-    .catch(error => {
-        alert('An error occurred. Please try again later.')
-    })
-}
-</script> -->
     
 <style scoped>
 #login-form-container {
