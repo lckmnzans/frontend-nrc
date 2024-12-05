@@ -1,20 +1,25 @@
 <template>
     <div class="container mb-3" id="login-form-container">
-        <form @submit.prevent="login">
+        <form @submit.prevent="">
             <h3 class="text-center">NRC-Archiving</h3>
             <p class="text-center">Account Login</p>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username:</label>
-                <input type="text" class="form-control border border-grey border-2" id="username" :value="user.username" @input="(ev) => user.username = ev.target.value" required><br>
-            </div>
+            <div class="mb-3 form-group">
+                <label class="form-label">Username:</label>
+                <input type="text" class="form-control border border-grey border-2" :value="user.username" @input="(ev) => user.username = ev.target.value">
+            </div><br>
 
-            <div class="mb-3">
-                <label for="password">Kata sandi:</label>
-                <input type="password" class="form-control border border-grey border-2" id="password" v-model="user.password" required><br>
-            </div>
+            <div class="mb-3 form-group">
+                <label class="form-label">Kata sandi:</label>
+                <div class="input-group" id="show_hide_password"> 
+                    <input :type="isPasswordVisible ? 'text' : 'password'" class="form-control border border-grey border-2" v-model="user.password">
+                    <button type="button" class="btn btn-outline-secondary" @click.prevent="togglePasswordVisibility">
+                        <font-awesome-icon :icon="isPasswordVisible ? 'eye' : 'eye-slash'" />
+                    </button>
+                </div>
+            </div><br>
     
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary btn-bkg w-100">Login</button>
+            <div class="mb-3 form-group">
+                <button :disabled="isFormInvalid" type="submit" class="btn btn-primary btn-bkg w-100" @click="login">Login</button>
             </div>
             <div class="text-center">
                 <a>Lupa </a>
@@ -23,37 +28,55 @@
         </form><br>
     </div>
 </template>
-    
-<script setup>
-import { useRouter } from 'vue-router';
-import { inject } from 'vue';
-const router = useRouter();
-const auth = inject('$auth');
-const axios = inject('$axios');
+
+<script>
 import api from '../api/account.api';
-
-const token = auth.getToken();
-if (token) {
-    router.replace({ path: '/' });
-}
-
-let user = {username: '', password: ''};
-
-async function login() {
-    axios(api.login(user))
-    .then(response => {
-        if (response.status = 200) {
-            const body = response.data;
-            auth.setToken(body.data.token);
-            router.replace({ path: '/' });
-            alert('Login successful!');
-        } else {
-            alert('Login failed. Please check your credentials.')
+export default {
+    inject: ['$auth','$axios'],
+    created() {
+        this.token = this.$auth.getToken();
+        if (this.token) {
+            this.$router.replace({ path: '/' });
         }
-    })
-    .catch(error => {
-        alert('An error occurred. Please try again later.')
-    })
+    },
+    data() {
+        return {
+            isPasswordVisible: false,
+            token: '',
+            user: {
+                username: '',
+                password: ''
+            }
+        }
+    },
+    computed: {
+        isFormInvalid() {
+            return (!this.user.username || !this.user.password);
+        }
+    },
+    methods: {
+        togglePasswordVisibility() {
+            this.isPasswordVisible = !this.isPasswordVisible;
+        },
+        async login() {
+            const user = this.user;
+            this.$axios(api.login(user))
+            .then(response => {
+                if (response.status = 200) {
+                    const body = response.data;
+                    this.$auth.setToken(body.data.token);
+                    this.$auth.setRole(body.data.role);
+                    this.$router.replace({ path: '/' });
+                    alert('Login successful!');
+                } else {
+                    alert('Login failed. Please check your credentials.')
+                }
+            })
+            .catch(error => {
+                alert('An error occurred. Please try again later.')
+            })
+        }
+    }
 }
 </script>
     
@@ -73,7 +96,7 @@ form {
     border-radius: 6vh;
 }
 
-button:hover {
-    background-color: #45a049;
+a, a:hover {
+    color: #222;
 }
 </style>

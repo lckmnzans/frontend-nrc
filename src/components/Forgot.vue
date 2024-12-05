@@ -19,41 +19,45 @@
         </form><br>
     </div>
 </template>
-<script setup>
-import { useRouter } from 'vue-router';
-import { inject, ref } from 'vue';
-const router = useRouter();
-const auth = inject('$auth');
-const axios = inject('$axios');
+<script>
 import api from '../api/account.api';
-
-const username = ref('');
-const email = ref('');
-
-const token = auth.getToken();
-if (token) {
-    router.replace({ path: '/' });
-}
-
-async function forgotPassword() {
-    const formdata = {
-        username: username.value,
-        email: email.value
-    }
-    axios(api.forgot(formdata))
-    .then(response => {
-        if (response.status = 200) {
-            const body = response.data;
-            const message = body.message;
-            alert(message);
-        } else {
-            alert('Permintaan gagal diproses, cek kembali username dan email')
+export default {
+    inject: ['$auth','$axios'],
+    created() {
+        this.token = this.$auth.getToken();
+        if (this.token) {
+            this.$router.replace({ path: '/' });
         }
-    })
-    .catch(error => {
-        console.error('Error:', error)
-        alert('Ada kesalahan. Silahkan coba lagi.')
-    })
+    },
+    data() {
+        return {
+            token: '',
+            username: '',
+            email: ''
+        }
+    },
+    methods: {
+        async forgotPassword() {
+            const formdata = {
+                username: this.username,
+                email: this.email
+            }
+            this.$axios(api.forgot(formdata))
+            .then(response => {
+                if (response.status = 200) {
+                    const body = response.data;
+                    const message = body.message;
+                    alert(message);
+                } else {
+                    alert('Permintaan gagal diproses, cek kembali username dan email')
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error)
+                alert('Ada kesalahan. Silahkan coba lagi.')
+            })
+        }
+    }
 }
 </script>
 

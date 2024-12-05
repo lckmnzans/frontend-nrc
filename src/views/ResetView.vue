@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, inject } from 'vue';
+import { ref, computed, inject } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
@@ -36,7 +36,7 @@ const password = ref('');
 const password2 = ref('');
 
 if (auth.getToken() !== null) {
-    router.replace({ path: '/' });
+    router.replace({ name: 'home' });
 }
 
 const token = route.query.token;
@@ -59,7 +59,7 @@ async function resetPassword() {
             'Content-Type': 'application/json'
         },
         body: bodyData
-})
+        })
 
         if (response.ok) {
             const responseData = await response.json();
