@@ -23,8 +23,8 @@
                 </span>
             </a>
             <ul v-if="isSubmenuVisible" class="submenu">
-                <li v-for="page in pages" :key="page.page" class="submenu-item">
-                    <router-link class="button" :to="`/category/${page.page}`">
+                <li v-for="page in pages" :key="page.page">
+                    <router-link class="button submenu-item" :to="`/category/${page.page}`">
                         <span class="material-icons">label_important</span>
                         <span class="text">Kategori {{ page.page }}</span>
                     </router-link>
@@ -176,12 +176,14 @@ aside {
 
         .submenu {
             list-style-type: none;
-            display: flex;
-            flex-direction: column;
             margin: 0 0 0 -2rem;
 
             .submenu-item {
-                font-size: 0;
+                font-size: 0.5rem;
+
+                .text {
+                    opacity: 0;
+                }
             }
         }
     }
@@ -207,10 +209,12 @@ aside {
             }
         }
 
-        .submenu {
+        .submenu .submenu-item {
+            font-size: 1rem;
 
-            .submenu-item {
-                font-size: medium;
+            .text {
+                opacity: 1;
+                transition: 0.2s ease-out;
             }
         }
     }
