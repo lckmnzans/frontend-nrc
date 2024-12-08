@@ -16,7 +16,13 @@ export default {
         return {
             method: 'POST',
             url: 'http://localhost:8000/api/v1/account/register',
-            data: userdata,
+            data: {
+                username: userdata.username,
+                email: userdata.email,
+                role: userdata.role,
+                password: userdata.password,
+                password2: userdata.password2
+            },
             headers: {
                 'authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -29,9 +35,15 @@ export default {
             data: {
                 username: userdata.username,
                 email: userdata.email
-            },
+            }
+        }
+    },
+    getAccount: (id) => {
+        return {
+            method: 'GET',
+            url: `http://localhost:8000/api/v1/account/${id}`,
             headers: {
-                'content-type': 'application/json'
+                'authorization': 'Bearer ' + localStorage.getItem('token')
             }
         }
     },
@@ -44,15 +56,18 @@ export default {
             }
         }
     },
-    approveRequest: (id, user, isApproved) => {
-        let url = `http://localhost:8000/api/v1/account/approve-reset/${id}`;
+    approveRequest: (userdata, isApproved) => {
+        let url = `http://localhost:8000/api/v1/account/approve-reset/${userdata._id}`;
         if (isApproved) {
            url = url + '?approved=true';
         }
         return {
             method: 'POST',
             url: url,
-            data: user,
+            data: {
+                username: userdata.username,
+                email: userdata.email
+            },
             headers: {
                 'authorization': 'Bearer ' + localStorage.getItem('token')
             }

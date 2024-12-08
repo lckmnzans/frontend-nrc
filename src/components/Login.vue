@@ -67,7 +67,7 @@ export default {
                     this.$auth.setToken(body.data.token);
                     this.$auth.setTokenAge(body.data.tokenAge);
                     this.$auth.setRole(body.data.role);
-                    this.$auth.setUser(body.data.username, body.data.email);
+                    this.$auth.setUser(body.data.id);
                     this.$router.replace({ path: '/' });
                     alert('Login successful!');
                 } else {

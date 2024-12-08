@@ -25,10 +25,9 @@ export default {
     setRole(role) {
         localStorage.setItem(roleKey, role);
     },
-    setUser(username, email) {
+    setUser(id) {
         const user = {
-            username: username,
-            email: email
+            id: id
         }
         localStorage.setItem(userKey, JSON.stringify(user));
     },

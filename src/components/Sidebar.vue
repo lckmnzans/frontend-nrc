@@ -15,28 +15,21 @@
                 <span class="material-icons">home</span>
                 <span class="text">Home</span>
             </router-link>
-            <div class="button submenu" @click.prevent="toggleSubmenu">
+            <a class="button" @click.prevent="toggleSubmenu" style="cursor: context-menu;">
                 <span class="material-icons">list_alt</span>
                 <span class="text">Kategori</span>
                 <span class="material-icons submenu-icon">
                     {{ isSubmenuVisible ? 'expand_less' : 'expand_more' }}
                 </span>
-            </div>
-            <div v-if="isSubmenuVisible" class="submenu">
-                <router-link class="button" to="/category/subcat1">
-                    <span class="material-icons">list_alt</span>
-                    <span class="text">Badan Usaha</span>
-                </router-link>
-                <router-link class="button" to="/category/subcat2">
-                    <span class="material-icons">list_alt</span>
-                    <span class="text">Surat Menyurat</span>
-                </router-link>
-                <router-link class="button" to="/category/subcat3">
-                    <span class="material-icons">list_alt</span>
-                    <span class="text">Kepemilikan Tanah</span>
-                </router-link>
-            </div>
-            
+            </a>
+            <ul v-if="isSubmenuVisible" class="submenu">
+                <li v-for="page in pages" :key="page.page" class="submenu-item">
+                    <router-link class="button" :to="`/category/${page.page}`">
+                        <span class="material-icons">label_important</span>
+                        <span class="text">Kategori {{ page.page }}</span>
+                    </router-link>
+                </li>
+            </ul>
             <router-link v-if="isSuperadmin" class="button" to="/accounts">
                 <span class="material-icons">groups</span>
                 <span class="text">Accounts</span>
@@ -67,6 +60,7 @@ const toggleMenu = () => {
 
     localStorage.setItem('isMenuExpanded', isExpanded.value);
 }
+const pages = JSON.parse(localStorage.getItem('categories'));
 
 const toggleSubmenu = () => {
     isSubmenuVisible.value = !isSubmenuVisible.value;
@@ -181,7 +175,14 @@ aside {
         }
 
         .submenu {
-            cursor: pointer;
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            margin: 0 0 0 -2rem;
+
+            .submenu-item {
+                font-size: 0;
+            }
         }
     }
 
@@ -189,7 +190,7 @@ aside {
         width: var(--sidebar-width);
 
         .menu-toggle-wrap {
-            top: -3rem;
+            top: -3.5rem;
 
             .menu-toggle {
                 transform: rotate(-180deg);
@@ -203,6 +204,13 @@ aside {
         .button {
             .material-icons {
                 margin-right: 2rem;
+            }
+        }
+
+        .submenu {
+
+            .submenu-item {
+                font-size: medium;
             }
         }
     }

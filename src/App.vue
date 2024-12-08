@@ -3,8 +3,9 @@
 </template>
 
 <script>
+import api from './api/account.api';
 export default {
-    inject: ['$auth'],
+    inject: ['$auth', '$axios'],
     created() {
         const token = this.$auth.getToken();
         const tokenAge = localStorage.getItem('tokenAge');
@@ -31,7 +32,7 @@ export default {
     methods: {
         showValue(object) {
             console.log(object);
-        },
+        }
     }
 }
 </script>

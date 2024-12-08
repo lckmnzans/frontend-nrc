@@ -23,8 +23,8 @@
                     <td>{{ user.role }}</td>
                     <td>{{ user.resetStatus }}</td>
                     <td class="action-button">
-                        <button class="btn btn-approve" :disabled="forgotPasswordRequest(user.resetStatus)" @click.prevent="approveResetRequest(user._id, user, true)">Approve</button>
-                        <button class="btn btn-cancel" :disabled="forgotPasswordRequest(user.resetStatus)" @click.prevent="approveResetRequest(user._id, user, false)">Cancel</button>
+                        <button class="btn btn-approve" :disabled="forgotPasswordRequest(user.resetStatus)" @click.prevent="approveResetRequest(user, true)">Approve</button>
+                        <button class="btn btn-cancel" :disabled="forgotPasswordRequest(user.resetStatus)" @click.prevent="approveResetRequest(user, false)">Cancel</button>
                     </td>
                 </tr>
             </tbody>
@@ -63,13 +63,8 @@ export default {
                 alert('An error occurred. Please try again later.')
             })
         },
-        approveResetRequest(id, user, isApproved) {
-            const data = {
-                'username': user.username,
-                'email': user.email
-            }
-            console.log(data);
-            this.$axios(api.approveRequest(id, data, isApproved))
+        approveResetRequest(userdata, isApproved) {
+            this.$axios(api.approveRequest(userdata, isApproved))
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;

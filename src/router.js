@@ -29,7 +29,7 @@ const router = createRouter({
             component: DashboardView,
             children: [
                 {   name: 'profile',
-                    path: '/profile',
+                    path: 'profile',
                     component: () => import('./views/main/ProfileView.vue')
                 },
                 {   name: 'home',
@@ -41,14 +41,9 @@ const router = createRouter({
                     path: 'category',
                     component: () => import('./views/main/CategoryView.vue'),
                     children: [
-                        {   path: 'subcat1',
-                            component: () => import('./views/main/category/Cat1.vue')
-                        },
-                        {   path: 'subcat2',
-                            component: () => import('./views/main/category/Cat2.vue')
-                        },
-                        {   path: 'subcat3',
-                            component: () => import('./views/main/category/Cat3.vue')
+                        {   path: ':page',
+                            component: () => import('./views/main/PageCategory.vue'),
+                            props: true
                         }
                     ]
                 },
@@ -62,10 +57,6 @@ const router = createRouter({
                             component: () => import('./views/main/account/CreateAccountView.vue')
                         }
                     ]
-                },
-                {   name: 'settings',
-                    path: 'settings',
-                    component: () => import('./views/main/SettingsView.vue')
                 }
             ]
         }
