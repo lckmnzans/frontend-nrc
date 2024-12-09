@@ -26,7 +26,7 @@
                 <li v-for="page in pages" :key="page.page">
                     <router-link class="button submenu-item" :to="`/category/${page.page}`">
                         <span class="material-icons">label_important</span>
-                        <span class="text">Kategori {{ page.page }}</span>
+                        <span class="text">{{ page.content }}</span>
                     </router-link>
                 </li>
             </ul>
