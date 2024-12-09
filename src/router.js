@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import DashboardView from './views/DashboardView.vue';
-import ResetView from './views/ResetView.vue';
+import ResetView from './views/ResetPasswordView.vue';
 import LoginV from './components/Login.vue';
 import ForgotV from './components/Forgot.vue';
-import ChangePassword from './components/ChangePassword.vue';
+import ChangePassword from './views/ChangePasswordView.vue';
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -20,10 +20,6 @@ const router = createRouter({
             path: '/reset-password',
             component: ResetView,
             props: (route) => ({ token: route.query.token })
-        },
-        {
-            path: '/change-password',
-            components: ChangePassword
         },
         {   path: '/',
             component: DashboardView,
@@ -57,6 +53,10 @@ const router = createRouter({
                             component: () => import('./views/main/account/CreateAccountView.vue')
                         }
                     ]
+                },
+                {   name: 'change-password',
+                    path: 'change-password',
+                    components: ChangePassword
                 }
             ]
         }
