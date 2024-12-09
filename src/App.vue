@@ -17,6 +17,7 @@ export default {
         } else {
             if (tokenAge <= Date.now()) {
                 console.log('Token anda sudah habis masa waktu');
+                this.$auth.logout();
                 this.$router.replace({ name: 'login' });
                 return;
             }

@@ -3,7 +3,6 @@ import DashboardView from './views/DashboardView.vue';
 import ResetView from './views/ResetPasswordView.vue';
 import LoginV from './components/Login.vue';
 import ForgotV from './components/Forgot.vue';
-import ChangePassword from './views/ChangePasswordView.vue';
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -24,9 +23,18 @@ const router = createRouter({
         {   path: '/',
             component: DashboardView,
             children: [
-                {   name: 'profile',
-                    path: 'profile',
-                    component: () => import('./views/main/ProfileView.vue')
+                {   path: 'profile',
+                    component: () => import('./views/main/ProfileView.vue'),
+                    children: [
+                        {   name: 'your-profile',
+                            path: '',
+                            component: () => import('./views/main/YourProfileView.vue')
+                        },      
+                        {   name: 'change-password',
+                            path: 'change-password',
+                            component: () => import('./views/ChangePasswordView.vue')
+                        }
+                    ]
                 },
                 {   name: 'home',
                     path: '',
@@ -53,10 +61,6 @@ const router = createRouter({
                             component: () => import('./views/main/account/CreateAccountView.vue')
                         }
                     ]
-                },
-                {   name: 'change-password',
-                    path: 'change-password',
-                    components: ChangePassword
                 }
             ]
         }

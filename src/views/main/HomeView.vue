@@ -11,39 +11,50 @@
                     id="file"
                     accept="application/pdf"
                     @change="handleFileUpload"
+
                 />
             </div>
             <div v-if="selectedFile" class="mb-3">
                 <p><strong>File yang dipilih:</strong> {{ selectedFile.name }}</p>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Jenis Dokumen</label>
+                <select class="form-select" v-model="docType">
+                    <option value="">Pilih jenis dokumen</option>
+                    <option value="cv">CV</option>
+                    <option value="keuangan">Keuangan</option>
+                    <option value="kontrak">Kontrak</option>
+                    <option value="legalitas">Legalitas</option>
+                    <option value="pemegang_saham">Pemegang Saham</option>
+                    <option value="pengurus">Pengurus</option>
+                    <option value="surat_masuk">Surat Masuk</option>
+                    <option value="tenaga_ahli">Tenaga Ahli</option>
+                </select>
             </div>
             <div>
                 <button type="submit" class="btn btn-primary btn-sm" :disabled="!selectedFile">Upload</button>
             </div>
         </form>
     </div>
-    <div class="preview-form" v-if="localPreview">
+    <div class="preview-form" v-show="localPreview">
         <h4>Preview PDF</h4>
-        <PdfApp class="pdf" :pdf="localPreview" :config="config" />
+        <vue-pdf-app class="pdf" :pdf="localPreview" />
     </div>
     </div>
 </template>
 <script>
-import PdfApp from 'vue3-pdf-app';
+import VuePdfApp from 'vue3-pdf-app';
 import api from '../../api/document.api';
 export default {
     components: {
-        PdfApp
+        VuePdfApp
     },
     inject: ['$axios'],
     data() {
         return {
             selectedFile: null,
-            localPreview: null,
-            config: {
-                toolbar: {
-                    toolbarViewerLeft: true
-                }
-            }
+            docType: '',
+            localPreview: null
         }
     },
     methods: {
@@ -69,7 +80,7 @@ export default {
                 return;
             }
 
-            this.$axios(api.upload(this.selectedFile))
+            this.$axios(api.upload(this.selectedFile, this.docType))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
@@ -102,7 +113,7 @@ export default {
     }
 
     .preview-form {
-        width: 80vh;
+        width: 50vw;
         height: 80vh;
     }
 }

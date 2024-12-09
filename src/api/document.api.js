@@ -1,7 +1,8 @@
 export default {
-    upload: (document) => {
+    upload: (document, docType) => {
         const formData = new FormData();
         formData.append('document', document);
+        formData.append('docType', docType);
         return {
             method: 'POST',
             url: "http://localhost:8000/api/v1/document", 

@@ -42,7 +42,7 @@ export default {
             alert('Hello World');
         },
         goToProfile() {
-            this.$router.push({ name: 'profile' });
+            this.$router.push({ path: '/profile' });
         }
     }
 }

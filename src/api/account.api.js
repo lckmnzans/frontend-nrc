@@ -73,14 +73,14 @@ export default {
             }
         }
     },
-    changePassword: (username, oldPassword, newPassword) => {
+    changePassword: (userdata) => {
         return {
             method: 'PATCH',
             url: 'http://localhost:8000/api/v1/account',
             data: {
-                "username": username,
-                "oldPassword": oldPassword,
-                "newPassword": newPassword
+                'username': userdata.username,
+                'oldPassword': userdata.oldPassword,
+                'newPassword': userdata.newPassword
             },
             headers: {
                 'authorization': 'Bearer ' + localStorage.getItem('token')
