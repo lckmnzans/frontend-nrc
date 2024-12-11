@@ -1,7 +1,7 @@
 <template>
     <aside :class="`${isExpanded ? 'is-expanded' : ''}`">
         <div class="logo">
-            <img src="../assets/logo.png" alt="logo">
+            <img src="../../public/nrca.png" alt="logo">
         </div>
         <div class="menu-toggle-wrap">
             <button class="menu-toggle menu-icon" @click.prevent="toggleMenu">

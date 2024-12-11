@@ -27,9 +27,11 @@
 <script setup>
 import { ref, computed, inject } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import api from '@/api/account.api';
 const route = useRoute();
 const router = useRouter();
 const auth = inject('$auth');
+const axios = inject('$axios');
 
 const otp = ref('');
 const password = ref('');
@@ -46,33 +48,53 @@ const isPasswordsEquals = computed(() => {
 })
 
 async function resetPassword() {
-    const formData = {
+    const userdata = {
         otp: otp.value,
-        newPassword: password.value
+        newPassword: otp.newPassword
     }
-    const bodyData = JSON.stringify(formData);
-
-    try {
-        const response = await fetch(`http://localhost:8000/api/v1/account/reset-pass?token=${token}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: bodyData
-        })
-
-        if (response.ok) {
-            const responseData = await response.json();
-            const message = responseData.message;
-            alert(message);
+    axios(api.resetPassword(userdata, token))
+    .then(response => {
+        if (response.status = 200) {
+            const body = response.data;
+            alert(body.message);
         } else {
             alert('Permintaan gagal diproses, cek kembali otp anda');
         }
-    } catch (error) {
-        console.error('Error:', error)
-        alert('Ada kesalahan. Silakan coba lagi.')
-    }
+    })
+    .catch(error => {
+        console.log(error);
+        alert('Ada kesalahan. Silahkan coba lagi nanti.');
+    })
 }
+
+// async function resetPassword() {
+//     const formData = {
+//         otp: otp.value,
+//         newPassword: password.value
+//     }
+//     const bodyData = JSON.stringify(formData);
+
+//     try {
+//         const response = await fetch(`http://localhost:8000/api/v1/account/reset-pass?token=${token}`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: bodyData
+//         })
+
+//         if (response.ok) {
+//             const responseData = await response.json();
+//             const message = responseData.message;
+//             alert(message);
+//         } else {
+//             alert('Permintaan gagal diproses, cek kembali otp anda');
+//         }
+//     } catch (error) {
+//         console.error('Error:', error)
+//         alert('Ada kesalahan. Silakan coba lagi.')
+//     }
+// }
 </script>
 
 <style scoped>

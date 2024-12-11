@@ -47,7 +47,7 @@ export default {
     }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .dashboard {
     display: flex;
     height: 100vh;
@@ -90,7 +90,6 @@ export default {
 
         main {
             flex: 1 1 0;
-            padding: 2rem;
             overflow-y: auto;
 
             @media (max-width: 768px) {

@@ -1,8 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import DashboardView from './views/DashboardView.vue';
-import ResetView from './views/ResetPasswordView.vue';
-import LoginV from './components/Login.vue';
-import ForgotV from './components/Forgot.vue';
+import DashboardView from '@/views/DashboardView.vue';
+import ResetView from '@/views/ResetPasswordView.vue';
+import LoginV from '@/components/Login.vue';
+import ForgotV from '@/components/Forgot.vue';
+import TabV from '@/views/main/PageCategory.vue';
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -24,41 +25,117 @@ const router = createRouter({
             component: DashboardView,
             children: [
                 {   path: 'profile',
-                    component: () => import('./views/main/ProfileView.vue'),
+                    component: () => import('@/views/main/profile/ProfileView.vue'),
                     children: [
                         {   name: 'your-profile',
                             path: '',
-                            component: () => import('./views/main/YourProfileView.vue')
+                            component: () => import('@/views/main/profile/YourProfileView.vue')
                         },      
                         {   name: 'change-password',
                             path: 'change-password',
-                            component: () => import('./views/ChangePasswordView.vue')
+                            component: () => import('@/views/main/profile/ChangePasswordView.vue')
                         }
                     ]
                 },
                 {   name: 'home',
                     path: '',
-                    component: () => import('./views/main/HomeView.vue'),
+                    component: () => import('@/views/main/HomeView.vue'),
                     alias: 'dashboard'
                 },
                 {   name: 'category',
                     path: 'category',
-                    component: () => import('./views/main/CategoryView.vue'),
+                    component: () => import('@/views/main/category/CategoryView.vue'),
                     children: [
-                        {   path: ':page',
-                            component: () => import('./views/main/PageCategory.vue'),
-                            props: true
+                        {   path: '1',
+                            component: () => import('@/views/main/category/Category1View.vue'),
+                            children: [
+                                {   path: '',
+                                    redirect: '/category/1/A01',
+                                },
+                                {   path: 'A01',
+                                    component: TabV,
+                                    props: { tabName: 'Legalitas'}
+                                },
+                                {   path: 'A02',
+                                    component: TabV,
+                                    props: { tabName: 'Kontrak'}
+                                },
+                                {   path: 'A03',
+                                    component: TabV,
+                                    props: { tabName: 'Tenaga Ahli'}
+                                },
+                                {   path: 'A04',
+                                    component: TabV,
+                                    props: { tabName: 'CV'}
+                                },
+                                {   path: 'A05',
+                                    component: TabV,
+                                    props: { tabName: 'Keuangan'}
+                                },
+                                {   path: 'A06',
+                                    component: TabV,
+                                    props: { tabName: 'Proyek'}
+                                },
+                                {   path: 'A07',
+                                    component: TabV,
+                                    props: { tabName: 'Pengurus'}
+                                },
+                                {   path: 'A08',
+                                    component: TabV,
+                                    props: { tabName: 'Pemegang Saham'}
+                                },
+                                {   path: 'A09',
+                                    component: TabV,
+                                    props: { tabName: 'Peralatan'}
+                                },
+                                {   path: 'A10',
+                                    component: TabV,
+                                    props: { tabName: 'Lain-lain'}
+                                }
+                            ]
+                        },
+                        {   path: '2',
+                            component: () => import('@/views/main/category/Category2View.vue'),
+                            children: [
+                                {   path: '',
+                                    redirect: '/category/2/B01'
+                                },
+                                {   path: 'B01',
+                                    component: TabV,
+                                    props: { tabName: 'Surat Masuk'}
+                                },
+                                {   path: 'B02',
+                                    component: TabV,
+                                    props: { tabName: 'Surat Keluar'}
+                                }
+                            ]
+                        },
+                        {   path: '3',
+                            component: () => import('@/views/main/category/Category3View.vue'),
+                            children: [
+                                {   path: '',
+                                    redirect: '/category/3/C01'
+                                },
+                                {   path: 'C01',
+                                    component: TabV,
+                                    props: { tabName: 'Sertifikat'}
+                                },
+                                {   path: 'C02',
+                                    component: TabV,
+                                    props: { tabName: 'SPJB'}
+                                }
+                            ]
                         }
                     ]
                 },
                 {   path: 'accounts',
-                    component: () => import('./views/main/AccountsView.vue'),
+                    component: () => import('@/views/main/account/AccountsView.vue'),
                     children: [
                         {   path: '',
-                            component: () => import('./views/main/account/ListAccountView.vue')
+                            component: () => import('@/views/main/account/ListAccountView.vue')
                         },
                         {   path: 'create',
-                            component: () => import('./views/main/account/CreateAccountView.vue')
+                            component: () => import('@/views/main/account/CreateAccountView.vue')
                         }
                     ]
                 }

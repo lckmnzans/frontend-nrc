@@ -12,11 +12,11 @@
             <input type="text" :disabled="true" placeholder="email" v-model="user.email" class="form-control">
         </div>
     </form>
-    <button @click="goChangePassword" class="btn btn-primary">Ganti Password</button>
+    <button @click="goChangePassword"  class="btn btn-primary">Ganti Password</button>
 </template>
 <script>
 import LoadingOverlay from '@/components/LoadingOverlay.vue';
-import api from '../../api/account.api';
+import api from '@/api/account.api';
 export default {
     components: {
         LoadingOverlay
@@ -62,3 +62,17 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    width: calc(100vw - var(--sidebar-width));
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+</style>

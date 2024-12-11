@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-import api from '../api/account.api';
+import api from '@/api/account.api';
 export default {
     inject: ['$auth','$axios'],
     created() {

@@ -1,11 +1,11 @@
 <template>
-    <h4>Page Category</h4>
-    <p style="background-color: blue; color: antiquewhite;">Ini adalah PageCategory {{ page }}</p>
+    <h4>Tab {{ tabName }}</h4>
+    <p>Ini adalah main content untuk tab {{ tabName }}</p>
 </template>
 <script>
 export default {
     props: {
-        page: String
+        tabName: String
     }
 }
 </script>

@@ -73,6 +73,17 @@ export default {
             }
         }
     },
+    resetPassword: (userdata, token) => {
+        const url = `htpp://localhost:8000/api/v1/account/reset-pass?token=${token}`;
+        return {
+            method: 'POST',
+            url: url,
+            data: {
+                otp: userdata.otp,
+                newPassword: userdata.newPassword
+            }
+        }
+    },
     changePassword: (userdata) => {
         return {
             method: 'PATCH',
