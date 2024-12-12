@@ -3,7 +3,7 @@ import DashboardView from '@/views/DashboardView.vue';
 import ResetView from '@/views/ResetPasswordView.vue';
 import LoginV from '@/components/Login.vue';
 import ForgotV from '@/components/Forgot.vue';
-import TabV from '@/views/main/PageCategory.vue';
+import TabV from '@/views/main/category/PageCategory.vue';
 
 const router = createRouter({
     history: createWebHashHistory(),

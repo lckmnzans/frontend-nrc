@@ -1,7 +1,6 @@
 {
-    "category": {
-        "A": {
-            "category_name": "Badan Usaha",
+    "category": [
+        {   "category_name": "Badan Usaha",
             "subcategory": [
                 {
                     "subcategory_id": "A01",
@@ -45,8 +44,7 @@
                 }
             ]
         },
-        "B": {
-            "category_name": "Surat Menyurat",
+        {   "category_name": "Surat Menyurat",
             "subcategory": [
                 {
                     "subcategory_id": "B01",
@@ -58,8 +56,7 @@
                 }
             ]
         },
-        "C": {
-            "category_name": "Kepemilikan Tanah",
+        {   "category_name": "Kepemilikan Tanah",
             "subcategory": [
                 {
                     "subcategory_id": "C01",
@@ -71,5 +68,5 @@
                 }
             ]
         }
-    }
+    ]
 }

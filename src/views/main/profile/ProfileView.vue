@@ -1,10 +1,10 @@
 <template>
-    <div class="main-content">
+    <div class="main-container">
         <router-view />
     </div>
 </template>
 <stype lang="scss" scoped>
-.main-content {
+.main-container {
     padding: 2rem;
 }
 </stype>

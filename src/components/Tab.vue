@@ -1,50 +1,82 @@
 <template>
-    <div class="tab-container">
-        <div class="tab-bar">
-            <router-link to="/category/test/1" class="tab-item" :class="{ active: this.$route.path === '/category/test/1'}">Sub Cat 1</router-link>
-            <router-link to="/category/test/2" class="tab-item" :class="{ active: this.$route.path === '/category/test/2'}">Sub Cat 2</router-link>
-            <router-link to="/category/test/3" class="tab-item" :class="{ active: this.$route.path === '/category/test/3'}">Sub Cat 3</router-link>
-        </div>
-        <div class="tab-content">
-            <p>Ini adalah content </p>
-            <router-view />
-        </div>
+    <div class="tab-navigation">
+        <ul class="tab-bar" :class="{ 'no-left-space': !hasLeftSpace }">
+            <li v-for="(subcategory, index) in subcategories" :key="index">
+                <router-link 
+                :to="`/category/${categoryId}/${subcategory.subcategory_id}`"
+                class="tab-item"
+                :class="{ active: this.$route.path === `/category/${categoryId}/${subcategory.subcategory_id}` }"
+                >{{ subcategory.subcategory_name }}</router-link>
+            </li>
+        </ul>
     </div>
 </template>
-<style lang="scss" scoped>
-.tab-container {
-    display: flex;
-    flex-direction: column;
-    height: 40vh;
-}
+<script>
+export default {
+    props: {
+        category: Number,
+        categoryId: String,
+        hasLeftSpace: {
+            type: Boolean,
+            default: false
+        }
+    },
+    created() {
+        this.getData(this.category);
+    },
+    data() {
+        return {
+            subcategories: []
+        }
+    },
+    methods: {
+        async getData(category) {
+            const res = await fetch('docType.json');
+            const data = await res.json();
 
-.tab-bar {
-    display: flex;
-    background-color: var(--primary);
-    border-bottom: 1px solid #ddd;
-    padding-top: 1rem;
-}
-
-.tab-item {
-    text-decoration: none;
-    color: var(--dark);
-    background-color: var(--light);
-    padding: 10px 20px;
-    border-radius: 5px 5px 0 0;
-    transition: background-color 0.2s, color 0.2s;
-
-    &.active {
-        background-color: #1b3046;
-        color: #fff;
+            this.subcategories = data.category[category].subcategory;
+            console.log(this.subcategories);
+        }
     }
 }
+</script>
+<style lang="scss" scoped>
+.tab-navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    height: 10vh;
 
-.tab-item:hover {
-    background-color: #e2e6ea;
-}
+    .tab-bar {
+        display: flex;
+        list-style-type: none;
+        background-color: var(--primary);
+        border-bottom: 1px solid #ddd;
+        padding: 1rem 0 0 1rem;
 
-.tab-content {
-    padding: 20px;
-    flex-grow: 1;
+        &.no-left-space {
+            padding: 1rem 1rem 0 0;
+        }
+
+        .tab-item {
+            text-decoration: none;
+            color: var(--light);
+            background-color: var(--dark);
+            padding: 10px 20px;
+            border-radius: 5px 5px 0 0;
+            transition: background-color 0.2s, color 0.2s;
+
+            &.active {
+                background-color: var(--light);
+                color: var(--dark);
+            }
+        }
+
+        .tab-item:hover {
+            background-color: var(--light);
+            color: var(--primary);
+            mix-blend-mode: screen;
+        }
+    }
 }
 </style>
