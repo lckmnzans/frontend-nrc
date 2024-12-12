@@ -1,16 +1,19 @@
 <template>
     <div class="tab-navigation">
         <ul class="tab-bar" :class="{ 'no-left-space': !hasLeftSpace }">
-            <li v-for="(subcategory, index) in subcategories" :key="index">
+            <li v-for="(subcategory, index) in subcategories" :key="index" class="tab-item-wrapper">
                 <router-link 
-                :to="`/category/${categoryId}/${subcategory.subcategory_id}`"
-                class="tab-item"
-                :class="{ active: this.$route.path === `/category/${categoryId}/${subcategory.subcategory_id}` }"
-                >{{ subcategory.subcategory_name }}</router-link>
+                    :to="`/category/${categoryId}/${subcategory.subcategory_id}`"
+                    class="tab-item"
+                    :class="{ active: this.$route.path === `/category/${categoryId}/${subcategory.subcategory_id}` }"
+                >
+                    {{ subcategory.subcategory_name }}
+                </router-link>
             </li>
         </ul>
     </div>
 </template>
+
 <script>
 export default {
     props: {
@@ -27,7 +30,7 @@ export default {
     data() {
         return {
             subcategories: []
-        }
+        };
     },
     methods: {
         async getData(category) {
@@ -35,27 +38,32 @@ export default {
             const data = await res.json();
 
             this.subcategories = data.category[category].subcategory;
-            console.log(this.subcategories);
         }
     }
-}
+};
 </script>
+
 <style lang="scss" scoped>
 .tab-navigation {
     display: flex;
     flex-direction: column;
-    align-items: start;
     height: 10vh;
 
     .tab-bar {
         display: flex;
-        list-style-type: none;
+        list-style: none;
         background-color: var(--primary);
         border-bottom: 1px solid #ddd;
+        margin: 0;
         padding: 1rem 0 0 1rem;
 
         &.no-left-space {
-            padding: 1rem 1rem 0 0;
+            padding: 1rem 0 0 0;
+        }
+
+        .tab-item-wrapper {
+            flex-shrink: 0;
+            margin-right: 0;
         }
 
         .tab-item {

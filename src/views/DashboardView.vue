@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard">
-        <Sidebar></Sidebar>
+        <Sidebar />
         <div class="content">
             <div class="top-bar">
                 Top Bar
@@ -91,6 +91,7 @@ export default {
         main {
             flex: 1 1 0;
             overflow-y: auto;
+            overflow-x: auto;
 
             @media (max-width: 768px) {
                 padding-left: 6rem;

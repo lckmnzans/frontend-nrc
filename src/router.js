@@ -44,7 +44,6 @@ const router = createRouter({
                 },
                 {   name: 'category',
                     path: 'category',
-                    component: () => import('@/views/main/category/CategoryView.vue'),
                     children: [
                         {   path: '1',
                             component: () => import('@/views/main/category/Category1View.vue'),

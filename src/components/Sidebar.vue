@@ -44,12 +44,12 @@
             </div>
     </aside>
 </template>
-
 <script setup>
 import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
 const auth = inject('$auth');
 const router = useRouter();
+const emit = defineEmits(['sidebarExpanded'])
 
 const isSubmenuVisible = ref(localStorage.getItem('isSubmenuExpanded') === "true");
 const isExpanded = ref(localStorage.getItem('isMenuExpanded') === "true");
@@ -57,6 +57,7 @@ const isSuperadmin = ref(localStorage.getItem('role') === "superadmin");
 
 const toggleMenu = () => {
     isExpanded.value = !isExpanded.value;
+    emit('sidebarExpanded', isExpanded.value);
 
     localStorage.setItem('isMenuExpanded', isExpanded.value);
 }
@@ -78,6 +79,7 @@ function logout() {
 aside {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     width: calc(2rem + 32px);
     min-height: 100vh;
     overflow: hidden;
