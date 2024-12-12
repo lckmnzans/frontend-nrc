@@ -1,0 +1,75 @@
+{
+    "category": {
+        "A": {
+            "category_name": "Badan Usaha",
+            "subcategory": [
+                {
+                    "subcategory_id": "A01",
+                    "subcategory_name": "Legalitas"
+                },
+                {
+                    "subcategory_id": "A02",
+                    "subcategory_name": "Kontrak"
+                },
+                {
+                    "subcategory_id": "A03",
+                    "subcategory_name": "Tenaga Ahli"
+                },
+                {
+                    "subcategory_id": "A04",
+                    "subcategory_name": "CV"
+                },
+                {
+                    "subcategory_id": "A05",
+                    "subcategory_name": "Keuangan"
+                },
+                {
+                    "subcategory_id": "A06",
+                    "subcategory_name": "Proyek"
+                },
+                {
+                    "subcategory_id": "A07",
+                    "subcategory_name": "Pengurus"
+                },
+                {
+                    "subcategory_id": "A08",
+                    "subcategory_name": "Pemegang Saham"
+                },
+                {
+                    "subcategory_id": "A09",
+                    "subcategory_name": "Peralatan"
+                },
+                {
+                    "subcategory_id": "A10",
+                    "subcategory_name": "Lain-lain"
+                }
+            ]
+        },
+        "B": {
+            "category_name": "Surat Menyurat",
+            "subcategory": [
+                {
+                    "subcategory_id": "B01",
+                    "subcategory_name": "Surat Masuk"
+                },
+                {
+                    "subcategory_id": "B02",
+                    "subcategory_name": "Surat Keluar"
+                }
+            ]
+        },
+        "C": {
+            "category_name": "Kepemilikan Tanah",
+            "subcategory": [
+                {
+                    "subcategory_id": "C01",
+                    "subcategory_name": "Sertifikat"
+                },
+                {
+                    "subcategory_id": "C02",
+                    "subcategory_name": "SPJB"
+                }
+            ]
+        }
+    }
+}

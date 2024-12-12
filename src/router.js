@@ -123,7 +123,7 @@ const router = createRouter({
                                 {   path: 'C02',
                                     component: TabV,
                                     props: { tabName: 'SPJB'}
-                                }
+                                },
                             ]
                         }
                     ]
