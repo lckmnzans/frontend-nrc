@@ -1,7 +1,7 @@
 <template>
-    <div class="preview-form" v-show="pdf">
+    <div class="preview-pdf" v-show="pdf">
         <h4>Preview PDF</h4>
-        <vue-pdf-app class="pdf" :pdf="pdf"></vue-pdf-app>
+        <vue-pdf-app class="pdf" :config="config" :pdf="pdf" :file-name="filename"></vue-pdf-app>
     </div>
 </template>
 <script>
@@ -12,7 +12,21 @@ export default {
         VuePdfApp
     },
     props: {
+        filename: String,
         pdf: String
+    },
+    data() {
+        return {
+            config: {
+                toolbar: {
+                    toolbarViewerRight: {
+                        print: false,
+                        download: false,
+                        viewBookmark: false
+                    }
+                }
+            }
+        }
     }
 }
 </script>

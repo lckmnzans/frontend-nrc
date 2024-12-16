@@ -1,6 +1,6 @@
 <template>
     <div class="tab-navigation">
-        <ul class="tab-bar" :class="{ 'no-left-space': !hasLeftSpace }">
+        <ul :class="{ 'no-left-space': !hasLeftSpace }">
             <li v-for="(subcategory, index) in subcategories" :key="index" class="tab-item-wrapper">
                 <router-link 
                     :to="`/category/${categoryId}/${subcategory.subcategory_id}`"
@@ -49,7 +49,7 @@ export default {
     flex-direction: column;
     height: 10vh;
 
-    .tab-bar {
+    ul {
         display: flex;
         list-style: none;
         background-color: var(--primary);

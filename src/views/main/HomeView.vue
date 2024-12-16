@@ -20,13 +20,13 @@
                     </div>
                 </form>
                 <PdfForm
-                :disable-submit-button="docTypeFilled"
-                @update:selected-file="selectedFile = $event"
+                :disabled-state="isFormEmpty"
                 @update:local-preview="localPreview = $event"
+                @update:file-name="filename = $event"
                 @submit="handleSubmit"
                 />
             </div>
-            <PreviewPdf :pdf="localPreview" />
+            <PreviewPdf :pdf="localPreview" :filename="filename"/>
         </div>
     </div>
 </template>
@@ -41,37 +41,37 @@ export default {
     },
     inject: ['$axios'],
     computed: {
-        docTypeFilled() {
-            return !this.docType !== '';
+        isFormEmpty() {
+            return this.docType === '';
         }
     },
     data() {
         return {
+            filename: '',
+            localPreview: null,
             selectedFile: null,
-            docType: '',
-            localPreview: null
+            docType: ''
         };
     },
     methods: {
-        handleSubmit(file, docType) {
+        handleSubmit(file) {
             if (!file) {
                 alert('Tidak ada file yang dipilih.');
                 return;
             }
 
-            this.$axios(api.upload(file, docType))
+            this.$axios(api.upload(file, this.docType))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
                     alert('File berhasil diunggah');
-                    this.localPreview = null;
                     this.selectedFile = null;
                 } else {
-                    alert('Permintaan gagal diproses dan file gagal diunggah');
+                    alert('Permintaan gagal diproses server dan file gagal diunggah');
                 }
             })
             .catch(error => {
-                alert('Terjadi kesalahan saat mengupload file.')
+                alert('Terjadi kesalahan dalam mengirim permintaan.')
             })
         }
     }
@@ -88,7 +88,7 @@ export default {
     align-items: top;
     justify-content: space-between;
 
-    .preview-form {
+    .preview-pdf {
         width: 40vw;
         height: 80vh;
     }

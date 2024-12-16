@@ -8,37 +8,44 @@
                     class="form-control"
                     id="file"
                     accept="application/pdf"
-                    @change="handleFileUpload"/>
+                    @change="handleFileInput"/>
             </div>
             <div v-if="selectedFile" class="mb-3">
                 <p><strong>File yang dipilih:</strong> {{ selectedFile.name }}</p>
             </div>
 
             <div class="mb-3 submit-control">
-                <button type="submit" class="btn btn-primary btn-sm">Unggah</button>
+                <button type="submit" class="btn btn-primary btn-sm" :disabled="isFormEmpty">Unggah</button>
             </div>
         </form>
     </div>
 </template>
 <script>
 export default {
-    emits: ["update:selectedFile","update:localPreview","submit"],
+    emits: ["update:localPreview","update:fileName","submit"],
     props: {
         disabledState: {
             type: Boolean,
             default: true
         }
     },
+    computed: {
+        isFormEmpty() {
+            return !this.selectedFile || this.disabledState;
+        }
+    },
     data() {
         return {
-            selectedFile: null
+            selectedFile: null,
+            fileName: null
         }
     },
     methods: {
-        handleFileUpload(event) {
+        handleFileInput(event) {
             const file = event.target.files[0];
             if (file && file.type === "application/pdf") {
                 this.selectedFile = file;
+                this.fileName = file.name;
 
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -48,10 +55,9 @@ export default {
             } else {
                 alert('Hanya dokumen PDF yang dapat diunggah');
                 event.target.value = "";
-                this.$emit("update:selectedFile", null);
+                this.selectedFile = null;
             }
-
-            this.$emit("update:selectedFile", this.selectedFile);
+            this.$emit("update:fileName", this.fileName);
         },
         async handleSubmit() {
             this.$emit("submit", this.selectedFile);

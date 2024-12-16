@@ -1,8 +1,6 @@
 <template>
     <div class="tab-container">
-        <div class="tab-bar">
-            <Tab :category="2" :category-id="`3`" />
-        </div>
+        <Tab :category="2" :category-id="`3`" />
         <div class="tab-content">
             <router-view />
         </div>
