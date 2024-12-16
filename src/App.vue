@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import api from '@/api/account.api';
 export default {
     inject: ['$auth', '$axios'],
     created() {
@@ -28,11 +27,6 @@ export default {
     data() {
         return {
             token:''
-        }
-    },
-    methods: {
-        showValue(object) {
-            console.log(object);
         }
     }
 }

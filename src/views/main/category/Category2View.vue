@@ -1,7 +1,7 @@
 <template>
     <div class="tab-container">
         <div class="tab-bar">
-            <Tab :category="1" :category-id="`2`" />
+            <Tab :category="1" :category-id="`2`" :has-left-space="true"/>
         </div>
         <div class="tab-content">
             <router-view />

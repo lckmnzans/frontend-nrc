@@ -100,8 +100,7 @@ const router = createRouter({
                                     redirect: '/category/2/B01'
                                 },
                                 {   path: 'B01',
-                                    component: TabV,
-                                    props: { tabName: 'Surat Masuk'}
+                                    component: () => import('@/views/main/category/forms/FormB01View.vue')
                                 },
                                 {   path: 'B02',
                                     component: TabV,

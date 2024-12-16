@@ -1,25 +1,50 @@
 <template>
     <div class="main-content">
         <div class="form-group">
-            <UploadForm
-            @update:selected-file="selectedFile = $event"
-            @update:local-preview="localPreview = $event"
-            @submit="handleSubmit"
-            />
+            <div>
+                <h4>Unggah Dokumen PDF</h4>
+                <form>
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Jenis Dokumen</label>
+                        <select class="form-select" v-model="docType">
+                            <option value="">Pilih jenis dokumen</option>
+                            <option value="cv">CV</option>
+                            <option value="keuangan">Keuangan</option>
+                            <option value="kontrak">Kontrak</option>
+                            <option value="legalitas">Legalitas</option>
+                            <option value="pemegang_saham">Pemegang Saham</option>
+                            <option value="pengurus">Pengurus</option>
+                            <option value="surat_masuk">Surat Masuk</option>
+                            <option value="tenaga_ahli">Tenaga Ahli</option>
+                        </select>
+                    </div>
+                </form>
+                <PdfForm
+                :disable-submit-button="docTypeFilled"
+                @update:selected-file="selectedFile = $event"
+                @update:local-preview="localPreview = $event"
+                @submit="handleSubmit"
+                />
+            </div>
             <PreviewPdf :pdf="localPreview" />
         </div>
     </div>
 </template>
 <script>
-import UploadForm from '@/components/UploadForm.vue';
+import PdfForm from '@/components/PdfForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import api from '@/api/document.api';
 export default {
     components: {
-        UploadForm,
+        PdfForm,
         PreviewPdf
     },
     inject: ['$axios'],
+    computed: {
+        docTypeFilled() {
+            return !this.docType !== '';
+        }
+    },
     data() {
         return {
             selectedFile: null,

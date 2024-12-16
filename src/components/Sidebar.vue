@@ -44,34 +44,53 @@
             </div>
     </aside>
 </template>
-<script setup>
-import { ref, inject } from 'vue';
-import { useRouter } from 'vue-router';
-const auth = inject('$auth');
-const router = useRouter();
-const emit = defineEmits(['sidebarExpanded'])
+<script>
+import router from '@/router';
 
-const isSubmenuVisible = ref(localStorage.getItem('isSubmenuExpanded') === "true");
-const isExpanded = ref(localStorage.getItem('isMenuExpanded') === "true");
-const isSuperadmin = ref(localStorage.getItem('role') === "superadmin");
+export default {
+    inject: ['$auth'],
+    emits: ['sidebarExpanded'],
+    created() {
+        this.fetchData();
+    },
+    data() {
+        return {
+            isSubmenuVisible: localStorage.getItem('isSubmenuExpanded') === 'true',
+            isExpanded: localStorage.getItem('isMenuExpanded') === 'true',
+            isSuperadmin: localStorage.getItem('role') === 'superadmin',
+            pages: []
+        }
+    },
+    methods: {
+        toggleMenu() {
+            this.isExpanded = !this.isExpanded;
+            this.$emit('sidebarExpanded', this.isExpanded);
 
-const toggleMenu = () => {
-    isExpanded.value = !isExpanded.value;
-    emit('sidebarExpanded', isExpanded.value);
+            localStorage.setItem('isMenuExpanded', this.isExpanded);
+        },
+        toggleSubmenu() {
+            this.isSubmenuVisible = !this.isSubmenuVisible;
 
-    localStorage.setItem('isMenuExpanded', isExpanded.value);
-}
-const pages = JSON.parse(localStorage.getItem('categories'));
-
-const toggleSubmenu = () => {
-    isSubmenuVisible.value = !isSubmenuVisible.value;
-
-    localStorage.setItem('isSubmenuExpanded', isSubmenuVisible.value);
-}
-
-function logout() {
-    auth.logout();
-    router.replace({ path: '/login' });
+            localStorage.setItem('isSubmenuExpanded', this.isSubmenuVisible);
+        },
+        logout() {
+            this.$auth.logout();
+            router.replace({ name: 'login' });
+        },
+        async fetchData() {
+            const res = await fetch('docType.json');
+            const data = await res.json();
+            const categories = await data.category;
+            
+            for (let category in categories) {
+                this.pages.push({
+                    page: Number.parseInt(category) + 1,
+                    content: categories[category].category_name
+                })
+            }
+            return;
+        }
+    }
 }
 </script>
 
@@ -180,7 +199,7 @@ aside {
             list-style-type: none;
             margin: 0 0 0 -2rem;
 
-            .submenu-item {
+            a {
                 font-size: 0.5rem;
 
                 .text {
@@ -211,7 +230,7 @@ aside {
             }
         }
 
-        .submenu .submenu-item {
+        .submenu a {
             font-size: 1rem;
 
             .text {
