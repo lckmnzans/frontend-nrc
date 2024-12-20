@@ -5,27 +5,30 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Sertifikat</label>
-                    <input type="text" class="form-control" v-model="docData.noSertifikat" :disabled="true"/>
+                    <input type="text" class="form-control" v-model="docData.noSertifikat"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit" :disabled="true"/>
+                    <input type="text" class="form-control" v-model="docData.tglTerbit"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Masa Berlaku</label>
-                    <input type="text" class="form-control" v-model="docData.masaBerlaku" :disabled="true">
+                    <input type="text" class="form-control" v-model="docData.masaBerlaku">
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jenis Sertifikat</label>
-                    <input type="text" class="form-control" v-model="docData.jenisSertifikat" :disabled="true"/>
+                    <input type="text" class="form-control" v-model="docData.jenisSertifikat"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Lokasi</label>
-                    <input type="text" class="form-control" v-model="docData.lokasi" :disabled="true"/>
+                    <input type="text" class="form-control" v-model="docData.lokasi"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Luas</label>
-                    <input type="text" class="form-control" v-model="docData.luas" :disabled="true"/>
+                    <input type="text" class="form-control" v-model="docData.luas"/>
+                </div>
+                <div class="alert alert-info" role="alert">
+                    Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
             <PdfForm

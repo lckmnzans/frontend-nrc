@@ -48,6 +48,7 @@ export default {
     display: flex;
     flex-direction: column;
     height: 10vh;
+    width: 100%;
 
     ul {
         display: flex;

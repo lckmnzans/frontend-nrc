@@ -18,8 +18,7 @@ export default {
 .tab-container {
     display: flex;
     flex-direction: column;
-    margin-top:0;
-    height: 40vh;
+    height: auto;
 }
 
 .tab-content {

@@ -23,6 +23,9 @@
                     <label for="" class="form-label">Masa Berlaku</label>
                     <input type="text" class="form-control" v-model="docData.masaBerlaku"/> 
                 </div>
+                <div class="alert alert-info" role="alert">
+                    Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
+                </div>
             </form>
             <PdfForm
             :disabled-state="isFormEmpty"

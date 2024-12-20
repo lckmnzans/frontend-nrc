@@ -19,6 +19,9 @@
                     <label for="" class="form-label">Tanggal Terbit</label>
                     <input type="text" class="form-control" v-model="docData.tglTerbit"/>
                 </div>
+                <div class="alert alert-info" role="alert">
+                    Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
+                </div>
             </form>
             <PdfForm
             :disabled-state="isFormEmpty"
