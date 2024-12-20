@@ -1,25 +1,7 @@
 <template>
     <div class="form-container">
         <div class="input-form">
-            <h4>Formulir Surat Masuk</h4>
-            <form>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengirim</label>
-                    <input type="text" class="form-control" v-model="docData.pengirm"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Surat</label>
-                    <input type="text" class="form-control" v-model="docData.noSurat"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Perihal</label>
-                    <input type="text" class="form-control" v-model="docData.perihal"/> 
-                </div>
-            </form>
+            <h4>Formulir Proyek</h4>
             <PdfForm
             :disabled-state="isFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -48,12 +30,9 @@ export default {
         return {
             localPreview: null,
             selectedFile: null,
-            docType: 'B01',
+            docType: 'A06',
             docData: {
-                pengirm: '',
-                noSurat: '',
-                tglTerbit: '',
-                perihal: ''
+                data: 'kosong'
             }
         };
     },

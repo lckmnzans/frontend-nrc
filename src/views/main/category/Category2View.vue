@@ -1,6 +1,6 @@
 <template>
     <div class="tab-container">
-        <Tab :category="1" :category-id="`2`" :has-left-space="true"/>
+        <Tab :category="1" :category-id="`2`"/>
         <div class="tab-content">
             <router-view />
         </div>

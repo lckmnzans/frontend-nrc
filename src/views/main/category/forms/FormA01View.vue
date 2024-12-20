@@ -1,23 +1,27 @@
 <template>
     <div class="form-container">
         <div class="input-form">
-            <h4>Formulir Surat Masuk</h4>
+            <h4>Formulir Legalitas</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengirim</label>
-                    <input type="text" class="form-control" v-model="docData.pengirm"/>
+                    <label for="" class="form-label">Nama Dokumen</label>
+                    <input type="text" class="form-control" v-model="docData.namaDokumen"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Surat</label>
-                    <input type="text" class="form-control" v-model="docData.noSurat"/>
+                    <label for="" class="form-label">Instansi Penerbit</label>
+                    <input type="text" class="form-control" v-model="docData.instansiPenerbit"/>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">No.Dokumen</label>
+                    <input type="text" class="form-control" v-model="docData.noDokumen"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit"/>
+                    <input type="text" class="form-control" v-model="docData.tglTerbit"/> 
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Perihal</label>
-                    <input type="text" class="form-control" v-model="docData.perihal"/> 
+                    <label for="" class="form-label">Masa Berlaku</label>
+                    <input type="text" class="form-control" v-model="docData.masaBerlaku"/> 
                 </div>
             </form>
             <PdfForm
@@ -48,12 +52,13 @@ export default {
         return {
             localPreview: null,
             selectedFile: null,
-            docType: 'B01',
+            docType: 'A01',
             docData: {
-                pengirm: '',
-                noSurat: '',
+                namaDokumen: '',
+                instansiPenerbit: '',
+                noDokumen: '',
                 tglTerbit: '',
-                perihal: ''
+                masaBerlaku: '',
             }
         };
     },

@@ -1,7 +1,7 @@
 <template>
     <div class="form-container">
         <div class="input-form">
-            <h4>Formulir Surat Masuk</h4>
+            <h4>Formulir Surat Keluar</h4>
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Pengirim</label>
@@ -17,7 +17,15 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Perihal</label>
-                    <input type="text" class="form-control" v-model="docData.perihal"/> 
+                    <input type="text" class="form-control" v-model="docData.perihal" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Drafter</label>
+                    <input type="text" class="form-control" v-model="docData.drafter" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Tujuan Surat</label>
+                    <input type="text" class="form-control" v-model="docData.tujuanSurat" />
                 </div>
             </form>
             <PdfForm
@@ -48,12 +56,14 @@ export default {
         return {
             localPreview: null,
             selectedFile: null,
-            docType: 'B01',
+            docType: 'B02',
             docData: {
                 pengirm: '',
                 noSurat: '',
                 tglTerbit: '',
-                perihal: ''
+                perihal: '',
+                drafter: '',
+                tujuanSurat: ''
             }
         };
     },

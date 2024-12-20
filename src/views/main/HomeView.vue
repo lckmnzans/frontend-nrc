@@ -87,10 +87,5 @@ export default {
     flex-direction: row;
     align-items: top;
     justify-content: space-between;
-
-    .preview-pdf {
-        width: 40vw;
-        height: 80vh;
-    }
 }
 </style>

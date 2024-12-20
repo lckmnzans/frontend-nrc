@@ -1,23 +1,11 @@
 <template>
     <div class="form-container">
         <div class="input-form">
-            <h4>Formulir Surat Masuk</h4>
+            <h4>Formulir Peralatan</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengirim</label>
-                    <input type="text" class="form-control" v-model="docData.pengirm"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Surat</label>
-                    <input type="text" class="form-control" v-model="docData.noSurat"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Perihal</label>
-                    <input type="text" class="form-control" v-model="docData.perihal"/> 
+                    <label for="" class="form-label">No.Dokumen</label>
+                    <input type="text" class="form-control" v-model="docData.noDokumen"/>
                 </div>
             </form>
             <PdfForm
@@ -48,12 +36,9 @@ export default {
         return {
             localPreview: null,
             selectedFile: null,
-            docType: 'B01',
+            docType: 'A09',
             docData: {
-                pengirm: '',
-                noSurat: '',
-                tglTerbit: '',
-                perihal: ''
+                noDokumen:''
             }
         };
     },

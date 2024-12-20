@@ -1,23 +1,31 @@
 <template>
     <div class="form-container">
         <div class="input-form">
-            <h4>Formulir Surat Masuk</h4>
+            <h4>Formulir SPJB</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengirim</label>
-                    <input type="text" class="form-control" v-model="docData.pengirm"/>
+                    <label for="" class="form-label">Nama PIC</label>
+                    <input type="text" class="form-control" v-model="docData.namaPic"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Surat</label>
-                    <input type="text" class="form-control" v-model="docData.noSurat"/>
+                    <label for="" class="form-label">Nama PT Penjual</label>
+                    <input type="text" class="form-control" v-model="docData.namaPtPenjual"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit"/>
+                    <label for="" class="form-label">No.PPJB</label>
+                    <input type="text" class="form-control" v-model="docData.noPPJB"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Perihal</label>
-                    <input type="text" class="form-control" v-model="docData.perihal"/> 
+                    <label for="" class="form-label">Tanggal PPJB</label>
+                    <input type="text" class="form-control" v-model="docData.tglPPJB" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Lokasi</label>
+                    <input type="text" class="form-control" v-model="docData.lokasi" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Luas</label>
+                    <input type="text" class="form-control" v-model="docData.luas" />
                 </div>
             </form>
             <PdfForm
@@ -48,12 +56,14 @@ export default {
         return {
             localPreview: null,
             selectedFile: null,
-            docType: 'B01',
+            docType: 'C01',
             docData: {
-                pengirm: '',
-                noSurat: '',
-                tglTerbit: '',
-                perihal: ''
+                namaPic:'',
+                namaPtPenjual:'',
+                noPPJB:'',
+                tglPPJB:'',
+                lokasi:'',
+                luas:''
             }
         };
     },

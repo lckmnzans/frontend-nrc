@@ -52,44 +52,34 @@ const router = createRouter({
                                     redirect: '/category/1/A01',
                                 },
                                 {   path: 'A01',
-                                    component: TabV,
-                                    props: { tabName: 'Legalitas'}
+                                    component: () => import('@/views/main/category/forms/FormA01View.vue')
                                 },
                                 {   path: 'A02',
-                                    component: TabV,
-                                    props: { tabName: 'Kontrak'}
+                                    component: () => import('@/views/main/category/forms/FormA02View.vue')
                                 },
                                 {   path: 'A03',
-                                    component: TabV,
-                                    props: { tabName: 'Tenaga Ahli'}
+                                    component: () => import('@/views/main/category/forms/FormA03View.vue')
                                 },
                                 {   path: 'A04',
-                                    component: TabV,
-                                    props: { tabName: 'CV'}
+                                    component: () => import('@/views/main/category/forms/FormA04View.vue')
                                 },
                                 {   path: 'A05',
-                                    component: TabV,
-                                    props: { tabName: 'Keuangan'}
+                                    component: () => import('@/views/main/category/forms/FormA05View.vue')
                                 },
                                 {   path: 'A06',
-                                    component: TabV,
-                                    props: { tabName: 'Proyek'}
+                                    component: () => import('@/views/main/category/forms/FormA06View.vue')
                                 },
                                 {   path: 'A07',
-                                    component: TabV,
-                                    props: { tabName: 'Pengurus'}
+                                    component: () => import('@/views/main/category/forms/FormA07View.vue')
                                 },
                                 {   path: 'A08',
-                                    component: TabV,
-                                    props: { tabName: 'Pemegang Saham'}
+                                    component: () => import('@/views/main/category/forms/FormA08View.vue')
                                 },
                                 {   path: 'A09',
-                                    component: TabV,
-                                    props: { tabName: 'Peralatan'}
+                                    component: () => import('@/views/main/category/forms/FormA09View.vue')
                                 },
                                 {   path: 'A10',
-                                    component: TabV,
-                                    props: { tabName: 'Lain-lain'}
+                                    component: () => import('@/views/main/category/forms/FormA10View.vue')
                                 }
                             ]
                         },
@@ -103,8 +93,7 @@ const router = createRouter({
                                     component: () => import('@/views/main/category/forms/FormB01View.vue')
                                 },
                                 {   path: 'B02',
-                                    component: TabV,
-                                    props: { tabName: 'Surat Keluar'}
+                                    component: () => import('@/views/main/category/forms/FormB02View.vue')
                                 }
                             ]
                         },
@@ -115,12 +104,10 @@ const router = createRouter({
                                     redirect: '/category/3/C01'
                                 },
                                 {   path: 'C01',
-                                    component: TabV,
-                                    props: { tabName: 'Sertifikat'}
+                                    component: () => import('@/views/main/category/forms/FormC01View.vue')
                                 },
                                 {   path: 'C02',
-                                    component: TabV,
-                                    props: { tabName: 'SPJB'}
+                                    component: () => import('@/views/main/category/forms/FormC02View.vue')
                                 },
                             ]
                         }

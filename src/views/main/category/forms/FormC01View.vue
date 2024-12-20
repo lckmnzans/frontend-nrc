@@ -1,23 +1,31 @@
 <template>
     <div class="form-container">
         <div class="input-form">
-            <h4>Formulir Surat Masuk</h4>
+            <h4>Formulir Sertifikat</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengirim</label>
-                    <input type="text" class="form-control" v-model="docData.pengirm"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Surat</label>
-                    <input type="text" class="form-control" v-model="docData.noSurat"/>
+                    <label for="" class="form-label">No.Sertifikat</label>
+                    <input type="text" class="form-control" v-model="docData.noSertifikat" :disabled="true"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit"/>
+                    <input type="text" class="form-control" v-model="docData.tglTerbit" :disabled="true"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Perihal</label>
-                    <input type="text" class="form-control" v-model="docData.perihal"/> 
+                    <label for="" class="form-label">Masa Berlaku</label>
+                    <input type="text" class="form-control" v-model="docData.masaBerlaku" :disabled="true">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Jenis Sertifikat</label>
+                    <input type="text" class="form-control" v-model="docData.jenisSertifikat" :disabled="true"/>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Lokasi</label>
+                    <input type="text" class="form-control" v-model="docData.lokasi" :disabled="true"/>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Luas</label>
+                    <input type="text" class="form-control" v-model="docData.luas" :disabled="true"/>
                 </div>
             </form>
             <PdfForm
@@ -48,12 +56,14 @@ export default {
         return {
             localPreview: null,
             selectedFile: null,
-            docType: 'B01',
+            docType: 'C01',
             docData: {
-                pengirm: '',
-                noSurat: '',
-                tglTerbit: '',
-                perihal: ''
+                noSertifikat:'',
+                tglTerbit:'',
+                masaBerlaku:'',
+                jenisSertifikat:'',
+                lokasi:'',
+                luas:''
             }
         };
     },

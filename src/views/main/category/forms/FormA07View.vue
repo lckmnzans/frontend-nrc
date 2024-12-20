@@ -1,23 +1,19 @@
 <template>
     <div class="form-container">
         <div class="input-form">
-            <h4>Formulir Surat Masuk</h4>
+            <h4>Formulir Pengurus</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengirim</label>
-                    <input type="text" class="form-control" v-model="docData.pengirm"/>
+                    <label for="" class="form-label">Nama</label>
+                    <input type="text" class="form-control" v-model="docData.nama"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Surat</label>
-                    <input type="text" class="form-control" v-model="docData.noSurat"/>
+                    <label for="" class="form-label">Jabatan</label>
+                    <input type="text" class="form-control" v-model="docData.jabatan"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Perihal</label>
-                    <input type="text" class="form-control" v-model="docData.perihal"/> 
+                    <label for="" class="form-label">Diangkat Berdasarkan Akta</label>
+                    <input type="text" class="form-control" v-model="docData.diangkatBerdasarkanAkta"/>
                 </div>
             </form>
             <PdfForm
@@ -48,12 +44,11 @@ export default {
         return {
             localPreview: null,
             selectedFile: null,
-            docType: 'B01',
+            docType: 'A07',
             docData: {
-                pengirm: '',
-                noSurat: '',
-                tglTerbit: '',
-                perihal: ''
+                nama: '',
+                jabatan: '',
+                diangkatBerdasarkanAkta: ''
             }
         };
     },

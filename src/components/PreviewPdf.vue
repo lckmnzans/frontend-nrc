@@ -30,3 +30,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+.preview-pdf {
+    width: 40vw;
+    height: 60vh;
+}
+</style>
