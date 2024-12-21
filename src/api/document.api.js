@@ -12,5 +12,16 @@ export default {
                 "content-type": "multipart/form-data"
             }
         }
+    },
+    uploadDocData: (docData, docType) => {
+        return {
+            method: 'POST',
+            url: `http://localhost:8000/api/v1/document/${docType}`,
+            data: docData,
+            headers: {
+                "content-type": "application/json",
+                "authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }
     }
 }

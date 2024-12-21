@@ -1,7 +1,7 @@
 <template>
     <div class="preview-pdf" v-show="pdf">
         <h4>Preview PDF</h4>
-        <vue-pdf-app class="pdf" :config="config" :pdf="pdf" :file-name="filename"></vue-pdf-app>
+        <vue-pdf-app class="pdf" :config="config" :pdf="pdf"></vue-pdf-app>
     </div>
 </template>
 <script>
@@ -12,7 +12,6 @@ export default {
         VuePdfApp
     },
     props: {
-        filename: String,
         pdf: String
     },
     data() {
@@ -34,5 +33,7 @@ export default {
 .preview-pdf {
     width: 40vw;
     height: 60vh;
+    top:3rem;
+    position: sticky;
 }
 </style>

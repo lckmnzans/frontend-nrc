@@ -1,6 +1,6 @@
 <template>
     <div class="tab-container">
-        <Tab :category="0" :category-id="`1`" />
+        <Tab :category="0" :category-id="`1`" :has-left-space="true" />
         <div class="tab-content">
             <router-view />
         </div>
@@ -19,9 +19,15 @@ export default {
     display: flex;
     flex-direction: column;
     height: auto;
+}
 
-    .tab-content {
-        flex-grow: 1;
-    }
+.tab-navigation {
+    top:0;
+    position: sticky;
+}
+
+.tab-content {
+    height:auto;
+    flex-grow: 1;
 }
 </style>

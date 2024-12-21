@@ -28,7 +28,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="isFormEmpty"
+            :disabled-state="false"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -66,7 +66,10 @@ export default {
         };
     },
     methods: {
-        handleSubmit(file) {
+        async handleSubmit(file) {
+            this.uploadFile(file);
+        },
+        async uploadFile(file) {
             if (!file) {
                 alert('Tidak ada file yang dipilih.');
                 return;
@@ -74,16 +77,38 @@ export default {
 
             this.$axios(api.upload(file, this.docType))
             .then(response => {
-                if (response.status = 200) {
+                if (response.status == 200) {
                     const body = response.data;
-                    alert('File berhasil diunggah');
+                    const data = {
+                        docName: body.data.file.filename,
+                        docType: this.docType,
+                        ...this.docData
+                    };
                     this.selectedFile = null;
+                    console.log('File berhasil diunggah');
+                    this.uploadDocData(data);
                 } else {
-                    alert('Permintaan gagal diproses server dan file gagal diunggah');
+                    console.log('File gagal diunggah');
                 }
             })
             .catch(error => {
-                alert('Terjadi kesalahan dalam mengirim permintaan.')
+                console.log('Permintaan tidak bisa diproses');
+            })
+        },
+        async uploadDocData(docData) {
+            this.$axios(api.uploadDocData(docData, this.docType))
+            .then(response => {
+                if (response.status == 200) {
+                    const body = response.data;
+                    console.log('docData berhasil disimpan');
+                    console.log(body);
+                } else {
+                    const body = response.data;
+                    console.log('docData gagal disimpan. Error: ' + body.message);
+                }
+            })
+            .catch(error => {
+                console.log('Permintaan tidak bisa diproses. Error: ' + error);
             })
         }
     }

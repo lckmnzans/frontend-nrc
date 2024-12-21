@@ -8,25 +8,24 @@
                         <label for="file" class="form-label">Jenis Dokumen</label>
                         <select class="form-select" v-model="docType">
                             <option value="">Pilih jenis dokumen</option>
-                            <option value="cv">CV</option>
-                            <option value="keuangan">Keuangan</option>
-                            <option value="kontrak">Kontrak</option>
-                            <option value="legalitas">Legalitas</option>
-                            <option value="pemegang_saham">Pemegang Saham</option>
-                            <option value="pengurus">Pengurus</option>
-                            <option value="surat_masuk">Surat Masuk</option>
-                            <option value="tenaga_ahli">Tenaga Ahli</option>
+                            <option value="A04">CV</option>
+                            <option value="A05">Keuangan</option>
+                            <option value="A02">Kontrak</option>
+                            <option value="A01">Legalitas</option>
+                            <option value="A08">Pemegang Saham</option>
+                            <option value="A07">Pengurus</option>
+                            <option value="B01">Surat Masuk</option>
+                            <option value="A03">Tenaga Ahli</option>
                         </select>
                     </div>
                 </form>
                 <PdfForm
                 :disabled-state="isFormEmpty"
                 @update:local-preview="localPreview = $event"
-                @update:file-name="filename = $event"
                 @submit="handleSubmit"
                 />
             </div>
-            <PreviewPdf :pdf="localPreview" :filename="filename"/>
+            <PreviewPdf :pdf="localPreview"/>
         </div>
     </div>
 </template>
@@ -47,14 +46,17 @@ export default {
     },
     data() {
         return {
-            filename: '',
             localPreview: null,
             selectedFile: null,
-            docType: ''
+            docType: '',
+            docData: {}
         };
     },
     methods: {
-        handleSubmit(file) {
+        async handleSubmit(file) {
+            this.uploadFile(file);
+        },
+        async uploadFile(file) {
             if (!file) {
                 alert('Tidak ada file yang dipilih.');
                 return;
@@ -64,14 +66,35 @@ export default {
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
-                    alert('File berhasil diunggah');
+                    const docData = {
+                        docName: body.data.file.filename,
+                        docType: this.docType,
+                    };
                     this.selectedFile = null;
+                    console.log('File berhasil diunggah');
+                    this.uploadDocData(docData);
                 } else {
-                    alert('Permintaan gagal diproses server dan file gagal diunggah');
+                    console.log('File gagal diunggah');
                 }
             })
             .catch(error => {
-                alert('Terjadi kesalahan dalam mengirim permintaan.')
+                console.log('Permintaan tidak bisa diproses');
+            })
+        },
+        async uploadDocData(docData) {
+            this.$axios(api.uploadDocData(docData, this.docType))
+            .then(response => {
+                if (response.status == 200) {
+                    const body = response.data;
+                    console.log('docData berhasil disimpan');
+                    console.log(body);
+                } else {
+                    const body = response.data;
+                    console.log('docData gagal disimpan. Error: ' + body.message);
+                }
+            })
+            .catch(error => {
+                console.log('Permintaan tidak bisa diproses. Error: ' + error);
             })
         }
     }
