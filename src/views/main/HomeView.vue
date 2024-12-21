@@ -1,100 +1,55 @@
 <template>
     <div class="main-content">
-        <div class="form-group">
-            <div>
-                <h4>Unggah Dokumen PDF</h4>
-                <form>
-                    <div class="mb-3">
-                        <label for="file" class="form-label">Jenis Dokumen</label>
-                        <select class="form-select" v-model="docType">
-                            <option value="">Pilih jenis dokumen</option>
-                            <option value="A04">CV</option>
-                            <option value="A05">Keuangan</option>
-                            <option value="A02">Kontrak</option>
-                            <option value="A01">Legalitas</option>
-                            <option value="A08">Pemegang Saham</option>
-                            <option value="A07">Pengurus</option>
-                            <option value="B01">Surat Masuk</option>
-                            <option value="A03">Tenaga Ahli</option>
-                        </select>
-                    </div>
-                </form>
-                <PdfForm
-                :disabled-state="isFormEmpty"
-                @update:local-preview="localPreview = $event"
-                @submit="handleSubmit"
-                />
-            </div>
-            <PreviewPdf :pdf="localPreview"/>
+        <h4>Dokumen Terbaru</h4>
+        <p>Daftar dokumen yang baru masuk sistem</p>   
+        <div class="list-documents">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Document Type</th>
+                        <th scope="col">Document Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(doc, index) in docs" :key="index">
+                        <td>{{ doc.docType }}</td>
+                        <td>{{ doc.docName }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
 <script>
-import PdfForm from '@/components/PdfForm.vue';
-import PreviewPdf from '@/components/PreviewPdf.vue';
 import api from '@/api/document.api';
 export default {
-    components: {
-        PdfForm,
-        PreviewPdf
-    },
     inject: ['$axios'],
-    computed: {
-        isFormEmpty() {
-            return this.docType === '';
-        }
+    created() {
+        this.fetchDocs();
     },
     data() {
         return {
-            localPreview: null,
-            selectedFile: null,
-            docType: '',
-            docData: {}
+            totalPages: 1,
+            currentPage: 0,
+            docs: []
         };
     },
     methods: {
-        async handleSubmit(file) {
-            this.uploadFile(file);
-        },
-        async uploadFile(file) {
-            if (!file) {
-                alert('Tidak ada file yang dipilih.');
-                return;
-            }
-
-            this.$axios(api.upload(file, this.docType))
-            .then(response => {
+        async fetchDocs() {
+            this.$axios(api.getListOfDocuments())
+            .then((response) => {
                 if (response.status == 200) {
                     const body = response.data;
-                    const docData = {
-                        docName: body.data.file.filename,
-                        docType: this.docType,
-                    };
-                    this.selectedFile = null;
-                    console.log('File berhasil diunggah');
-                    this.uploadDocData(docData);
+                    this.totalPages = body.totalPages;
+                    this.currentPage = body.currentPage;
+                    this.docs = body.documents;
+                    console.log('Dokumen berhasil didapatkan')
                 } else {
-                    console.log('File gagal diunggah');
+                    console.log('Gagal melakukan permintaan');
                 }
             })
-            .catch(error => {
-                console.log('Permintaan tidak bisa diproses');
-            })
-        },
-        async uploadDocData(docData) {
-            this.$axios(api.uploadDocData(docData, this.docType))
-            .then(response => {
-                if (response.status == 200) {
-                    const body = response.data;
-                    console.log('docData berhasil disimpan');
-                    console.log(body);
-                } else {
-                    const body = response.data;
-                    console.log('docData gagal disimpan. Error: ' + body.message);
-                }
-            })
-            .catch(error => {
-                console.log('Permintaan tidak bisa diproses. Error: ' + error);
+            .catch((err) => {
+                console.log(err);
             })
         }
     }
@@ -105,7 +60,7 @@ export default {
     padding: 2rem;
 }
 
-.form-group {
+.list-documents {
     display: flex;
     flex-direction: row;
     align-items: top;

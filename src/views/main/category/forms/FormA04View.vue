@@ -121,30 +121,28 @@ export default {
                     const body = response.data;
                     const data = {
                         docName: body.data.file.filename,
-                        docType: this.docType,
+                        docType: body.data.file.documentType,
                         ...this.docData
                     };
                     this.selectedFile = null;
-                    console.log('File berhasil diunggah');
-                    this.uploadDocData(data);
+                    this.uploadDocument(data);
                 } else {
-                    console.log('File gagal diunggah');
+                    console.log('File gagal diunggah.');
                 }
             })
             .catch(error => {
-                console.log('Permintaan tidak bisa diproses');
+                console.log('Permintaan tidak bisa diproses. Error: ' + error);
             })
         },
-        async uploadDocData(docData) {
-            this.$axios(api.uploadDocData(docData, this.docType))
+        async uploadDocument(data) {
+            this.$axios(api.uploadDocData(data, data.docType))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
-                    console.log('docData berhasil disimpan');
-                    console.log(body);
+                    console.log('Dokumen berhasil diunggah');
                 } else {
                     const body = response.data;
-                    console.log('docData gagal disimpan. Error: ' + body.message);
+                    console.log('Dokumen gagal diunggah.');
                 }
             })
             .catch(error => {
