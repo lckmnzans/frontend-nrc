@@ -37,9 +37,19 @@ const router = createRouter({
                     ]
                 },
                 {   name: 'home',
+                    alias: 'dashboard',
+                    redirect: '/',
                     path: '',
-                    component: () => import('@/views/main/HomeView.vue'),
-                    alias: 'dashboard'
+                    component: () => import('@/views/main/dashboard/HomeView.vue'),
+                    children: [
+                        {   path: '',
+                            component: () => import('@/views/main/dashboard/DocumentListView.vue'),
+                        },
+                        {   path: 'edit/:docType/:docId',
+                            component: () => import('@/views/main/dashboard/DocumentEditView.vue'),
+                            props: true,
+                        }
+                    ]
                 },
                 {   name: 'category',
                     path: 'category',

@@ -1,3 +1,4 @@
+const ApiHost = process.env.VUE_APP_BACKEND_URL;
 export default {
     upload: (document, docType) => {
         const formData = new FormData();
@@ -5,7 +6,7 @@ export default {
         formData.append('docType', docType);
         return {
             method: 'POST',
-            url: "http://localhost:8000/api/v1/document", 
+            url: `${ApiHost}/document`, 
             data: formData,
             headers: {
                 "authorization": "Bearer " + localStorage.getItem("token"),
@@ -16,7 +17,7 @@ export default {
     uploadDocData: (docData, docType) => {
         return {
             method: 'POST',
-            url: `http://localhost:8000/api/v1/document/${docType}`,
+            url: `${ApiHost}/document/${docType}`,
             data: docData,
             headers: {
                 "content-type": "application/json",
@@ -25,7 +26,7 @@ export default {
         }
     },
     getListOfDocuments: (page, limit, docType) => {
-        let url = `http://localhost:8000/api/v1/document/list-document`
+        let url = `${ApiHost}/document/list-document`
         if (page || limit || docType) url = url.append('?');
         if (page) url = url.append('page='+page);
         if (limit) url = url.append('limit='+limit);
@@ -36,6 +37,25 @@ export default {
             headers: {
                 "authorization": "Bearer " + localStorage.getItem("token")
             }
+        }
+    },
+    getDocData: (docId) => {
+        return {
+            method: 'GET',
+            url: `${ApiHost}/document/docs/${docId}`,
+            headers: {
+                "authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }
+    },
+    getDocFile: (fileId) => {
+        return {
+            method: 'GET',
+            url: `${ApiHost}/document/file/${fileId}`,
+            headers: {
+                "authorization": "Bearer " + localStorage.getItem("token")
+            },
+            responseType: 'blob'
         }
     }
 }

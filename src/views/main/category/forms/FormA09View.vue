@@ -29,6 +29,20 @@ export default {
         PdfForm,
         PreviewPdf
     },
+    props: {
+        docId: {
+            type: String,
+            required: false
+        },
+        filename: {
+            type: String,
+            required: false
+        }
+    },
+    created() {
+        console.log(this.docId);
+        this.fetchData();
+    },
     inject: ['$axios'],
     computed: {
         isFormEmpty() {
@@ -88,6 +102,46 @@ export default {
             .catch(error => {
                 console.log('Permintaan tidak bisa diproses. Error: ' + error);
             })
+        },
+        async fetchData() {
+            if (this.docId) {
+                this.$axios(api.getDocData(this.docId))
+                .then(response => {
+                    if (response.status == 200) {
+                        const body = response.data;
+                        console.log('Dokumen berhasil diambil');
+                        this.fetchFile(body.data.docName);
+                    } else {
+                        const body = response.data;
+                        console.log('Dokumen gagal diambil. Error: ' + body.message);
+                    }
+                })
+                .catch(err => {
+                    console.log('Permintaan tidak bisa diproses. Error: ' + err)
+                })
+            }
+        },
+        async fetchFile(filename) {
+            this.$axios(api.getDocFile(filename))
+            .then(response => {
+                if (response.status == 200) {
+                    const body = response.data;
+                    console.log('File berhasil diambil');
+                    this.localPreview = URL.createObjectURL(body);
+                } else {
+                    const body = response.data;
+                    console.log('File gagal diambil. Error: ' + body.message);
+                    this.localPreview = null;
+                }
+            })
+            .catch(err => {
+                console.log('Permintaan tidak bisa diproses. Error: ' + err)
+            })
+        }
+    },
+    beforeUnmount() {
+        if (this.localPreview) {
+            URL.revokeObjectURL(this.localPreview);
         }
     }
 }

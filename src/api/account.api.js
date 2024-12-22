@@ -1,8 +1,9 @@
+const ApiHost = process.env.VUE_APP_BACKEND_URL;
 export default {
     login: (userdata) => {
         return {
             method: 'POST',
-            url: 'http://localhost:8000/api/v1/account/login',
+            url: `${ApiHost}/account/login`,
             data: {
                 username: userdata.username,
                 password: userdata.password
@@ -15,7 +16,7 @@ export default {
     register: (userdata) => {
         return {
             method: 'POST',
-            url: 'http://localhost:8000/api/v1/account/register',
+            url: `${ApiHost}/account/register`,
             data: {
                 username: userdata.username,
                 email: userdata.email,
@@ -31,7 +32,7 @@ export default {
     forgot: (userdata) => {
         return {
             method: 'POST',
-            url: 'http://localhost:8000/api/v1/account/request-reset',
+            url: `${ApiHost}/account/request-reset`,
             data: {
                 username: userdata.username,
                 email: userdata.email
@@ -41,7 +42,7 @@ export default {
     getAccount: (id) => {
         return {
             method: 'GET',
-            url: `http://localhost:8000/api/v1/account/${id}`,
+            url: `${ApiHost}/account/${id}`,
             headers: {
                 'authorization': 'Bearer ' + localStorage.getItem('token')
             }
@@ -50,14 +51,14 @@ export default {
     getAllAccounts: () => {
         return {
             method: 'GET',
-            url: 'http://localhost:8000/api/v1/account',
+            url: `${ApiHost}/account`,
             headers: {
                 'authorization': 'Bearer ' + localStorage.getItem('token')
             }
         }
     },
     approveRequest: (userdata, isApproved) => {
-        let url = `http://localhost:8000/api/v1/account/approve-reset/${userdata._id}`;
+        let url = `${ApiHost}/account/approve-reset/${userdata._id}`;
         if (isApproved) {
            url = url + '?approved=true';
         }
@@ -74,7 +75,7 @@ export default {
         }
     },
     resetPassword: (userdata, token) => {
-        const url = `htpp://localhost:8000/api/v1/account/reset-pass?token=${token}`;
+        const url = `${ApiHost}/account/reset-pass?token=${token}`;
         return {
             method: 'POST',
             url: url,
@@ -87,7 +88,7 @@ export default {
     changePassword: (userdata) => {
         return {
             method: 'PATCH',
-            url: 'http://localhost:8000/api/v1/account',
+            url: `${ApiHost}/account`,
             data: {
                 'username': userdata.username,
                 'oldPassword': userdata.oldPassword,
