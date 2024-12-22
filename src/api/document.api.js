@@ -6,7 +6,7 @@ export default {
         formData.append('docType', docType);
         return {
             method: 'POST',
-            url: `${ApiHost}/document`, 
+            url: `${ApiHost}/api/v1/document`, 
             data: formData,
             headers: {
                 "authorization": "Bearer " + localStorage.getItem("token"),
@@ -17,7 +17,7 @@ export default {
     uploadDocData: (docData, docType) => {
         return {
             method: 'POST',
-            url: `${ApiHost}/document/${docType}`,
+            url: `${ApiHost}/api/v1/document/${docType}`,
             data: docData,
             headers: {
                 "content-type": "application/json",
@@ -26,7 +26,7 @@ export default {
         }
     },
     getListOfDocuments: (page, limit, docType) => {
-        let url = `${ApiHost}/document/list-document`
+        let url = `${ApiHost}/api/v1/document/list-document`
         if (page || limit || docType) url = url.append('?');
         if (page) url = url.append('page='+page);
         if (limit) url = url.append('limit='+limit);
@@ -42,7 +42,7 @@ export default {
     getDocData: (docId) => {
         return {
             method: 'GET',
-            url: `${ApiHost}/document/docs/${docId}`,
+            url: `${ApiHost}/api/v1/document/docs/${docId}`,
             headers: {
                 "authorization": "Bearer " + localStorage.getItem("token")
             }
@@ -51,7 +51,7 @@ export default {
     getDocFile: (fileId) => {
         return {
             method: 'GET',
-            url: `${ApiHost}/document/file/${fileId}`,
+            url: `${ApiHost}/api/v1/document/file/${fileId}`,
             headers: {
                 "authorization": "Bearer " + localStorage.getItem("token")
             },
