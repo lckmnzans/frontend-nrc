@@ -35,6 +35,7 @@ export default {
             method: 'GET',
             url: url,
             headers: {
+                "content-type": "application/json",
                 "authorization": "Bearer " + localStorage.getItem("token")
             }
         }
