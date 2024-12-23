@@ -59,7 +59,7 @@ export default {
             })
         },
         goChangePassword() {
-            this.$router.push({ path: '/profile/change-password' });
+            this.$router.push({ path: `/profile/${this.user.username}/change-password` });
         }
     }
 }
