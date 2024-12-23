@@ -1,18 +1,20 @@
 <template>
-    <h4>Profile Anda</h4>
-    <p>Ini adalah halaman profil anda</p>
-    <LoadingOverlay :visible="loading" />
-    <form>
-        <div class="form-group mb-3">
-            <label for="">Username</label>
-            <input type="text" :disabled="true" placeholder="username" v-model="user.username" class="form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="">Email</label>
-            <input type="text" :disabled="true" placeholder="email" v-model="user.email" class="form-control">
-        </div>
-    </form>
-    <button @click="goChangePassword"  class="btn btn-primary">Ganti Password</button>
+    <div class="profile-view">
+        <h4>Profile Anda</h4>
+        <p>Ini adalah halaman profil anda</p>
+        <LoadingOverlay :visible="loading"/>
+        <form>
+            <div class="form-group mb-3">
+                <label for="">Username</label>
+                <input type="text" :disabled="true" placeholder="username" v-model="user.username" class="form-control">
+            </div>
+            <div class="form-group mb-3">
+                <label for="">Email</label>
+                <input type="text" :disabled="true" placeholder="email" v-model="user.email" class="form-control">
+            </div>
+        </form>
+        <button @click="goChangePassword"  class="btn btn-primary">Ganti Password</button>
+    </div>
 </template>
 <script>
 import LoadingOverlay from '@/components/LoadingOverlay.vue';
@@ -23,7 +25,7 @@ export default {
     },
     inject: ['$axios','$auth'],
     created() {
-        this.$watch(() => this.load, this.fetchData, { immediate: true })
+        this.$watch(() => this.load, this.fetchData, { immediate: true });
     },
     data() {
         return {
@@ -63,16 +65,28 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.profile-view {
+    position: relative;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
 .loading-overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
-    left: var(--sidebar-width);
-    width: calc(100vw - var(--sidebar-width));
-    height: 100vh;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
+}
+
+form {
+    margin-top: 1rem;
 }
 </style>

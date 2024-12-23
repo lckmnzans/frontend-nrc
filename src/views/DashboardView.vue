@@ -38,9 +38,6 @@ export default {
         }
     },
     methods: {
-        show() {
-            alert('Hello World');
-        },
         goToProfile() {
             this.$router.push({ path: '/profile' });
         }
