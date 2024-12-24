@@ -4,43 +4,59 @@
             "subcategory": [
                 {
                     "subcategory_id": "A01",
-                    "subcategory_name": "Legalitas"
+                    "subcategory_name": "Legalitas",
+                    "form_data": [
+                        { "name": "namaDokumen", "label": "Nama Dokumen", "type": "text", "value": ""},
+                        { "name": "instansiPenerbit", "label": "Instansi Penerbit", "type": "text", "value": ""},
+                        { "name": "noDokumen", "label": "Nomor Dokumen", "type": "text", "value": ""},
+                        { "name": "tglTerbit", "label": "Tanggal Terbit", "type": "text", "value": ""},
+                        { "name": "masaBerlaku", "label": "Masa Berlaku", "type": "text", "value": ""}
+                    ]
                 },
                 {
                     "subcategory_id": "A02",
-                    "subcategory_name": "Kontrak"
+                    "subcategory_name": "Kontrak",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "A03",
-                    "subcategory_name": "Tenaga Ahli"
+                    "subcategory_name": "Tenaga Ahli",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "A04",
-                    "subcategory_name": "CV"
+                    "subcategory_name": "CV",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "A05",
-                    "subcategory_name": "Keuangan"
+                    "subcategory_name": "Keuangan",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "A06",
-                    "subcategory_name": "Proyek"
+                    "subcategory_name": "Proyek",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "A07",
-                    "subcategory_name": "Pengurus"
+                    "subcategory_name": "Pengurus",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "A08",
-                    "subcategory_name": "Pemegang Saham"
+                    "subcategory_name": "Pemegang Saham",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "A09",
-                    "subcategory_name": "Peralatan"
+                    "subcategory_name": "Peralatan",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "A10",
-                    "subcategory_name": "Lain-lain"
+                    "subcategory_name": "Lain-lain",
+                    "form_data": []
                 }
             ]
         },
@@ -48,11 +64,13 @@
             "subcategory": [
                 {
                     "subcategory_id": "B01",
-                    "subcategory_name": "Surat Masuk"
+                    "subcategory_name": "Surat Masuk",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "B02",
-                    "subcategory_name": "Surat Keluar"
+                    "subcategory_name": "Surat Keluar",
+                    "form_data": []
                 }
             ]
         },
@@ -60,11 +78,13 @@
             "subcategory": [
                 {
                     "subcategory_id": "C01",
-                    "subcategory_name": "Sertifikat"
+                    "subcategory_name": "Sertifikat",
+                    "form_data": []
                 },
                 {
                     "subcategory_id": "C02",
-                    "subcategory_name": "SPJB"
+                    "subcategory_name": "SPJB",
+                    "form_data": []
                 }
             ]
         }

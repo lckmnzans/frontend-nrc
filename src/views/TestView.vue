@@ -10,6 +10,16 @@
         <div style="margin-top: 1rem;">
             <button class="btn btn-primary btn-mb" @click.prevent="showAlert">Show Alert</button>
         </div>
+        <div class="form-container">
+            <Forms 
+            :form-id="'A01'" 
+            :form-data="[
+                { name: 'name', label: 'Name', type: 'text', value: '' },
+                { name: 'age', label: 'Age', type: 'number', value: '' }
+                ]"
+                
+                @form-change="handleFormChanges"/>
+        </div>
         <div class="alert-container" v-if="alert">
             <Alert v-if="alert" :message="alertMessage" :actions="alertActions"/>
         </div>
@@ -21,8 +31,9 @@
 <script>
 import Alert from '@/components/Alert.vue';
 import Toast from '@/components/Toast.vue';
+import Forms from '@/components/Forms.vue';
 export default {
-    components: { Alert, Toast },
+    components: { Alert, Toast, Forms },
     data() {
         return {
             counter: 0,
@@ -34,7 +45,8 @@ export default {
                 {   label: '',
                     onClick: () => {}
                 }
-            ]
+            ],
+            docData: {}
         }
     },
     methods: {
@@ -60,6 +72,9 @@ export default {
             ]
             this.alert = true;
         },
+        handleFormChanges(key, value) {
+            this.docData[key] = value;
+        }
     }
 }
 </script>

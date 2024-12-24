@@ -2,31 +2,7 @@
     <div class="form-container">
         <div class="input-form">
             <h4>Formulir Legalitas</h4>
-            <form>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama Dokumen</label>
-                    <input type="text" class="form-control" v-model="docData.namaDokumen"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Instansi Penerbit</label>
-                    <input type="text" class="form-control" v-model="docData.instansiPenerbit"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Dokumen</label>
-                    <input type="text" class="form-control" v-model="docData.noDokumen"/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit"/> 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Masa Berlaku</label>
-                    <input type="text" class="form-control" v-model="docData.masaBerlaku"/> 
-                </div>
-                <div class="alert alert-info" role="alert">
-                    Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
-                </div>
-            </form>
+            <Forms v-if="!(formData.length == 0)" :form-id="docType" :form-data="formData" @form-change="handleFormChanges"/>
             <PdfForm
             :disabled-state="false"
             @update:local-preview="localPreview = $event"
@@ -39,11 +15,13 @@
 <script>
 import PdfForm from '@/components/PdfForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
+import Forms from '@/components/Forms.vue';
 import api from '@/api/document.api';
 export default {
     components: {
         PdfForm,
-        PreviewPdf
+        PreviewPdf,
+        Forms
     },
     props: {
         docId: {
@@ -76,7 +54,9 @@ export default {
                 noDokumen: '',
                 tglTerbit: '',
                 masaBerlaku: '',
-            }
+            },
+            formData: [],
+            loading: false
         };
     },
     methods: {
@@ -124,6 +104,12 @@ export default {
             })
         },
         async fetchData() {
+            const response = await fetch('docType.json');
+            const data = await response.json();
+            const category = data.category[0];
+            const formData = category.subcategory.find((item) => item.subcategory_id === this.docType);
+            this.formData = formData.form_data;
+
             if (this.docId) {
                 this.$axios(api.getDocData(this.docId))
                 .then(response => {
@@ -140,6 +126,9 @@ export default {
                     console.log('Permintaan tidak bisa diproses. Error: ' + err)
                 })
             }
+        },
+        handleFormChanges(key, value) {
+            this.docData[key] = value;
         },
         async fetchFile(filename) {
             this.$axios(api.getDocFile(filename))
