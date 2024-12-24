@@ -1,5 +1,5 @@
 <template>
-    <div class="alert" :class="`alert-${type}`">
+    <div class="alert alert-light" :class="`alert-${type}`">
         <div class="alert-icon" v-if="icon">
             <span class="material-icons">{{ icon }}</span>
         </div>
@@ -55,6 +55,7 @@ export default {
 
 .alert-message {
   flex-grow: 1;
+  margin-bottom: 1rem;
 }
 
 .alert-actions {
@@ -76,7 +77,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.alert-info {
+/* .alert-info {
   background-color: #e0f7fa;
   color: #00796b;
 }
@@ -94,5 +95,5 @@ export default {
 .alert-error {
   background-color: #ffebee;
   color: #d32f2f;
-}
+} */
 </style>

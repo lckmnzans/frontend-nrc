@@ -133,6 +133,10 @@ const router = createRouter({
                             component: () => import('@/views/main/account/CreateAccountView.vue')
                         }
                     ]
+                },
+                {   name: 'test',
+                    path: 'test',
+                    component: () => import('@/views/TestView.vue')
                 }
             ]
         }

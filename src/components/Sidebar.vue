@@ -37,11 +37,15 @@
         </div>
         <div class="flex"></div>
         <div class="menu">
-                <router-link class="button" to="/login" @click="logout">
-                    <span class="material-icons">logout</span>
-                    <span class="text">Keluar</span>
-                </router-link>
-            </div>
+            <router-link class="button" to="/test">
+                <span class="material-icons">adb</span>
+                <span class="text">Test</span>
+            </router-link>
+            <router-link class="button" to="/login" @click="logout">
+                <span class="material-icons">logout</span>
+                <span class="text">Keluar</span>
+            </router-link>
+        </div>
     </aside>
 </template>
 <script>

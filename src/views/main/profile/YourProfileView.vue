@@ -20,9 +20,7 @@
 import LoadingOverlay from '@/components/LoadingOverlay.vue';
 import api from '@/api/account.api';
 export default {
-    components: {
-        LoadingOverlay
-    },
+    components: { LoadingOverlay },
     inject: ['$axios','$auth'],
     created() {
         this.$watch(() => this.load, this.fetchData, { immediate: true });
