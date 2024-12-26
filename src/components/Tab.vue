@@ -1,13 +1,13 @@
 <template>
     <div class="tab-navigation">
         <ul :class="{ 'no-left-space': !hasLeftSpace }">
-            <li v-for="(subcategory, index) in subcategories" :key="index" class="tab-item-wrapper">
+            <li v-for="(page, index) in pages" :key="index" class="tab-item-wrapper">
                 <router-link 
-                    :to="`/category/${categoryId}/${subcategory.subcategory_id}`"
+                    :to="routeLinkBuilder(page.pageId)"
                     class="tab-item"
-                    :class="{ active: this.$route.path === `/category/${categoryId}/${subcategory.subcategory_id}` }"
+                    :class="{ active: this.$route.path === `${routeLinkBuilder(page.pageId)}` }"
                 >
-                    {{ subcategory.subcategory_name }}
+                    {{ page.pageTitle }}
                 </router-link>
             </li>
         </ul>
@@ -17,27 +17,22 @@
 <script>
 export default {
     props: {
-        category: Number,
-        categoryId: String,
+        routeLinkBuilder: {
+            type: Function,
+            required: false
+        },
+        pages: {
+            type: Array,
+            required: false,
+            validator(value) {
+                return value.every(page => 
+                    typeof page.pageId === 'string' && typeof page.pageTitle === 'string'
+                );
+            }
+        },
         hasLeftSpace: {
             type: Boolean,
             default: false
-        }
-    },
-    created() {
-        this.getData(this.category);
-    },
-    data() {
-        return {
-            subcategories: []
-        };
-    },
-    methods: {
-        async getData(category) {
-            const res = await fetch('docType.json');
-            const data = await res.json();
-
-            this.subcategories = data.category[category].subcategory;
         }
     }
 };

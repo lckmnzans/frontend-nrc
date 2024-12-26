@@ -71,7 +71,7 @@ export default {
 
 form {
     width: 70vh;
-    padding: 6vh 12vh;
+    padding: 3rem 6rem;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     background-color: rgba(249, 249, 249, 0.3);
     border-radius: 6vh;

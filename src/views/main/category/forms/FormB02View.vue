@@ -13,7 +13,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="text" class="form-control" v-model="docData.tglTerbit"/>
+                    <input type="date" class="form-control" v-model="docData.tglTerbit"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Perihal</label>

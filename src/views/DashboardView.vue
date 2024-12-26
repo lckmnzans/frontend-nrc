@@ -16,9 +16,10 @@
 </template>
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import Toast from '@/components/Toast.vue';
 export default {
     components: {
-        Sidebar
+        Sidebar, Toast
     },
     inject: ['$auth'],
     created() {

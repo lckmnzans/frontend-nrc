@@ -3,9 +3,16 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { usePageStore, useDocumentsTypeStore } from '@/store';
 export default {
     inject: ['$auth', '$axios'],
+    computed: {
+        ...mapState(usePageStore, ['pages','subPages']),
+        ...mapState(useDocumentsTypeStore, ['documents'])
+    },
     created() {
+        this.fetchDocumentsSchema();
         const token = this.$auth.getToken();
         const tokenAge = localStorage.getItem('tokenAge');
 
@@ -27,6 +34,35 @@ export default {
     data() {
         return {
             token:''
+        }
+    },
+    methods: {
+        async fetchDocumentsSchema() {
+            const res = await fetch('docSchema.json');
+            const data = await res.json();
+            const docCategories = await data.categories;
+
+            for (let categoryId in docCategories) {
+                const subPagesItem = [];
+
+                this.pages.push({
+                    page: Number.parseInt(categoryId) + 1,
+                    content: docCategories[categoryId].category_name
+                });
+                const subDocCategories = docCategories[categoryId].subcategories;
+                for (let subCategoryId in subDocCategories) {
+                    this.documents.push({
+                        docTypeId: subDocCategories[subCategoryId].subcategory_id,
+                        docTypeName: subDocCategories[subCategoryId].subcategory_name
+                    });
+                    subPagesItem.push({
+                        subPageId: subDocCategories[subCategoryId].subcategory_id,
+                        subPageTitle: subDocCategories[subCategoryId].subcategory_name
+                    });
+                };
+                this.subPages.push(subPagesItem);
+            };
+            return;
         }
     }
 }

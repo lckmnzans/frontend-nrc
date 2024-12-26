@@ -13,7 +13,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Laporan</label>
-                    <input type="text" class="form-control" v-model="docData.tglLaporan"/>
+                    <input type="date" class="form-control" v-model="docData.tglLaporan"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Periode</label>
