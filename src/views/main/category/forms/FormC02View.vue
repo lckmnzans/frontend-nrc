@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal PPJB</label>
-                    <input type="text" class="form-control" v-model="docData.tglPPJB" />
+                    <input type="date" class="form-control" v-model="docData.tglPPJB" />
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Lokasi</label>

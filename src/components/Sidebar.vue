@@ -50,19 +50,21 @@
 </template>
 <script>
 import router from '@/router';
+import { mapState } from 'pinia';
+import { usePageStore, useDocumentsTypeStore } from '@/store';
 
 export default {
     inject: ['$auth'],
     emits: ['sidebarExpanded'],
-    created() {
-        this.fetchData();
+    computed: {
+        ...mapState(usePageStore, ['pages']),
+        ...mapState(useDocumentsTypeStore, ['documents'])
     },
     data() {
         return {
             isSubmenuVisible: localStorage.getItem('isSubmenuExpanded') === 'true',
             isExpanded: localStorage.getItem('isMenuExpanded') === 'true',
-            isSuperadmin: localStorage.getItem('role') === 'superadmin',
-            pages: []
+            isSuperadmin: localStorage.getItem('role') === 'superadmin'
         }
     },
     methods: {
@@ -80,19 +82,6 @@ export default {
         logout() {
             this.$auth.logout();
             router.replace({ name: 'login' });
-        },
-        async fetchData() {
-            const res = await fetch('docType.json');
-            const data = await res.json();
-            const categories = await data.category;
-            
-            for (let category in categories) {
-                this.pages.push({
-                    page: Number.parseInt(category) + 1,
-                    content: categories[category].category_name
-                })
-            }
-            return;
         }
     }
 }

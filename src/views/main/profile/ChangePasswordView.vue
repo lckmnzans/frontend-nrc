@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-import LoadingOverlay from '@/components/LoadingOverlay.vue';
+import LoadingOverlay from '@/components/Loading.vue';
 import api from '@/api/account.api';
 export default {
     components: { LoadingOverlay },

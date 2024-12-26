@@ -10,6 +10,9 @@
         <div style="margin-top: 1rem;">
             <button class="btn btn-primary btn-mb" @click.prevent="showAlert">Show Alert</button>
         </div>
+        <div style="margin-top: 1rem;">
+            <button class="btn btn-primary btn-mb" @click.prevent="showPages">Show Pages</button>
+        </div>
         <div class="form-container">
             <Forms 
             :form-id="'A01'" 
@@ -32,6 +35,8 @@
 import Alert from '@/components/Alert.vue';
 import Toast from '@/components/Toast.vue';
 import Forms from '@/components/Forms.vue';
+import { usePageStore } from '@/store';
+import { mapState } from 'pinia';
 export default {
     components: { Alert, Toast, Forms },
     data() {
@@ -48,6 +53,9 @@ export default {
             ],
             docData: {}
         }
+    },
+    computed: {
+        ...mapState(usePageStore, { pages: 'pages'})
     },
     methods: {
         testButton() {

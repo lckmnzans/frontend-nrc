@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tahun Lulus</label>
-                    <input type="text" class="form-control" v-model="docData.tahunLulus"/> 
+                    <input type="month" class="form-control" v-model="docData.tahunLulus"/> 
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Pengalaman Kerja</label>

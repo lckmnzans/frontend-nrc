@@ -1,11 +1,11 @@
 {
-    "category": [
+    "categories": [
         {   "category_name": "Badan Usaha",
-            "subcategory": [
+            "subcategories": [
                 {
                     "subcategory_id": "A01",
                     "subcategory_name": "Legalitas",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "namaDokumen", "label": "Nama Dokumen", "type": "text", "value": ""},
                         { "name": "instansiPenerbit", "label": "Instansi Penerbit", "type": "text", "value": ""},
                         { "name": "noDokumen", "label": "Nomor Dokumen", "type": "text", "value": ""},
@@ -16,7 +16,7 @@
                 {
                     "subcategory_id": "A02",
                     "subcategory_name": "Kontrak",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "namaKontrak", "label": "Nama Kontrak", "type": "text", "value": ""},
                         { "name": "noProyek", "label": "Nomor Proyek", "type": "text", "value": ""},
                         { "name": "tglKontrak", "label": "Tanggal Kontrak", "type": "text", "value": ""},
@@ -28,7 +28,7 @@
                 {
                     "subcategory_id": "A03",
                     "subcategory_name": "Tenaga Ahli",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "nama", "label": "Nama", "type": "text", "value": ""},
                         { "name": "noSertifikat", "label": "Nomor Sertifikat", "type": "text", "value": ""},
                         { "name": "tglTerbit", "label": "Tanggal Terbit", "type": "text", "value": ""},
@@ -40,7 +40,7 @@
                 {
                     "subcategory_id": "A04",
                     "subcategory_name": "CV",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "nama", "label": "Nama", "type": "text", "value": ""},
                         { "name": "noDokumen", "label": "Nomor Dokumen", "type": "text", "value": ""},
                         { "name": "ttl", "label": "Tempat Tanggal Lahir", "type": "text", "value": ""},
@@ -59,7 +59,7 @@
                 {
                     "subcategory_id": "A05",
                     "subcategory_name": "Keuangan",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "namaDokumen", "label": "Nama Dokumen", "type": "text", "value": ""},
                         { "name": "noLaporan", "label": "Nomor Laporan", "type": "text", "value": ""},
                         { "name": "tglLaporan", "label": "Tanggal Laporan", "type": "text", "value": ""},
@@ -69,12 +69,12 @@
                 {
                     "subcategory_id": "A06",
                     "subcategory_name": "Proyek",
-                    "form_data": []
+                    "form_schema": []
                 },
                 {
                     "subcategory_id": "A07",
                     "subcategory_name": "Pengurus",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "nama", "label": "Nama", "type": "text", "value": ""},
                         { "name": "jabatan", "label": "Jabatan", "type": "text", "value": ""},
                         { "name": "diangkatBerdasarkanAkta", "label": "Diangkat Berdasarkan Akta", "type": "text", "value": ""}
@@ -83,7 +83,7 @@
                 {
                     "subcategory_id": "A08",
                     "subcategory_name": "Pemegang Saham",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "nama", "label": "Nama", "type": "text", "value": ""},
                         { "name": "jmlSaham", "label": "Jumlah Saham", "type": "text", "value": ""},
                         { "name": "nilaiSaham", "label": "Nilai Saham", "type": "text", "value": ""},
@@ -93,14 +93,14 @@
                 {
                     "subcategory_id": "A09",
                     "subcategory_name": "Peralatan",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "noDokumen", "label": "Nomor Dokumen", "type": "text", "value": ""}
                     ]
                 },
                 {
                     "subcategory_id": "A10",
                     "subcategory_name": "Lain-lain",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "namaDokumen", "label": "Nama Dokumen", "type": "text", "value": ""},
                         { "name": "instansiPenerbi", "label": "Instansi Penerbit", "type": "text", "value": ""},
                         { "name": "noDokumen", "label": "Nomor Dokumen", "type": "text", "value": ""},
@@ -110,11 +110,11 @@
             ]
         },
         {   "category_name": "Surat Menyurat",
-            "subcategory": [
+            "subcategories": [
                 {
                     "subcategory_id": "B01",
                     "subcategory_name": "Surat Masuk",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "pengirim", "label": "Pengirim", "type": "text", "value": ""},
                         { "name": "noSurat", "label": "Nomor Surat", "type": "text", "value": ""},
                         { "name": "tglTerbit", "label": "Tanggal Terbit", "type": "text", "value": ""},
@@ -124,7 +124,7 @@
                 {
                     "subcategory_id": "B02",
                     "subcategory_name": "Surat Keluar",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "pengirim", "label": "Pengirim", "type": "text", "value": ""},
                         { "name": "noSurat", "label": "Nomor Surat", "type": "text", "value": ""},
                         { "name": "tglTerbit", "label": "Tanggal Terbit", "type": "text", "value": ""},
@@ -136,11 +136,11 @@
             ]
         },
         {   "category_name": "Kepemilikan Tanah",
-            "subcategory": [
+            "subcategories": [
                 {
                     "subcategory_id": "C01",
                     "subcategory_name": "Sertifikat",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "noSertifikat", "label": "Nomor Sertifikat", "type": "text", "value": ""},
                         { "name": "tglTerbit", "label": "Tanggal Terbit", "type": "text", "value": ""},
                         { "name": "masaBerlaku", "label": "Masa Berlaku", "type": "text", "value": ""},
@@ -152,7 +152,7 @@
                 {
                     "subcategory_id": "C02",
                     "subcategory_name": "SPJB",
-                    "form_data": [
+                    "form_schema": [
                         { "name": "namaPic", "label": "Nama PIC", "type": "text", "value": ""},
                         { "name": "namaPtPenjual", "label": "Nama PT Penjual", "type": "text", "value": ""},
                         { "name": "noPPJB", "label": "Nomor PPJB", "type": "text", "value": ""},

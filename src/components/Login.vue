@@ -12,8 +12,8 @@
                 <label class="form-label">Kata sandi:</label>
                 <div class="input-group" id="show_hide_password"> 
                     <input :type="isPasswordVisible ? 'text' : 'password'" class="form-control border border-grey border-2" v-model="user.password">
-                    <button type="button" class="btn btn-outline-secondary" @click.prevent="togglePasswordVisibility">
-                        <font-awesome-icon :icon="isPasswordVisible ? 'eye' : 'eye-slash'" />
+                    <button type="button" class="btn btn-light btn-outline-secondary" @click.prevent="togglePasswordVisibility">
+                        <FontAwesomeIcon :icon="passwordToggleIcon"/>
                     </button>
                 </div>
             </div><br>
@@ -30,8 +30,11 @@
 </template>
 
 <script>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import api from '@/api/account.api';
 export default {
+    components: { FontAwesomeIcon },
     inject: ['$auth','$axios'],
     created() {
         this.token = this.$auth.getToken();
@@ -52,6 +55,9 @@ export default {
     computed: {
         isFormInvalid() {
             return (!this.user.username || !this.user.password);
+        },
+        passwordToggleIcon() {
+            return (this.isPasswordVisible) ? faEye : faEyeSlash;
         }
     },
     methods: {
@@ -92,10 +98,10 @@ export default {
 
 form {
     width: 70vh;
-    padding: 6vh 12vh;
+    padding: 3rem 4rem;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     background-color: rgba(249, 249, 249, 0.3);
-    border-radius: 6vh;
+    border-radius: 1rem;
 }
 
 a, a:hover {

@@ -17,7 +17,6 @@ export default {
         Tab, Forms
     },
     created() {
-        this.fetchPages();
     },
     data() {
         return {

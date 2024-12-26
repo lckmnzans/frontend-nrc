@@ -13,11 +13,11 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Kontrak</label>
-                    <input type="text" class="form-control" v-model="docData.tglKontrak"/>
+                    <input type="date" class="form-control" v-model="docData.tglKontrak"/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Kontrak</label>
-                    <input type="text" class="form-control" v-model="docData.noProyek"/> 
+                    <input type="text" class="form-control" v-model="docData.noKontrak"/> 
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Pemberi Kerja</label>
