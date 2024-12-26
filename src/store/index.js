@@ -3,8 +3,16 @@ import { defineStore } from 'pinia';
 export const usePageStore = defineStore('page', {
   state: () => {
     return {
-      pages: []
+      /** @type {{page: number, content: string}[]} */
+      pages: [],
+      /** @type {[{subPageId: string, subPageTitle: string}[]]} */
+      subPages: []
     }
+  },
+  getters: {
+    getSubPagesByPage: (state) => {
+      return (id) => state.subPages[id];
+    } 
   }
 });
 

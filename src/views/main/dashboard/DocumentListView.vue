@@ -54,6 +54,9 @@ export default {
     inject: ['$axios'],
     created() {
         this.fetchDocs();
+        // console.log(this.subPages);
+        // const subPagesByPage = this.getSubPagesByPage(0);
+        // console.log(subPagesByPage);
     },
     computed: {
         ...mapWritableState(useDocumentsListStore, {
@@ -64,9 +67,11 @@ export default {
         ...mapState(useDocumentsTypeStore, {
             documentType: 'documentTypeName'
         }),
-        ...mapState(usePageStore, {
-            pages: 'pages'
-        })
+        // ...mapState(usePageStore, {
+        //     pages: 'pages',
+        //     subPages: 'subPages',
+        //     getSubPagesByPage: 'getSubPagesByPage'
+        // })
     },
     data() {
         return {

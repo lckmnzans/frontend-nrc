@@ -8,7 +8,7 @@ import { usePageStore, useDocumentsTypeStore } from '@/store';
 export default {
     inject: ['$auth', '$axios'],
     computed: {
-        ...mapState(usePageStore, ['pages']),
+        ...mapState(usePageStore, ['pages','subPages']),
         ...mapState(useDocumentsTypeStore, ['documents'])
     },
     created() {
@@ -43,6 +43,8 @@ export default {
             const docCategories = await data.categories;
 
             for (let categoryId in docCategories) {
+                const subPagesItem = [];
+
                 this.pages.push({
                     page: Number.parseInt(categoryId) + 1,
                     content: docCategories[categoryId].category_name
@@ -53,7 +55,12 @@ export default {
                         docTypeId: subDocCategories[subCategoryId].subcategory_id,
                         docTypeName: subDocCategories[subCategoryId].subcategory_name
                     });
+                    subPagesItem.push({
+                        subPageId: subDocCategories[subCategoryId].subcategory_id,
+                        subPageTitle: subDocCategories[subCategoryId].subcategory_name
+                    });
                 };
+                this.subPages.push(subPagesItem);
             };
             return;
         }
