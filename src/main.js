@@ -16,6 +16,5 @@ app.use(router);
 app.provide('$auth', $auth);
 
 app.use(VueAxios, axios)
-app.provide('$axios', app.config.globalProperties.axios);
 
 app.mount('#app');

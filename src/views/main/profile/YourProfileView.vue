@@ -21,7 +21,7 @@ import LoadingOverlay from '@/components/Loading.vue';
 import api from '@/api/account.api';
 export default {
     components: { LoadingOverlay },
-    inject: ['$axios','$auth'],
+    inject: ['$auth'],
     created() {
         this.$watch(() => this.load, this.fetchData, { immediate: true });
     },
@@ -39,7 +39,7 @@ export default {
             this.loading = true;
 
             const userId = JSON.parse(this.$auth.getUser()).id;
-            this.$axios(api.getAccount(userId))
+            this.axios(api.getAccount(userId))
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;

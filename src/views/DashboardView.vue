@@ -24,13 +24,18 @@ export default {
     inject: ['$auth'],
     created() {
         const token = this.$auth.getToken();
+        const tokenAge = this.$auth.getTokenAge();
 
         if (!token) {
             alert('Anda belum punya akses ke halaman ini')
             this.$router.push({ name: 'login' });
-            return;
+        } else if (tokenAge <= Date.now()) {
+            alert('Token anda sudah habis masa waktu.');
+            this.$auth.logout();
+            this.$router.replace({ name: 'login' });
         } else {
             this.token = token;
+            this.$router.replace({ name: 'home' })
         }
     },
     data() {

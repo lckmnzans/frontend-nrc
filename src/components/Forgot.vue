@@ -22,7 +22,7 @@
 <script>
 import api from '@/api/account.api';
 export default {
-    inject: ['$auth','$axios'],
+    inject: ['$auth'],
     created() {
         this.token = this.$auth.getToken();
         if (this.token) {
@@ -42,7 +42,7 @@ export default {
                 username: this.username,
                 email: this.email
             }
-            this.$axios(api.forgot(formdata))
+            this.axios(api.forgot(formdata))
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;

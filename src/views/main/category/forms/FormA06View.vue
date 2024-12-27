@@ -34,7 +34,6 @@ export default {
         console.log(this.docId);
         this.fetchData();
     },
-    inject: ['$axios'],
     computed: {
         isFormEmpty() {
             return Object.values(this.docData).includes('');
@@ -60,7 +59,7 @@ export default {
                 return;
             }
 
-            this.$axios(api.upload(file, this.docType))
+            this.axios(api.upload(file, this.docType))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
@@ -80,7 +79,7 @@ export default {
             })
         },
         async uploadDocument(data) {
-            this.$axios(api.uploadDocData(data, data.docType))
+            this.axios(api.uploadDocData(data, data.docType))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
@@ -96,7 +95,7 @@ export default {
         },
         async fetchData() {
             if (this.docId) {
-                this.$axios(api.getDocData(this.docId))
+                this.axios(api.getDocData(this.docId))
                 .then(response => {
                     if (response.status == 200) {
                         const body = response.data;
@@ -113,7 +112,7 @@ export default {
             }
         },
         async fetchFile(filename) {
-            this.$axios(api.getDocFile(filename))
+            this.axios(api.getDocFile(filename))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;

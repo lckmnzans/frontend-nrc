@@ -51,7 +51,6 @@ import { useDocumentsListStore, useDocumentsTypeStore, usePageStore } from '@/st
 
 export default {
     components: { Toast },
-    inject: ['$axios'],
     created() {
         this.fetchDocs();
         // console.log(this.subPages);
@@ -82,7 +81,7 @@ export default {
     },
     methods: {
         async fetchDocs() {
-            this.$axios(api.getListOfDocuments())
+            this.axios(api.getListOfDocuments())
             .then((response) => {
                 if (response.status == 200) {
                     const body = response.data;

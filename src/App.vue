@@ -6,35 +6,12 @@
 import { mapState } from 'pinia';
 import { usePageStore, useDocumentsTypeStore } from '@/store';
 export default {
-    inject: ['$auth', '$axios'],
     computed: {
         ...mapState(usePageStore, ['pages','subPages']),
         ...mapState(useDocumentsTypeStore, ['documents'])
     },
     created() {
         this.fetchDocumentsSchema();
-        const token = this.$auth.getToken();
-        const tokenAge = localStorage.getItem('tokenAge');
-
-        if (!token) {
-            console.log('Anda belum login');
-            this.$router.replace({ name: 'login' });
-            return;
-        } else {
-            if (tokenAge <= Date.now()) {
-                console.log('Token anda sudah habis masa waktu');
-                this.$auth.logout();
-                this.$router.replace({ name: 'login' });
-                return;
-            }
-            this.$router.replace({ name: 'home' });
-            this.token = token;
-        }
-    },
-    data() {
-        return {
-            token:''
-        }
     },
     methods: {
         async fetchDocumentsSchema() {

@@ -31,7 +31,6 @@ export default {
         username: String,
         required: true
     },
-    inject: ['$axios'],
     created() {
         this.user.username = this.username;
     },
@@ -53,7 +52,7 @@ export default {
     methods: {
         async changePassword() {
             this.loading = true;
-            this.$axios(api.changePassword(this.user))
+            this.axios(api.changePassword(this.user))
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;

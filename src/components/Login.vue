@@ -35,7 +35,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import api from '@/api/account.api';
 export default {
     components: { FontAwesomeIcon },
-    inject: ['$auth','$axios'],
+    inject: ['$auth'],
     created() {
         this.token = this.$auth.getToken();
         if (this.token) {
@@ -66,7 +66,7 @@ export default {
         },
         async login() {
             const user = this.user;
-            this.$axios(api.login(user))
+            this.axios(api.login(user))
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;

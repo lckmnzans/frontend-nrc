@@ -36,7 +36,7 @@
 <script>
 import api from '@/api/account.api';
 export default {
-    inject: ['$auth','$axios'],
+    inject: ['$auth'],
     created() {
         const role = this.$auth.getRole();
         if (role !== 'superadmin') {
@@ -62,7 +62,7 @@ export default {
     methods: {
         register() {
             const userdata = this.user;
-            this.$axios(api.register(userdata))
+            this.axios(api.register(userdata))
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;

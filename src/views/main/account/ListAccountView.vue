@@ -34,7 +34,7 @@
 <script>
 import api from '@/api/account.api';
 export default {
-    inject: ['$auth','$axios'],
+    inject: ['$auth'],
     created() {
         const role = this.$auth.getRole();
         if (role !== 'superadmin') {
@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         async getAllAccounts() {
-            this.$axios(api.getAllAccounts())
+            this.axios(api.getAllAccounts())
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;
@@ -64,7 +64,7 @@ export default {
             })
         },
         approveResetRequest(userdata, isApproved) {
-            this.$axios(api.approveRequest(userdata, isApproved))
+            this.axios(api.approveRequest(userdata, isApproved))
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;
