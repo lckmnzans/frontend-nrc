@@ -21,7 +21,7 @@
                         <td>{{ doc.docName }}</td>
                         <td>{{ parseToLocalTime(doc.createdDate) }}</td>
                         <td>
-                            <span class="badge bg-secondary">Belum diverifikasi</span>
+                            <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus)}`">{{ doc.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} diverifikasi</span>
                         </td>
                         <td>
                             <div class="button">
@@ -30,7 +30,7 @@
                         </td>
                         <td>
                             <div class="button">
-                                <button title="verifikasi"><span class="material-icons">task_alt</span></button>
+                                <button title="verifikasi"><span class="material-icons" :class="doc.verificationStatus == 'verified' ? 'icon-verified' : 'icon-unverified'">task_alt</span></button>
                             </div>
                         </td>
                     </tr>
@@ -111,6 +111,13 @@ export default {
 
             return `${year}-${month}-${day} ${hours}:${minutes}`;
         },
+        verifyStatus(verified) {
+            if (verified == 'verified') {
+                return 'primary';
+            } else {
+                return 'secondary';
+            }
+        },
         goToPage(docType, docId) {
             this.$router.push({ path: `/edit/${docType}/${docId}` });
         },
@@ -124,7 +131,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .list-container {
     display: flex;
     flex-direction: column;
@@ -154,6 +161,14 @@ export default {
     button {
         border: none;
         background: none;
+
+        .icon-verified {
+            color: var(--green);
+        }
+
+        .icon-unverified {
+            color: var(--grey);
+        }
     }
 }
 </style>

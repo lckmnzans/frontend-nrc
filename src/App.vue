@@ -80,6 +80,7 @@ export default {
 :root {
     --primary: #3498db;
     --grey: #64748b;
+    --green: rgb(92, 194, 46);
     --dark: #1e293b;
     --dark-alt: #334155;
     --light: #f1f5f9;

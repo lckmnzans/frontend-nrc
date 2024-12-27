@@ -1,18 +1,18 @@
 <template>
     <div class="tab-container">
-        <Tab :pages="pages" :has-left-space="true" :route-link-builder="routeLinkBuilder" />
+        <TabBar :pages="pages" :has-left-space="true" :route-link-builder="routeLinkBuilder" />
         <div class="tab-content">
             <router-view />
         </div>
     </div>
 </template>
 <script>
-import Tab from '@/components/Tab.vue';
+import TabBar from '@/components/TabBar.vue';
 import { mapState } from 'pinia';
 import { usePageStore } from '@/store';
 export default {
     components: {
-        Tab
+        TabBar
     },
     computed: {
         ...mapState(usePageStore, ['getSubPagesByPage'])
