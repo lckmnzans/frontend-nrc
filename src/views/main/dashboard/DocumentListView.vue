@@ -21,7 +21,7 @@
                         <td>{{ doc.docName }}</td>
                         <td>{{ parseToLocalTime(doc.createdDate) }}</td>
                         <td>
-                            <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus)}`">{{ doc.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} diverifikasi</span>
+                            <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
                         </td>
                         <td>
                             <div class="button">
@@ -30,7 +30,7 @@
                         </td>
                         <td>
                             <div class="button">
-                                <button title="verifikasi"><span class="material-icons" :class="doc.verificationStatus == 'verified' ? 'icon-verified' : 'icon-unverified'">task_alt</span></button>
+                                <button title="verifikasi"><span class="material-icons" :class="verifyStatus(doc.verificationStatus, ['icon-verified','icon-unverified'])">task_alt</span></button>
                             </div>
                         </td>
                     </tr>
@@ -39,23 +39,16 @@
         </div>
         <p>Menampilkan {{ currentPage }} dari {{ totalPages }} halaman</p>
     </div>
-    <div class="toast-container">
-        <Toast :message="toastMessage" :show="toast" @update:show="toast = $event"/>
-    </div>
 </template>
 <script>
-import Toast from '@/components/Toast.vue';
 import api from '@/api/document.api';
-import { mapState, mapWritableState } from 'pinia';
-import { useDocumentsListStore, useDocumentsTypeStore, usePageStore } from '@/store';
-
+import { mapState, mapWritableState, mapActions } from 'pinia';
+import { usePageStore, useDocumentsListStore, useDocumentsTypeStore } from '@/store';
+import { useToastStore } from '@/store/toastStore';
 export default {
-    components: { Toast },
     created() {
+        this.setPageTitle('Dashboard Utama');
         this.fetchDocs();
-        // console.log(this.subPages);
-        // const subPagesByPage = this.getSubPagesByPage(0);
-        // console.log(subPagesByPage);
     },
     computed: {
         ...mapWritableState(useDocumentsListStore, {
@@ -65,17 +58,10 @@ export default {
         }),
         ...mapState(useDocumentsTypeStore, {
             documentType: 'documentTypeName'
-        }),
-        // ...mapState(usePageStore, {
-        //     pages: 'pages',
-        //     subPages: 'subPages',
-        //     getSubPagesByPage: 'getSubPagesByPage'
-        // })
+        })
     },
     data() {
         return {
-            toast: false,
-            toastMessage: '',
             currentPage: 0
         };
     },
@@ -90,10 +76,10 @@ export default {
                     this.currentPage = body.currentPage;
                     this.docs = body.documents;
                     console.log('Dokumen berhasil didapatkan.');
-                    this.showToast('Dokumen berhasil didapatkan.');
+                    this.setToast('', 'Dokumen berhasil didapatkan.', 3000);
                 } else {
                     console.log('Gagal melakukan permintaan.');
-                    this.showToast('Gagal mendapatkan dokumen.');
+                    this.setToast('Gagal mendapatkan dokumen.', 3000);
                 }
             })
             .catch((err) => {
@@ -110,23 +96,20 @@ export default {
 
             return `${year}-${month}-${day} ${hours}:${minutes}`;
         },
-        verifyStatus(verified) {
+        verifyStatus(verified, results) {
             if (verified == 'verified') {
-                return 'primary';
+                return results[0];
             } else {
-                return 'secondary';
+                return results[1];
             }
         },
         goToPage(docType, docId) {
             this.$router.push({ path: `/edit/${docType}/${docId}` });
         },
-        showToast(message) {
-            this.toast = true;
-            this.toastMessage = message;
-            setTimeout(() => {
-                this.toast = false;
-            }, 3000);
-        }
+        ...mapActions(usePageStore, ['setPageTitle']),
+        ...mapActions(useToastStore, {
+            setToast: 'setToast'
+        })
     }
 }
 </script>

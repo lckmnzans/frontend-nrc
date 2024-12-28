@@ -1,9 +1,6 @@
 <template>
-    <div>
-        <h1>Dokumen {{ docType }}</h1>
-        <div>
-            <component v-if="docType" :is="getDocComponent(docType)" :doc-id="docId"/>
-        </div>
+    <div class="edit-container">
+        <component v-if="docType" :is="getDocComponent(docType)" :doc-id="docId"/>
     </div>
 </template>
 <script>

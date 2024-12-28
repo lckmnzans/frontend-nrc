@@ -1,7 +1,7 @@
 <template>
     <div class="toast" v-if="show">
         <div class="toast-header">
-            <span class="text">{{ title }}</span>
+            <span class="text">{{ title == '' ? 'Notifikasi' : title }}</span>
             <button @click.prevent="close" class="button">
                 <span class="material-icons">close</span>
             </button>

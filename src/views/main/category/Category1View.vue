@@ -8,7 +8,7 @@
 </template>
 <script>
 import TabBar from '@/components/TabBar.vue';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import { usePageStore } from '@/store';
 export default {
     components: {
@@ -18,6 +18,7 @@ export default {
         ...mapState(usePageStore, ['getSubPagesByPage'])
     },
     created() {
+        this.setPageTitle('Dokumen Badan Usaha');
         const pages = this.getSubPagesByPage(0);
         pages.forEach(page => this.pages.push({ 
             pageId: page.subPageId, pageTitle: page.subPageTitle })
@@ -31,7 +32,8 @@ export default {
     methods: {
         routeLinkBuilder(target) {
             return `/category/1/${target}`;
-        }
+        },
+        ...mapActions(usePageStore, ['setPageTitle'])
     }
 }
 </script>

@@ -15,6 +15,8 @@
 import PdfForm from '@/components/PdfForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import api from '@/api/document.api';
+import { useToastStore } from '@/store/toastStore';
+import { mapActions } from 'pinia';
 export default {
     components: {
         PdfForm,
@@ -84,6 +86,7 @@ export default {
                 if (response.status == 200) {
                     const body = response.data;
                     console.log('Dokumen berhasil diunggah');
+                    this.setToast('', 'Dokumen berhasil diunggah.', 3000);
                 } else {
                     const body = response.data;
                     console.log('Dokumen gagal diunggah.');
@@ -127,7 +130,10 @@ export default {
             .catch(err => {
                 console.log('Permintaan tidak bisa diproses. Error: ' + err)
             })
-        }
+        },
+        ...mapActions(useToastStore, {
+            setToast: 'setToast'
+        })
     },
     beforeUnmount() {
         if (this.localPreview) {

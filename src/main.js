@@ -15,6 +15,6 @@ app.use(router);
 
 app.provide('$auth', $auth);
 
-app.use(VueAxios, axios)
+app.use(VueAxios, axios);
 
 app.mount('#app');

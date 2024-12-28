@@ -77,48 +77,6 @@ export default {
         }
     }
 }
-// <!-- <script setup>
-// import { ref, computed, inject } from 'vue';
-// import { useRoute, useRouter } from 'vue-router';
-// import api from '@/api/account.api';
-// const route = useRoute();
-// const router = useRouter();
-// const auth = inject('$auth');
-// const axios = inject('$axios');
-
-// const otp = ref('');
-// const password = ref('');
-// const password2 = ref('');
-
-// if (auth.getToken() !== null) {
-//     router.replace({ name: 'home' });
-// }
-
-// const token = route.query.token;
-
-// const isPasswordsEquals = computed(() => {
-//     return (password.value !== '' && password.value === password2.value)
-// })
-
-// async function resetPassword() {
-//     const userdata = {
-//         otp: otp.value,
-//         newPassword: otp.newPassword
-//     }
-//     axios(api.resetPassword(userdata, token))
-//     .then(response => {
-//         if (response.status = 200) {
-//             const body = response.data;
-//             alert(body.message);
-//         } else {
-//             alert('Permintaan gagal diproses, cek kembali otp anda');
-//         }
-//     })
-//     .catch(error => {
-//         console.log(error);
-//         alert('Ada kesalahan. Silahkan coba lagi nanti.');
-//     })
-// } -->
 </script>
 
 <style scoped>

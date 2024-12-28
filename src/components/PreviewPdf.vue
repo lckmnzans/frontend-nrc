@@ -31,7 +31,7 @@ export default {
 </script>
 <style scoped>
 .preview-pdf {
-    width: 40vw;
+    width: 768px;
     height: 60vh;
     top:3rem;
     position: sticky;

@@ -3,9 +3,6 @@
         <router-view />
     </div>
 </template>
-<script>
-
-</script>
 <style scoped>
 .main-content {
     padding: 2rem;

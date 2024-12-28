@@ -3,7 +3,7 @@
         <Sidebar />
         <div class="content">
             <div class="top-bar">
-                Top Bar
+                <h4>{{ pageTitle }}</h4>
                 <div class="top-bar-right">
                     <button class="button" @click="goToProfile"><span class="material-icons" id="btn-profile">account_circle</span></button>
                 </div>
@@ -13,13 +13,24 @@
             </main>
         </div>
     </div>
+    <div class="alert-container" v-if="alert">
+        <Alert v-if="alert" :type="alertType" :message="alertMessage" :actions="alertActions" />
+    </div>
+    <div class="toast-container">
+        <Toast :title="toastTitle" :message="toastMessage" :show="toast" @update:show="setToastState" />
+    </div>
 </template>
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import Alert from '@/components/Alert.vue';
 import Toast from '@/components/Toast.vue';
+import { mapState, mapActions } from 'pinia';
+import { usePageStore } from '@/store';
+import { useAlertStore } from '@/store/alertStore';
+import { useToastStore } from '@/store/toastStore';
 export default {
     components: {
-        Sidebar, Toast
+        Sidebar, Alert, Toast
     },
     inject: ['$auth'],
     created() {
@@ -27,16 +38,32 @@ export default {
         const tokenAge = this.$auth.getTokenAge();
 
         if (!token) {
-            alert('Anda belum punya akses ke halaman ini')
+            console.log('Anda belum punya akses ke halaman ini');
             this.$router.push({ name: 'login' });
         } else if (tokenAge <= Date.now()) {
-            alert('Token anda sudah habis masa waktu.');
+            this.setToast('Sesi anda sudah habis masa waktu', 3000);
             this.$auth.logout();
             this.$router.replace({ name: 'login' });
         } else {
             this.token = token;
             this.$router.replace({ name: 'home' })
         }
+    },
+    computed: {
+        ...mapState(useAlertStore, {
+            alert: 'alert',
+            alertType: 'alertType',
+            alertMessage: 'alertMessage',
+            alertActions: 'actions'
+        }),
+        ...mapState(useToastStore, {
+            toast: 'toast',
+            toastTitle: 'toastTitle',
+            toastMessage: 'toastMessage'
+        }),
+        ...mapState(usePageStore, {
+            pageTitle: 'pageTitle'
+        })
     },
     data() {
         return {
@@ -46,7 +73,15 @@ export default {
     methods: {
         goToProfile() {
             this.$router.push({ path: '/profile' });
-        }
+        },
+        ...mapActions(useAlertStore, {
+            setAlert: 'setAlert',
+            setAlertState: 'setAlertState'
+        }),
+        ...mapActions(useToastStore, {
+            setToast: 'setToast',
+            setToastState: 'setToastState'
+        })
     }
 }
 </script>
@@ -54,7 +89,7 @@ export default {
 .dashboard {
     display: flex;
     height: 100vh;
-    background-color: var(--light);
+    width: 100vw;
 
     Sidebar {
         flex: 0 0 auto;
@@ -64,6 +99,7 @@ export default {
         flex: 1;
         display: flex;
         flex-direction: column;
+        background-color: var(--light);
 
         .top-bar {
             display: flex;
@@ -101,5 +137,27 @@ export default {
             }
         }
     }
+}
+
+.toast-container {
+    bottom: 0;
+    right: 0;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    position: fixed;
+    z-index: 998;
+}
+
+.alert-container {
+    display: flex;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 999;
 }
 </style>

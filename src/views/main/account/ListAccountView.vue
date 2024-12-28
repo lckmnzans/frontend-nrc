@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <h4>Manajemen Akun</h4>
+        <h4>Daftar Akun</h4>
         <div>
             <router-link to="/accounts/create" class="btn btn-primary btn-sm">Tambah Akun</router-link>
         </div>
