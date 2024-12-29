@@ -43,13 +43,12 @@ export default {
     display: flex;
     flex-direction: column;
     height: auto;
-    width: 100%;
 
     ul {
         display: flex;
         list-style: none;
         background-color: var(--primary);
-        // border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
         margin: 0;
         padding: 1rem 0 0 1rem;
 

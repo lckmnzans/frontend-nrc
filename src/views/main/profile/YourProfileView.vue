@@ -45,14 +45,14 @@ export default {
                     const body = response.data;
                     this.user = { username: body.data.username, email: body.data.email };
                     console.log('Data berhasil diambil');
-                    this.loading = false;
                 } else {
                     console.log('Data gagal diambil');
-                    this.loading = false;
                 }
             })
             .catch(error => {
                 console.error(error);
+            })
+            .finally(() => {
                 this.loading = false;
             })
         },

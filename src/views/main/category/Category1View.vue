@@ -42,6 +42,7 @@ export default {
     display: flex;
     flex-direction: column;
     height: auto;
+    width: 100vw;
 }
 
 .tab-navigation {

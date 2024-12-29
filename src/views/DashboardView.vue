@@ -13,11 +13,11 @@
             </main>
         </div>
     </div>
+    <div class="toast-container">
+        <Toast :show="toast" :title="toastTitle" :message="toastMessage" @update:show="setToastState" />
+    </div>
     <div class="alert-container" v-if="alert">
         <Alert v-if="alert" :type="alertType" :message="alertMessage" :actions="alertActions" />
-    </div>
-    <div class="toast-container">
-        <Toast :title="toastTitle" :message="toastMessage" :show="toast" @update:show="setToastState" />
     </div>
 </template>
 <script>
@@ -50,16 +50,16 @@ export default {
         }
     },
     computed: {
+        ...mapState(useToastStore, {
+            toast: 'toast',
+            toastTitle: 'toastTitle',
+            toastMessage: 'toastMessage'
+        }),
         ...mapState(useAlertStore, {
             alert: 'alert',
             alertType: 'alertType',
             alertMessage: 'alertMessage',
             alertActions: 'actions'
-        }),
-        ...mapState(useToastStore, {
-            toast: 'toast',
-            toastTitle: 'toastTitle',
-            toastMessage: 'toastMessage'
         }),
         ...mapState(usePageStore, {
             pageTitle: 'pageTitle'

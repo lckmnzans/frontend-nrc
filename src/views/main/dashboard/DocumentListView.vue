@@ -1,9 +1,14 @@
 <template>
-    <div class="list-container">
+    <div class="list-container" >
         <h4>Dokumen Terbaru</h4>
-        <p>Daftar dokumen yang baru masuk sistem</p>   
-        <div class="list-documents">
-            <table class="table table-hover">
+        <p>Daftar dokumen yang baru masuk sistem</p>
+        <div class="list-documents" >
+            <LoadingOverlay :visible="loading" />
+            <div class="error-container" v-if="isDataRetrieved">
+                <p>Data Gagal Diambil</p>
+                <button class="btn btn-outline-secondary" @click.prevent="reload">Reload</button>
+            </div>
+            <table class="table table-hover" v-else>
                 <thead>
                     <tr>
                         <th scope="col">No.</th>
@@ -37,18 +42,22 @@
                 </tbody>
             </table>
         </div>
-        <p>Menampilkan {{ currentPage }} dari {{ totalPages }} halaman</p>
+        <p v-if="!isDataRetrieved">Menampilkan {{ currentPage }} dari {{ totalPages }} halaman</p>
     </div>
 </template>
 <script>
+import LoadingOverlay from '@/components/Loading.vue';
 import api from '@/api/document.api';
 import { mapState, mapWritableState, mapActions } from 'pinia';
 import { usePageStore, useDocumentsListStore, useDocumentsTypeStore } from '@/store';
 import { useToastStore } from '@/store/toastStore';
 export default {
+    components: {
+        LoadingOverlay
+    },
     created() {
         this.setPageTitle('Dashboard Utama');
-        this.fetchDocs();
+        this.$watch(() => this.load, this.fetchDocs, { immediate: true});
     },
     computed: {
         ...mapWritableState(useDocumentsListStore, {
@@ -58,15 +67,23 @@ export default {
         }),
         ...mapState(useDocumentsTypeStore, {
             documentType: 'documentTypeName'
-        })
+        }),
+        isDataRetrieved() {
+            return this.error;
+        }
     },
     data() {
         return {
-            currentPage: 0
+            currentPage: 0,
+            loading: false,
+            error: false
         };
     },
     methods: {
         async fetchDocs() {
+            this.loading = true;
+            this.error = false;
+
             this.axios(api.getListOfDocuments())
             .then((response) => {
                 if (response.status == 200) {
@@ -79,11 +96,16 @@ export default {
                     this.setToast('', 'Dokumen berhasil didapatkan.', 3000);
                 } else {
                     console.log('Gagal melakukan permintaan.');
+                    this.error = true;
                     this.setToast('Gagal mendapatkan dokumen.', 3000);
                 }
             })
             .catch((err) => {
                 console.log(err);
+                this.error = true;
+            })
+            .finally(() => {
+                this.loading = false;
             })
         },
         parseToLocalTime(strDate) {
@@ -109,14 +131,46 @@ export default {
         ...mapActions(usePageStore, ['setPageTitle']),
         ...mapActions(useToastStore, {
             setToast: 'setToast'
-        })
+        }),
+        reload() {
+            this.fetchDocs();
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .list-container {
+    position: relative;
     display: flex;
     flex-direction: column;
+    height: 100px;
+
+    .loading-overlay {
+        margin: 1px;
+        border-radius: 8px;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+    }
+
+    .error-container {
+        padding: 25px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fff;
+    }
 }
 
 .list-documents {
