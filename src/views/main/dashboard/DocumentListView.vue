@@ -8,7 +8,7 @@
                 <p>Data Gagal Diambil</p>
                 <button class="btn btn-outline-secondary" @click.prevent="reload">Reload</button>
             </div>
-            <div class="table-container" v-if="!loading">
+            <div class="table-container" v-else-if="!isDataRetrieved && !loading">
                 <table class="table table-hover" >
                     <thead>
                         <tr>
@@ -146,46 +146,48 @@ export default {
     display: flex;
     flex-direction: column;
 
-    .loading-overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        // padding: 4rem;
+    .list-documents {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        // margin: 1px;
-        border-radius: 8px;
-        z-index: 9999;
-    }
+        flex-direction: row;
+        align-items: top;
+        justify-content: space-between;
+        min-height: 30vh;
 
-    .error-container {
-        position: absolute;
-        // padding: 25px;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        background-color: #fff;
-    }
+        .loading-overlay {
+            position: absolute;
+            width: 100%;
+            height: 30vh;
+            // padding: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            // margin: 1px;
+            border-radius: 8px;
+            z-index: 9999;
+        }
 
-    .table-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-}
+        .error-container {
+            position: absolute;
+            // padding: 25px;
+            width: 100%;
+            height: 30vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+        }
 
-.list-documents {
-    display: flex;
-    flex-direction: row;
-    align-items: top;
-    justify-content: space-between;
+        .table-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-height: 30vh;
+        }
+    }
 }
 
 .toast-container {
