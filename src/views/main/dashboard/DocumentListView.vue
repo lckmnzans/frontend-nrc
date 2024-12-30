@@ -8,41 +8,43 @@
                 <p>Data Gagal Diambil</p>
                 <button class="btn btn-outline-secondary" @click.prevent="reload">Reload</button>
             </div>
-            <table class="table table-hover" v-else>
-                <thead>
-                    <tr>
-                        <th scope="col">No.</th>
-                        <th scope="col">Jenis Dokumen</th>
-                        <th scope="col">Nama Dokumen/File</th>
-                        <th scope="col">Waktu Unggah</th>
-                        <th scope="col">Status</th>
-                        <th scope="col" colspan="2">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(doc, index) in docs" :key="index" @click="goToPage(doc.docType, doc._id)">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ documentType(doc.docType) }}</td>
-                        <td>{{ doc.docName }}</td>
-                        <td>{{ parseToLocalTime(doc.createdDate) }}</td>
-                        <td>
-                            <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
-                        </td>
-                        <td>
-                            <div class="button">
-                                <button title="unduh"><span class="material-icons">download_for_offline</span></button>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="button">
-                                <button title="verifikasi"><span class="material-icons" :class="verifyStatus(doc.verificationStatus, ['icon-verified','icon-unverified'])">task_alt</span></button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container" v-if="!loading">
+                <table class="table table-hover" >
+                    <thead>
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Jenis Dokumen</th>
+                            <th scope="col">Nama Dokumen/File</th>
+                            <th scope="col">Waktu Unggah</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" colspan="2">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(doc, index) in docs" :key="index" @click="goToPage(doc.docType, doc._id)">
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ documentType(doc.docType) }}</td>
+                            <td>{{ doc.docName }}</td>
+                            <td>{{ parseToLocalTime(doc.createdDate) }}</td>
+                            <td>
+                                <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
+                            </td>
+                            <td>
+                                <div class="button">
+                                    <button title="unduh"><span class="material-icons">download_for_offline</span></button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="button">
+                                    <button title="verifikasi"><span class="material-icons" :class="verifyStatus(doc.verificationStatus, ['icon-verified','icon-unverified'])">task_alt</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p v-if="!isDataRetrieved">Menampilkan {{ currentPage }} dari {{ totalPages }} halaman</p>
+            </div>
         </div>
-        <p v-if="!isDataRetrieved">Menampilkan {{ currentPage }} dari {{ totalPages }} halaman</p>
     </div>
 </template>
 <script>
@@ -143,24 +145,24 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 100px;
 
     .loading-overlay {
-        margin: 1px;
-        border-radius: 8px;
         position: absolute;
         width: 100%;
         height: 100%;
-        padding: 4rem;
+        // padding: 4rem;
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: rgba(0, 0, 0, 0.5);
+        // margin: 1px;
+        border-radius: 8px;
         z-index: 9999;
     }
 
     .error-container {
-        padding: 25px;
+        position: absolute;
+        // padding: 25px;
         width: 100%;
         height: 100%;
         display: flex;
@@ -170,6 +172,12 @@ export default {
         border: 1px solid #ccc;
         border-radius: 8px;
         background-color: #fff;
+    }
+
+    .table-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 }
 
