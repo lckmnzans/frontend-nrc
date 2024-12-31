@@ -17,11 +17,11 @@
                             <th scope="col">Nama Dokumen/File</th>
                             <th scope="col">Waktu Unggah</th>
                             <th scope="col">Status</th>
-                            <th scope="col" colspan="2">Aksi</th>
+                            <th scope="col" colspan="3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(doc, index) in docs" :key="index" @click="goToPage(doc.docType, doc._id)">
+                        <tr v-for="(doc, index) in docs" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ documentType(doc.docType) }}</td>
                             <td>{{ doc.docName }}</td>
@@ -31,12 +31,17 @@
                             </td>
                             <td>
                                 <div class="button">
-                                    <button title="unduh"><span class="material-icons">download_for_offline</span></button>
+                                    <button title="unduh" @click.prevent="downloadDoc(doc.docName)"><span class="material-icons">download_for_offline</span></button>
                                 </div>
                             </td>
                             <td>
                                 <div class="button">
-                                    <button title="verifikasi"><span class="material-icons" :class="verifyStatus(doc.verificationStatus, ['icon-verified','icon-unverified'])">task_alt</span></button>
+                                    <button title="buka" @click="goToPage(doc.docType, doc._id)"><span class="material-icons">open_in_new_down</span></button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="button">
+                                    <button title="verifikasi" :aria-disabled="true"><span class="material-icons" :class="verifyStatus(doc.verificationStatus, ['icon-verified','icon-unverified'])">task_alt</span></button>
                                 </div>
                             </td>
                         </tr>
@@ -109,6 +114,28 @@ export default {
             .finally(() => {
                 this.loading = false;
             })
+        },
+        async downloadDoc(filename) {
+            this.axios(api.getDocFile(filename))
+            .then(response => {
+                if (response.status == 200) {
+                    const blob = response.data;
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename + '.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                } else {
+                    console.log('Gagal mengunduh dokumen. Status: ', response.status);
+                }
+            })
+            .catch(err => {
+                console.log('Terjadi kesalahan saat mengunduh dokumen. Error: ', err);
+            });
         },
         parseToLocalTime(strDate) {
             const date = new Date(strDate);
