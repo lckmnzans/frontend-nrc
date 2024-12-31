@@ -41,7 +41,7 @@
                             </td>
                             <td>
                                 <div class="button">
-                                    <button title="verifikasi" :aria-disabled="true"><span class="material-icons" :class="verifyStatus(doc.verificationStatus, ['icon-verified','icon-unverified'])">task_alt</span></button>
+                                    <button title="verifikasi" :disabled="role == 'superadmin'?false:true" @click.prevent="console.log('test')"><span class="material-icons" :class="verifyStatus(doc.verificationStatus, ['icon-verified','icon-unverified'])">task_alt</span></button>
                                 </div>
                             </td>
                         </tr>
@@ -62,7 +62,9 @@ export default {
     components: {
         LoadingOverlay
     },
+    inject: ['$auth'],
     created() {
+        this.role = this.$auth.getRole();
         this.setPageTitle('Dashboard Utama');
         this.$watch(() => this.load, this.fetchDocs, { immediate: true});
     },
@@ -83,7 +85,8 @@ export default {
         return {
             currentPage: 0,
             loading: false,
-            error: false
+            error: false,
+            role: 'admin'
         };
     },
     methods: {
