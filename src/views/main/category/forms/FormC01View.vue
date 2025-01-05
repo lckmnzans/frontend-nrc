@@ -12,27 +12,27 @@
             <h4>Formulir Sertifikat</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Sertifikat</label>
+                    <label for="" class="form-label">No.Sertifikat *</label>
                     <input type="text" class="form-control" v-model="docData.noSertifikat"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal Terbit</label>
+                    <label for="" class="form-label">Tanggal Terbit *</label>
                     <input type="date" class="form-control" v-model="docData.tglTerbit"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Masa Berlaku</label>
+                    <label for="" class="form-label">Masa Berlaku *</label>
                     <input type="text" class="form-control" v-model="docData.masaBerlaku">
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Jenis Sertifikat</label>
+                    <label for="" class="form-label">Jenis Sertifikat *</label>
                     <input type="text" class="form-control" v-model="docData.jenisSertifikat"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Lokasi</label>
+                    <label for="" class="form-label">Lokasi *</label>
                     <input type="text" class="form-control" v-model="docData.lokasi"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Luas</label>
+                    <label for="" class="form-label">Luas *</label>
                     <input type="text" class="form-control" v-model="docData.luas"/>
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -40,7 +40,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -71,12 +71,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return Object.values(this.docData).includes('');
         }
     },
     data() {

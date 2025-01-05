@@ -12,19 +12,19 @@
             <h4>Formulir Pemegang Saham</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama</label>
+                    <label for="" class="form-label">Nama *</label>
                     <input type="text" class="form-control" v-model="docData.nama"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Jumlah Saham</label>
+                    <label for="" class="form-label">Jumlah Saham *</label>
                     <input type="text" class="form-control" v-model="docData.jmlSaham"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nilai Saham</label>
+                    <label for="" class="form-label">Nilai Saham *</label>
                     <input type="text" class="form-control" v-model="docData.nilaiSaham"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Presentase</label>
+                    <label for="" class="form-label">Presentase *</label>
                     <input type="text" class="form-control" v-model="docData.presentase"/>
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -32,7 +32,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -63,12 +63,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return Object.values(this.docData).includes('');
         }
     },
     data() {

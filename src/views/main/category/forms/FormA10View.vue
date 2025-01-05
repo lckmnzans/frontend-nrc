@@ -12,19 +12,19 @@
             <h4>Formulir Lain-lain</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama Dokumen</label>
+                    <label for="" class="form-label">Nama Dokumen *</label>
                     <input type="text" class="form-control" v-model="docData.namaDokumen"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Instansi Penerbit</label>
+                    <label for="" class="form-label">Instansi Penerbit *</label>
                     <input type="text" class="form-control" v-model="docData.instansiPenerbit"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Dokumen</label>
+                    <label for="" class="form-label">No.Dokumen *</label>
                     <input type="text" class="form-control" v-model="docData.noDokumen"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal Terbit</label>
+                    <label for="" class="form-label">Tanggal Terbit *</label>
                     <input type="date" class="form-control" v-model="docData.tglTerbit"/>
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -32,7 +32,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -63,12 +63,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return Object.values(this.docData).includes('');
         }
     },
     data() {

@@ -16,7 +16,7 @@
                     <input type="text" class="form-control" v-model="docData.nama"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Dokumen</label>
+                    <label for="" class="form-label">No.Dokumen *</label>
                     <input type="text" class="form-control" v-model="docData.noDokumen"/>
                 </div>
                 <div class="form-group mb-3">
@@ -52,15 +52,15 @@
                     <input type="text" class="form-control" v-model="docData.alamatKtp"/> 
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Email</label>
+                    <label for="" class="form-label">Email *</label>
                     <input type="text" class="form-control" v-model="docData.email"/> 
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.HP</label>
+                    <label for="" class="form-label">No.HP *</label>
                     <input type="text" class="form-control" v-model="docData.noHp"/> 
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.NPWP</label>
+                    <label for="" class="form-label">No.NPWP *</label>
                     <input type="text" class="form-control" v-model="docData.noNPWP"/> 
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -68,7 +68,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -99,12 +99,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return this.docData.noDokumen == '' || this.docData.email == '' || this.docData.noHp == '' || this.docData.noNPWP == '';
         }
     },
     data() {

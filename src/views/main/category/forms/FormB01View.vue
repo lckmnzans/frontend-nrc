@@ -32,7 +32,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -63,7 +63,6 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {

@@ -12,27 +12,27 @@
             <h4>Formulir SPJB</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama PIC</label>
+                    <label for="" class="form-label">Nama PIC *</label>
                     <input type="text" class="form-control" v-model="docData.namaPic"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama PT Penjual</label>
+                    <label for="" class="form-label">Nama PT Penjual *</label>
                     <input type="text" class="form-control" v-model="docData.namaPtPenjual"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.PPJB</label>
+                    <label for="" class="form-label">No.PPJB *</label>
                     <input type="text" class="form-control" v-model="docData.noPPJB"/>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal PPJB</label>
+                    <label for="" class="form-label">Tanggal PPJB *</label>
                     <input type="date" class="form-control" v-model="docData.tglPPJB" />
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Lokasi</label>
+                    <label for="" class="form-label">Lokasi *</label>
                     <input type="text" class="form-control" v-model="docData.lokasi" />
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Luas</label>
+                    <label for="" class="form-label">Luas *</label>
                     <input type="text" class="form-control" v-model="docData.luas" />
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -40,7 +40,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -71,12 +71,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return Object.values(this.docData).includes('');
         }
     },
     data() {

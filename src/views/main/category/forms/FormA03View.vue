@@ -32,7 +32,7 @@
                     <input type="text" class="form-control" v-model="docData.jenisSertifikatKeahlian"/> 
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Jabatan</label>
+                    <label for="" class="form-label">Jabatan *</label>
                     <input type="text" class="form-control" v-model="docData.jabatan"/> 
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -40,7 +40,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -71,12 +71,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return this.docData.jabatan == '';
         }
     },
     data() {

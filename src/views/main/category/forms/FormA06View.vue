@@ -11,7 +11,7 @@
         <div class="input-form">
             <h4>Formulir Proyek</h4>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -42,12 +42,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return this.docData.namaDokumen == '';
+            return false;
         }
     },
     data() {

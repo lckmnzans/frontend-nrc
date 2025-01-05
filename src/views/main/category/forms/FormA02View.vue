@@ -12,7 +12,7 @@
             <h4>Formulir Kontrak</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama Kontrak</label>
+                    <label for="" class="form-label">Nama Kontrak *</label>
                     <input type="text" class="form-control" v-model="docData.namaKontrak"/>
                 </div>
                 <div class="form-group mb-3">
@@ -32,7 +32,7 @@
                     <input type="text" class="form-control" v-model="docData.pemberiKerja"/> 
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Jenis Dokumen</label>
+                    <label for="" class="form-label">Jenis Dokumen *</label>
                     <input type="text" class="form-control" v-model="docData.jenisDokumen"/> 
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -40,7 +40,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -71,12 +71,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return this.docData.namaKontrak == '' || this.docData.jenisDokumen == '';
         }
     },
     data() {

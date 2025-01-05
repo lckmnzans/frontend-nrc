@@ -48,9 +48,9 @@ export default {
         display: flex;
         list-style: none;
         background-color: var(--primary);
-        // border-bottom: 1px solid #ddd;
         margin: 0;
         padding: 0.5rem 0 0 1rem;
+        gap: 2px;
 
         &.no-left-space {
             padding: 0.5rem 0 0 0;
@@ -66,7 +66,7 @@ export default {
             color: var(--light);
             background-color: var(--dark);
             padding: 10px 20px;
-            border-radius: 5px 5px 0 0;
+            border-radius: 8px 8px 0 0;
             transition: background-color 0.2s, color 0.2s;
 
             &.active {

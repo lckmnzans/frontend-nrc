@@ -12,7 +12,7 @@
             <h4>Formulir Peralatan</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Dokumen</label>
+                    <label for="" class="form-label">No.Dokumen *</label>
                     <input type="text" class="form-control" v-model="docData.noDokumen"/>
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -20,7 +20,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -51,12 +51,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return this.docData.noDokumen == '';
         }
     },
     data() {

@@ -12,7 +12,7 @@
             <h4>Formulir Surat Keluar</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengirim</label>
+                    <label for="" class="form-label">Pengirim *</label>
                     <input type="text" class="form-control" v-model="docData.pengirm"/>
                 </div>
                 <div class="form-group mb-3">
@@ -28,11 +28,11 @@
                     <input type="text" class="form-control" v-model="docData.perihal" />
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Drafter</label>
+                    <label for="" class="form-label">Drafter *</label>
                     <input type="text" class="form-control" v-model="docData.drafter" />
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Tujuan Surat</label>
+                    <label for="" class="form-label">Tujuan Surat *</label>
                     <input type="text" class="form-control" v-model="docData.tujuanSurat" />
                 </div>
                 <div class="alert alert-info" role="alert">
@@ -40,7 +40,7 @@
                 </div>
             </form>
             <PdfForm
-            :disabled-state="false"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
@@ -71,12 +71,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return this.docData.pengirm == '' || this.docData.drafter == '' || this.docData.tujuanSurat == '';
         }
     },
     data() {
