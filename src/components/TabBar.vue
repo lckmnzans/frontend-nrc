@@ -48,12 +48,12 @@ export default {
         display: flex;
         list-style: none;
         background-color: var(--primary);
-        border-bottom: 1px solid #ddd;
+        // border-bottom: 1px solid #ddd;
         margin: 0;
-        padding: 1rem 0 0 1rem;
+        padding: 0.5rem 0 0 1rem;
 
         &.no-left-space {
-            padding: 1rem 0 0 0;
+            padding: 0.5rem 0 0 0;
         }
 
         .tab-item-wrapper {

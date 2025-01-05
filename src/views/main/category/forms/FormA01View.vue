@@ -1,11 +1,19 @@
 <template>
-    <div class="form-container">
+    <div class="form-container" >
+        <div class="previewpdf-container">
+            <Loading :visible="loading" v-if="loading" />
+            <div class="error-container" v-else-if="!loading && !localPreview">
+                <span class="text" v-if="error">Gagal menampilkan PDF</span>
+                <span class="text" v-else>PDF belum dipilih</span>
+            </div>
+            <PreviewPdf :pdf="localPreview" v-else-if="!loading && localPreview"/>
+        </div>
         <div class="input-form">
             <h4>Formulir Legalitas</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama Dokumen</label>
-                    <input type="text" class="form-control" v-model="docData.namaDokumen"/>
+                    <label for="" class="form-label">Nama Dokumen *</label>
+                    <input type="text" class="form-control" v-model="docData.namaDokumen" required/>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Instansi Penerbit</label>
@@ -33,10 +41,10 @@
             @submit="handleSubmit"
             />
         </div>
-        <PreviewPdf :pdf="localPreview" />
     </div>
 </template>
 <script>
+import Loading from '@/components/Loading.vue';
 import PdfForm from '@/components/PdfForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import api from '@/api/document.api';
@@ -44,6 +52,7 @@ import { useToastStore } from '@/store/toastStore';
 import { mapActions } from 'pinia';
 export default {
     components: {
+        Loading,
         PdfForm,
         PreviewPdf
     },
@@ -62,8 +71,8 @@ export default {
         this.fetchData();
     },
     computed: {
-        isFormEmpty() {
-            return Object.values(this.docData).includes('');
+        isRequiredFormEmpty() {
+            return this.docData.namaDokumen == '';
         }
     },
     data() {
@@ -77,12 +86,17 @@ export default {
                 noDokumen: '',
                 tglTerbit: '',
                 masaBerlaku: '',
-            }
+            },
+            loading: false,
         };
     },
     methods: {
         async handleSubmit(file) {
-            this.uploadFile(file);
+            if (this.isRequiredFormEmpty) {
+                this.setToast('', 'Form ada yang perlu diisi', 3000);
+            } else {
+                this.uploadFile(file);
+            }
         },
         async uploadFile(file) {
             if (!file) {
@@ -132,6 +146,12 @@ export default {
                     if (response.status == 200) {
                         const body = response.data;
                         console.log('Dokumen berhasil diambil');
+                        Object.keys(this.docData).forEach((key) => {
+                            if (body.data.hasOwnProperty(key)) {
+                                this.docData[key] = body.data[key];
+                            }
+                        });
+
                         this.fetchFile(body.data.docName);
                     } else {
                         const body = response.data;
@@ -171,12 +191,33 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style style="scss" scoped>
 .form-container {
     display: flex;
     flex-direction: row;
     align-items: top;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 1.5rem;
+    gap: 1rem;
+
+    .previewpdf-container {
+        width: 768px;
+        height: 60vh;
+        padding: 6px;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+
+        .error-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 </style>

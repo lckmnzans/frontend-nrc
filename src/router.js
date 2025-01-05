@@ -49,7 +49,11 @@ const router = createRouter({
                         {   path: 'edit/:docType/:docId',
                             component: () => import('@/views/main/dashboard/DocumentEditView.vue'),
                             props: true,
-                        }
+                        },
+                        {   path: 'review/:docType/:docId',
+                            component: () => import('@/views/main/dashboard/DocumentReviewView.vue'),
+                            props: true
+                         }
                     ]
                 },
                 {   name: 'category',

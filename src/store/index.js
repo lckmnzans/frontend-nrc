@@ -22,16 +22,6 @@ export const usePageStore = defineStore('page', {
   }
 });
 
-export const useDocumentsListStore = defineStore('documents-list', {
-  state: () => {
-    return {
-      totalPages: 0,
-      totalDocuments: 0,
-      docs: []
-    }
-  }
-});
-
 export const useDocumentsTypeStore = defineStore('documents-type', {
   state: () => {
     return {
@@ -44,6 +34,20 @@ export const useDocumentsTypeStore = defineStore('documents-type', {
     documentTypeName: (state) => (docTypeId) => {
       const document = state.documents.find(document => document.docTypeId == docTypeId);
       return document.docTypeName;
+    }
+  }
+})
+
+export const useDocumentsSchemaStore = defineStore('documents-schema', {
+  state: () => {
+    return {
+      formsData: []
+    }
+  },
+  getters: {
+    formSchema: (state) => (docTypeId) => {
+      const forms = state.formsData.find(form => form.formId == docTypeId);
+      return forms.formSchema;
     }
   }
 })

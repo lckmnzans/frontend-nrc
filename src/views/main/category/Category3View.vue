@@ -42,15 +42,18 @@ export default {
     display: flex;
     flex-direction: column;
     height: auto;
-}
+    
+    .tab-navigation {
+        top:0;
+        position: sticky;
+        overflow-y: hidden;
+        overflow-x: auto;
+        z-index: 99;
+    }
 
-.tab-navigation {
-    top:0;
-    position: sticky;
-}
-
-.tab-content {
-    height:auto;
-    flex-grow: 1;
+    .tab-content {
+        height:auto;
+        flex-grow: 1;
+    }
 }
 </style>
