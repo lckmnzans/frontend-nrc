@@ -11,8 +11,8 @@
         <div class="form-container">
             <h4>Preview Form</h4>
             <div class="form-header">
-                <div class="alert" :class="`alert-${docData.verificationStatus == 'verified' ? 'info' : 'warning' }`">
-                    {{ docData.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} divalidasi
+                <div class="alert" :class="`alert-${docData.docStatus.verificationStatus == 'verified' ? 'info' : 'warning' }`">
+                    {{ docData.docStatus.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} divalidasi
                 </div>
             </div>
             <form class="form-body" @submit.prevent="saveChanges">
@@ -25,16 +25,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in docSchema" :key="index">
-                            <td>{{ item.label }}</td>
-                            <td>{{ docData[item.name] }}</td>
+                        <tr v-for="(attribute, index) in docSchema" :key="index">
+                            <td>{{ attribute.label }}</td>
+                            <td>{{ docData[attribute.name] }}</td>
                             <td>
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <input type="radio" class="btn-check" :name="`btnradio-${item.name}`" :id="`btnradio-${item.name}-0`" autocomplete="off" v-model="attributesStatus[item.name]" :value="false" checked>
-                                    <label class="btn btn-outline-primary" :for="`btnradio-${item.name}-0`">Belum Sesuai</label>
+                                    <input type="radio" class="btn-check" :name="`btnradio-${attribute.name}`" :id="`btnradio-${attribute.name}-0`" autocomplete="off" v-model="attributesStatus[attribute.name]" :value="false" checked>
+                                    <label class="btn btn-outline-primary" :for="`btnradio-${attribute.name}-0`">Belum Sesuai</label>
 
-                                    <input type="radio" class="btn-check" :name="`btnradio-${item.name}`" :id="`btnradio-${item.name}-1`" autocomplete="off" v-model="attributesStatus[item.name]" :value="true">
-                                    <label class="btn btn-outline-primary" :for="`btnradio-${item.name}-1`">Sudah Sesuai</label>
+                                    <input type="radio" class="btn-check" :name="`btnradio-${attribute.name}`" :id="`btnradio-${attribute.name}-1`" autocomplete="off" v-model="attributesStatus[attribute.name]" :value="true">
+                                    <label class="btn btn-outline-primary" :for="`btnradio-${attribute.name}-1`">Sudah Sesuai</label>
                                 </div>
                             </td>
                         </tr>
@@ -78,12 +78,16 @@ export default {
     created() {
         const formSchema = this.formSchema(this.docType);
         this.docSchema = formSchema;
-        const formData = formSchema.reduce((obj, item) => {
-            obj[item.name] = item.value;
+        const formData = formSchema.reduce((obj, attribute) => {
+            obj[attribute.name] = attribute.value;
             return obj;
         }, {});
-        formData['verificationStatus'] = 'verified';
         this.docData = structuredClone(formData);
+        this.docData['docStatus'] = {
+                verificationStatus: "verified",
+                hasPassedScreening: false,
+                updatedDate: "2025-01-01T00:00:01.000Z"
+        };
         this.attributesStatus = structuredClone(formData);
 
         this.fetchData();
@@ -177,18 +181,18 @@ export default {
 
 .previewpdf-container {
     width: 768px;
-    height: 60vh;
+    height: 600px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-attributes: center;
 
     .loading-overlay {
         border-radius: 8px;
-        width: 100%;
+        width: 768px;
         height: 100%;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-attributes: center;
         background-color: var(--dark);
         color: var(--light);
         mix-blend-mode: difference;
@@ -198,7 +202,11 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-attributes: center;
+    }
+
+    .preview-pdf {
+        height: 600px;
     }
 }
 

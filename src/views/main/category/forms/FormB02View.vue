@@ -199,8 +199,10 @@ export default {
     gap: 1rem;
 
     .previewpdf-container {
+        top:4rem;
+        position: sticky;
         width: 768px;
-        height: 60vh;
+        height: 600px;
         padding: 6px;
         display:flex;
         align-items: center;
@@ -215,6 +217,10 @@ export default {
             align-items: center;
             width: 100%;
             height: 100%;
+        }
+
+        .preview-pdf {
+            height: 600px;
         }
     }
 }
