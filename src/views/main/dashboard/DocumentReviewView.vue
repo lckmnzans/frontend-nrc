@@ -10,8 +10,12 @@
         </div>
         <div class="form-container">
             <div class="form-header">
+                <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" id="review-mode" autocomplete="off" v-model="viewMode" checked>
+                    <label class="form-check-label" for="review-mode">Mode Review</label>
+                </div>
                 <div class="alert" :class="`alert-${docData.verificationStatus == 'verified' ? 'info' : 'warning' }`">
-                    {{ docData.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} divalidasi
+                    {{ docData.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} diverifikasi
                 </div>
             </div>
             <form class="form-body" @submit.prevent="saveChanges">
@@ -19,7 +23,7 @@
                     <thead>
                         <tr>
                             <th>Atribut</th>
-                            <th style="min-width: 320px;">Nilai</th>
+                            <th style="min-width: 660px;">Nilai</th>
                             <th>
                                 <span class="text">Kesesuaian data</span>
                             </th>
@@ -28,15 +32,15 @@
                     <tbody>
                         <tr v-for="(attribute, index) in docSchema" :key="index">
                             <td>{{ attribute.label }}</td>
-                            <td>{{ docData[attribute.name] }}</td>
                             <td>
-                                <!-- <div class="btn-group btn-group-sm" role="group">
-                                    <input type="radio" class="btn-check" :name="`btnradio-${attribute.name}`" :id="`btnradio-${attribute.name}-0`" autocomplete="off" v-model="attributesStatus[attribute.name]" :value="false" checked>
-                                    <label class="btn btn-outline-primary" :for="`btnradio-${attribute.name}-0`">Belum Sesuai</label>
-
-                                    <input type="radio" class="btn-check" :name="`btnradio-${attribute.name}`" :id="`btnradio-${attribute.name}-1`" autocomplete="off" v-model="attributesStatus[attribute.name]" :value="true">
-                                    <label class="btn btn-outline-primary" :for="`btnradio-${attribute.name}-1`">Sudah Sesuai</label>
-                                </div> -->
+                                <div v-if="viewMode">
+                                    {{ docData[attribute.name] }}
+                                </div>
+                                <div v-else>
+                                    <input :type="attribute.type" v-model="docData[attribute.name]" style="width: 100%; padding-left: 6px;">
+                                </div>
+                            </td>
+                            <td>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" :value="true" :id="`check-${attribute.name}`" v-model="attributesStatus[attribute.name]">
                                     <label class="form-check-label" :for="`check-${attribute.name}`">
@@ -64,6 +68,7 @@ import PreviewPdf from '@/components/PreviewPdf.vue';
 import api from '@/api/document.api';
 import { mapState, mapActions } from 'pinia';
 import { usePageStore, useDocumentsSchemaStore } from '@/store';
+import { useToastStore } from '@/store/toastStore';
 export default {
     components: { Loading, PreviewPdf },
     props: {
@@ -99,6 +104,7 @@ export default {
     },
     data() {
         return {
+            viewMode: true,
             localPreview: '',
             loading: false,
             error: false,
@@ -169,9 +175,22 @@ export default {
                     notes[attributeName] = false;
                 }
             })
-            console.log(notes);
+            
+            this.docData['verifiedStatus'] = 'verified';
+            this.axios(api.updateDocData(this.docData, this.docType, this.docId))
+            .then(response => {
+                if (response.status == 200) {
+                    const body = response.data;
+                    console.log('Dokumen berhasil diverifikasi');
+                    this.setToast('', 'Dokumen diverifikasi', 3000);
+                }
+            })
+            .catch(err => {
+                console.log('Permintaan tidak bisa diproses. Error: ' + err);
+            })
         },
-        ...mapActions(usePageStore, ['setPageTitle'])
+        ...mapActions(usePageStore, ['setPageTitle']),
+        ...mapActions(useToastStore, ['setToast'])
     },
     beforeUnmount() {
         if (this.localPreview) {
@@ -235,7 +254,12 @@ export default {
         flex-direction: column;
 
         .submit-control {
-            margin: 32px 0;
+            margin: 21px 0;
+        }
+
+        td {
+            padding-top: 16px;
+            padding-bottom: 16px;
         }
     }
 }

@@ -150,7 +150,9 @@ const router = createRouter({
 router.beforeEach((to,from,next) => {
     const token = auth.getToken();
     const tokenAge = auth.getTokenAge();
-    if (to.name !== 'login' && to.name !== 'forgot-password') {
+    if (to.name === 'reset-password') {
+        next();
+    } else if (to.name !== 'login' && to.name !== 'forgot-password') {
         if (!token) {
             next({ name: 'login' });
         } else if (tokenAge <= Date.now()) {

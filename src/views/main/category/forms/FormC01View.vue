@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Masa Berlaku *</label>
-                    <input type="text" class="form-control" v-model="docData.masaBerlaku">
+                    <input type="date" class="form-control" v-model="docData.masaBerlaku">
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jenis Sertifikat *</label>

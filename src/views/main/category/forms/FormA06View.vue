@@ -10,11 +10,23 @@
         </div>
         <div class="input-form">
             <h4>Formulir Proyek</h4>
-            <PdfForm
+            <form>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Nama Proyek *</label>
+                    <input type="text" class="form-control" v-model="docData.namaProyek"/>
+                </div>
+                <div class="alert alert-info" role="alert">
+                    Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
+                </div>
+            </form>
+            <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
+            <div v-else-if="mode == 'edit'">
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">Simpan</button>
+            </div>
         </div>
     </div>
 </template>
@@ -51,7 +63,7 @@ export default {
     },
     computed: {
         isRequiredFormEmpty() {
-            return false;
+            return this.docData.namaProyek == '';
         }
     },
     data() {
@@ -60,28 +72,28 @@ export default {
             selectedFile: null,
             docType: 'A06',
             docData: {
-                data: 'kosong'
+                namaProyek: ''
             },
             loading: false,
             error: false,
         };
     },
     methods: {
-        // async handleUpdate() {
-        //     this.axios(api.updateDocData(this.docData, this.docType, this.docId))
-        //     .then(response => {
-        //         if (response.status == 200) {
-        //             const body = response.data;
-        //             this.setToast('', 'Dokumen berhasil diperbarui', 3000);
-        //             this.$router.back();
-        //         } else {
-        //             this.setToast('', 'Dokumen gagal diperbarui', 3000);
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.log('Permintaan tidak bisa diproses. Error: ' + err);
-        //     })
-        // },
+        async handleUpdate() {
+            this.axios(api.updateDocData(this.docData, this.docType, this.docId))
+            .then(response => {
+                if (response.status == 200) {
+                    const body = response.data;
+                    this.setToast('', 'Dokumen berhasil diperbarui', 3000);
+                    this.$router.back();
+                } else {
+                    this.setToast('', 'Dokumen gagal diperbarui', 3000);
+                }
+            })
+            .catch(err => {
+                console.log('Permintaan tidak bisa diproses. Error: ' + err);
+            })
+        },
         async handleSubmit(file) {
             if (this.isRequiredFormEmpty) {
                 this.setToast('', 'Form ada yang perlu diisi', 3000);

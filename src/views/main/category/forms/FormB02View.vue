@@ -12,10 +12,6 @@
             <h4>Formulir Surat Keluar</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengirim *</label>
-                    <input type="text" class="form-control" v-model="docData.pengirm"/>
-                </div>
-                <div class="form-group mb-3">
                     <label for="" class="form-label">No.Surat</label>
                     <input type="text" class="form-control" v-model="docData.noSurat"/>
                 </div>
@@ -83,7 +79,7 @@ export default {
     },
     computed: {
         isRequiredFormEmpty() {
-            return this.docData.pengirm == '' || this.docData.drafter == '' || this.docData.tujuanSurat == '';
+            return this.docData.drafter == '' || this.docData.tujuanSurat == '';
         }
     },
     data() {
@@ -92,7 +88,6 @@ export default {
             selectedFile: null,
             docType: 'B02',
             docData: {
-                pengirm: '',
                 noSurat: '',
                 tglTerbit: '',
                 perihal: '',
