@@ -25,15 +25,28 @@ export default {
             }
         }
     },
-    getListOfDocuments: (page, limit, docType) => {
-        let url = `${ApiHost}/api/v1/document/list-document`
-        if (page || limit || docType) url = url.append('?');
-        if (page) url = url.append('page='+page);
-        if (limit) url = url.append('limit='+limit);
-        if (docType) url = url.append('docType='+docType);
+    getListOfDocuments: (page, limit, docType, verificationStatus) => {
+        const url = new URL(`${ApiHost}/api/v1/document/list-document`);
+        const params = new URLSearchParams();
+
+        if (page) params.append('page', page);
+        if (limit) params.append('limit', limit);
+        if (Array.isArray(docType)) {
+            docType.forEach(type => 
+                params.append('docType', type)
+            );
+        } else if (docType) {
+            params.append('docType', docType);
+        }
+        if (verificationStatus) params.append('verificationStatus', verificationStatus);
+
+        if (Array.from(params).length > 0) {
+            url.search = params.toString();
+        }
+
         return {
             method: 'GET',
-            url: url,
+            url: url.toString(),
             headers: {
                 "content-type": "application/json",
                 "authorization": "Bearer " + localStorage.getItem("token")
@@ -57,6 +70,17 @@ export default {
                 "authorization": "Bearer " + localStorage.getItem("token")
             },
             responseType: 'blob'
+        }
+    },
+    updateDocData: (docData, docType, docId) => {
+        return {
+            method: 'PATCH',
+            url: `${ApiHost}/api/v1/document/docs/${docType}/${docId}`,
+            data: docData,
+            headers: {
+                "content-type": "application/json",
+                "authorization": "Bearer " + localStorage.getItem("token")
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 <template>
     <div class="preview-pdf" v-show="pdf">
-        <h4>Preview PDF</h4>
-        <vue-pdf-app class="pdf" :config="config" :pdf="pdf"></vue-pdf-app>
+        <vue-pdf-app class="pdf" theme="light" :config="config" :pdf="pdf"></vue-pdf-app>
     </div>
 </template>
 <script>
@@ -32,8 +31,6 @@ export default {
 <style scoped>
 .preview-pdf {
     width: 768px;
-    height: 60vh;
-    top:3rem;
     position: sticky;
 }
 </style>

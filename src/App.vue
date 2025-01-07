@@ -4,11 +4,12 @@
 
 <script>
 import { mapState } from 'pinia';
-import { usePageStore, useDocumentsTypeStore } from '@/store';
+import { usePageStore, useDocumentsTypeStore, useDocumentsSchemaStore } from '@/store';
 export default {
     computed: {
         ...mapState(usePageStore, ['pages','subPages']),
-        ...mapState(useDocumentsTypeStore, ['documents'])
+        ...mapState(useDocumentsTypeStore, ['documents']),
+        ...mapState(useDocumentsSchemaStore, ['formsData'])
     },
     created() {
         this.fetchDocumentsSchema();
@@ -35,6 +36,10 @@ export default {
                     subPagesItem.push({
                         subPageId: subDocCategories[subCategoryId].subcategory_id,
                         subPageTitle: subDocCategories[subCategoryId].subcategory_name
+                    });
+                    this.formsData.push({ 
+                        formId: subDocCategories[subCategoryId].subcategory_id,
+                        formSchema: subDocCategories[subCategoryId].form_schema
                     });
                 };
                 this.subPages.push(subPagesItem);

@@ -37,15 +37,15 @@ export default {
     components: { FontAwesomeIcon },
     inject: ['$auth'],
     created() {
-        this.token = this.$auth.getToken();
-        if (this.token) {
-            this.$router.replace({ path: '/' });
-        }
+        // this.token = this.$auth.getToken();
+        // if (this.token) {
+        //     this.$router.replace({ path: '/' });
+        // }
     },
     data() {
         return {
             isPasswordVisible: false,
-            token: '',
+            // token: '',
             user: {
                 username: '',
                 password: ''

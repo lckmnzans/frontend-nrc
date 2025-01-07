@@ -47,10 +47,10 @@ export default {
         }
     },
     created() {
-        const token = this.$auth.getToken();
-        if (token !== null) {
-            this.$router.replace({ name: 'home' });
-        }
+        // const token = this.$auth.getToken();
+        // if (token !== null) {
+        //     this.$router.replace({ name: 'home' });
+        // }
     },
     methods: {
         isPasswordsEquals() {

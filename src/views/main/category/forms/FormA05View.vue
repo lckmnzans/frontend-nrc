@@ -1,10 +1,18 @@
 <template>
     <div class="form-container">
+        <div class="previewpdf-container">
+            <Loading :visible="loading" v-if="loading" />
+            <div class="error-container" v-else-if="!loading && !localPreview">
+                <span class="text" v-if="error">Gagal menampilkan PDF</span>
+                <span class="text" v-else>PDF belum dipilih</span>
+            </div>
+            <PreviewPdf :pdf="localPreview" v-else-if="!loading && localPreview"/>
+        </div>
         <div class="input-form">
             <h4>Formulir Keuangan</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama Dokumen</label>
+                    <label for="" class="form-label">Nama Dokumen *</label>
                     <input type="text" class="form-control" v-model="docData.namaDokumen"/>
                 </div>
                 <div class="form-group mb-3">
@@ -23,16 +31,19 @@
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
-            <PdfForm
-            :disabled-state="false"
+            <PdfForm v-if="mode == 'create'"
+            :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
+            <div v-else-if="mode == 'edit'">
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">Simpan</button>
+            </div>
         </div>
-        <PreviewPdf :pdf="localPreview" />
     </div>
 </template>
 <script>
+import Loading from '@/components/Loading.vue';
 import PdfForm from '@/components/PdfForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import api from '@/api/document.api';
@@ -40,10 +51,16 @@ import { useToastStore } from '@/store/toastStore';
 import { mapActions } from 'pinia';
 export default {
     components: {
+        Loading,
         PdfForm,
         PreviewPdf
     },
     props: {
+        mode: {
+            type: String,
+            default: 'create',
+            validator: (value) => ['create', 'edit'].includes(value)
+        },
         docId: {
             type: String,
             required: false
@@ -54,12 +71,11 @@ export default {
         }
     },
     created() {
-        console.log(this.docId);
         this.fetchData();
     },
     computed: {
-        isFormEmpty() {
-            return Object.values(this.docData).includes('');
+        isRequiredFormEmpty() {
+            return this.docData.namaDokumen == '';
         }
     },
     data() {
@@ -72,12 +88,33 @@ export default {
                 noLaporan: '',
                 tglLaporan: '',
                 periode: ''
-            }
+            },
+            loading: false,
+            error: false,
         };
     },
     methods: {
+        async handleUpdate() {
+            this.axios(api.updateDocData(this.docData, this.docType, this.docId))
+            .then(response => {
+                if (response.status == 200) {
+                    const body = response.data;
+                    this.setToast('', 'Dokumen berhasil diperbarui', 3000);
+                    this.$router.back();
+                } else {
+                    this.setToast('', 'Dokumen gagal diperbarui', 3000);
+                }
+            })
+            .catch(err => {
+                console.log('Permintaan tidak bisa diproses. Error: ' + err);
+            })
+        },
         async handleSubmit(file) {
-            this.uploadFile(file);
+            if (this.isRequiredFormEmpty) {
+                this.setToast('', 'Form ada yang perlu diisi', 3000);
+            } else {
+                this.uploadFile(file);
+            }
         },
         async uploadFile(file) {
             if (!file) {
@@ -139,20 +176,24 @@ export default {
             }
         },
         async fetchFile(filename) {
+            this.error = false;
             this.axios(api.getDocFile(filename))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
                     console.log('File berhasil diambil');
                     this.localPreview = URL.createObjectURL(body);
+                    this.error = false;
                 } else {
                     const body = response.data;
                     console.log('File gagal diambil. Error: ' + body.message);
                     this.localPreview = null;
+                    this.error = true;
                 }
             })
             .catch(err => {
-                console.log('Permintaan tidak bisa diproses. Error: ' + err)
+                console.log('Permintaan tidak bisa diproses. Error: ' + err);
+                this.error = true;
             })
         },
         ...mapActions(useToastStore, {
@@ -171,7 +212,33 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: top;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 1.5rem;
+    gap: 1rem;
+
+    .previewpdf-container {
+        position: sticky;
+        width: 768px;
+        height: 600px;
+        padding: 6px;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+
+        .error-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .preview-pdf {
+            height: 600px;
+        }
+    }
 }
 </style>
