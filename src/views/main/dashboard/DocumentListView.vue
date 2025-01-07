@@ -63,7 +63,7 @@
                             <td>{{ doc.docName }}</td>
                             <td>{{ parseToLocalTime(doc.createdDate) }}</td>
                             <td>
-                                <span class="badge" :class="`bg-${verifyStatus(doc.docStatus.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.docStatus.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
+                                <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
                             </td>
                             <td>
                                 <div class="button">
@@ -78,7 +78,6 @@
                             <td>
                                 <div class="button" v-if="role == 'superadmin'">
                                     <router-link :to="`/review/${doc.docType}/${doc._id}`"><span class="material-icons">task_alt</span></router-link>
-                                    <!-- <button title="verifikasi" :disabled="role == 'superadmin'?false:true" @click="goToVerif(doc.docType, doc._id)"><span class="material-icons" :class="verifyStatus(doc.verificationStatus, ['icon-verified','icon-unverified'])">task_alt</span></button> -->
                                 </div>
                             </td>
                         </tr>

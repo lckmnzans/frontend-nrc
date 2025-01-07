@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import auth from './utils/auth';
 import DashboardView from '@/views/DashboardView.vue';
 import ResetView from '@/views/ResetPasswordView.vue';
 import LoginV from '@/components/Login.vue';
@@ -39,7 +40,6 @@ const router = createRouter({
                 },
                 {   name: 'home',
                     alias: 'dashboard',
-                    redirect: '/',
                     path: '',
                     component: () => import('@/views/main/dashboard/HomeView.vue'),
                     children: [
@@ -145,6 +145,24 @@ const router = createRouter({
             ]
         }
     ]
+})
+
+router.beforeEach((to,from,next) => {
+    const token = auth.getToken();
+    const tokenAge = auth.getTokenAge();
+    if (to.name !== 'login' && to.name !== 'forgot-password') {
+        if (!token) {
+            next({ name: 'login' });
+        } else if (tokenAge <= Date.now()) {
+            console.log('Anda perlu login kembali.');
+            auth.logout();
+            next({ name: 'login' });
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
 })
 
 export default router;

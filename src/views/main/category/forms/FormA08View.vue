@@ -31,11 +31,14 @@
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
-            <PdfForm
+            <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />
+            <div v-else-if="mode == 'edit'">
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">Simpan</button>
+            </div>
         </div>
     </div>
 </template>
@@ -53,6 +56,11 @@ export default {
         PreviewPdf
     },
     props: {
+        mode: {
+            type: String,
+            default: 'create',
+            validator: (value) => ['create', 'edit'].includes(value)
+        },
         docId: {
             type: String,
             required: false
@@ -82,9 +90,25 @@ export default {
                 presentase:''
             },
             loading: false,
+            error: false,
         };
     },
     methods: {
+        async handleUpdate() {
+            this.axios(api.updateDocData(this.docData, this.docType, this.docId))
+            .then(response => {
+                if (response.status == 200) {
+                    const body = response.data;
+                    this.setToast('', 'Dokumen berhasil diperbarui', 3000);
+                    this.$router.back();
+                } else {
+                    this.setToast('', 'Dokumen gagal diperbarui', 3000);
+                }
+            })
+            .catch(err => {
+                console.log('Permintaan tidak bisa diproses. Error: ' + err);
+            })
+        },
         async handleSubmit(file) {
             if (this.isRequiredFormEmpty) {
                 this.setToast('', 'Form ada yang perlu diisi', 3000);
@@ -152,20 +176,24 @@ export default {
             }
         },
         async fetchFile(filename) {
+            this.error = false;
             this.axios(api.getDocFile(filename))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
                     console.log('File berhasil diambil');
                     this.localPreview = URL.createObjectURL(body);
+                    this.error = false;
                 } else {
                     const body = response.data;
                     console.log('File gagal diambil. Error: ' + body.message);
                     this.localPreview = null;
+                    this.error = true;
                 }
             })
             .catch(err => {
-                console.log('Permintaan tidak bisa diproses. Error: ' + err)
+                console.log('Permintaan tidak bisa diproses. Error: ' + err);
+                this.error = true;
             })
         },
         ...mapActions(useToastStore, {
@@ -189,7 +217,6 @@ export default {
     gap: 1rem;
 
     .previewpdf-container {
-        top:4rem;
         position: sticky;
         width: 768px;
         height: 600px;

@@ -1,6 +1,6 @@
 <template>
     <div class="edit-container">
-        <component v-if="docType" :is="getDocComponent(docType)" :doc-id="docId"/>
+        <component v-if="docType" :is="getDocComponent(docType)" :doc-id="docId" :mode="'edit'"/>
     </div>
 </template>
 <script>
@@ -30,7 +30,7 @@ export default {
     data() {
         return {
             loading: true,
-            documentData: null
+            documentData: null,
         }
     },
     methods: {

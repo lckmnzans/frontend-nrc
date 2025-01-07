@@ -34,20 +34,21 @@ export default {
     },
     inject: ['$auth'],
     created() {
-        const token = this.$auth.getToken();
-        const tokenAge = this.$auth.getTokenAge();
+        this.token = this.$auth.getToken();
+        // const token = this.$auth.getToken();
+        // const tokenAge = this.$auth.getTokenAge();
 
-        if (!token) {
-            console.log('Anda belum punya akses ke halaman ini');
-            this.$router.push({ name: 'login' });
-        } else if (tokenAge <= Date.now()) {
-            this.setToast('Sesi anda sudah habis masa waktu', 3000);
-            this.$auth.logout();
-            this.$router.replace({ name: 'login' });
-        } else {
-            this.token = token;
-            this.$router.replace({ name: 'home' })
-        }
+        // if (!token) {
+        //     console.log('Anda belum punya akses ke halaman ini');
+        //     this.$router.push({ name: 'login' });
+        // } else if (tokenAge <= Date.now()) {
+        //     this.setToast('Sesi anda sudah habis masa waktu', 3000);
+        //     this.$auth.logout();
+        //     this.$router.replace({ name: 'login' });
+        // } else {
+        //     this.token = token;
+        //     this.$router.replace({ name: 'home' })
+        // }
     },
     computed: {
         ...mapState(useToastStore, {

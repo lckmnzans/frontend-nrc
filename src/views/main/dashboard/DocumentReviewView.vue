@@ -9,19 +9,20 @@
             <PreviewPdf :pdf="localPreview" v-else-if="!loading && !error" />
         </div>
         <div class="form-container">
-            <h4>Preview Form</h4>
             <div class="form-header">
-                <div class="alert" :class="`alert-${docData.docStatus.verificationStatus == 'verified' ? 'info' : 'warning' }`">
-                    {{ docData.docStatus.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} divalidasi
+                <div class="alert" :class="`alert-${docData.verificationStatus == 'verified' ? 'info' : 'warning' }`">
+                    {{ docData.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} divalidasi
                 </div>
             </div>
             <form class="form-body" @submit.prevent="saveChanges">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Atribut</th>
                             <th style="min-width: 320px;">Nilai</th>
-                            <th>Kesesuaian data</th>
+                            <th>
+                                <span class="text">Kesesuaian data</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,22 +30,27 @@
                             <td>{{ attribute.label }}</td>
                             <td>{{ docData[attribute.name] }}</td>
                             <td>
-                                <div class="btn-group btn-group-sm" role="group">
+                                <!-- <div class="btn-group btn-group-sm" role="group">
                                     <input type="radio" class="btn-check" :name="`btnradio-${attribute.name}`" :id="`btnradio-${attribute.name}-0`" autocomplete="off" v-model="attributesStatus[attribute.name]" :value="false" checked>
                                     <label class="btn btn-outline-primary" :for="`btnradio-${attribute.name}-0`">Belum Sesuai</label>
 
                                     <input type="radio" class="btn-check" :name="`btnradio-${attribute.name}`" :id="`btnradio-${attribute.name}-1`" autocomplete="off" v-model="attributesStatus[attribute.name]" :value="true">
                                     <label class="btn btn-outline-primary" :for="`btnradio-${attribute.name}-1`">Sudah Sesuai</label>
+                                </div> -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" :value="true" :id="`check-${attribute.name}`" v-model="attributesStatus[attribute.name]">
+                                    <label class="form-check-label" :for="`check-${attribute.name}`">
+                                        Sudah Sesuai
+                                    </label>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="form-group">
-                    <label class="form-label" for="notes">Catatan tambahan</label>
-                    <textarea class="form-control" id="notes" rows="3"></textarea>
-                </div>
-                <div>
+                <label class="form-label" for="notes">Catatan tambahan</label>
+                <textarea class="form-control" id="notes" rows="3"></textarea>
+
+                <div class="submit-control">
                     <button class="btn btn-primary btn-large" type="submit">Simpan perubahan</button>
                 </div>
             </form>
@@ -56,8 +62,8 @@
 import Loading from '@/components/Loading.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import api from '@/api/document.api';
-import { mapState } from 'pinia';
-import { useDocumentsSchemaStore } from '@/store';
+import { mapState, mapActions } from 'pinia';
+import { usePageStore, useDocumentsSchemaStore } from '@/store';
 export default {
     components: { Loading, PreviewPdf },
     props: {
@@ -76,6 +82,7 @@ export default {
         })
     },
     created() {
+        this.setPageTitle('Review Dokumen');
         const formSchema = this.formSchema(this.docType);
         this.docSchema = formSchema;
         const formData = formSchema.reduce((obj, attribute) => {
@@ -83,11 +90,9 @@ export default {
             return obj;
         }, {});
         this.docData = structuredClone(formData);
-        this.docData['docStatus'] = {
-                verificationStatus: "verified",
-                hasPassedScreening: false,
-                updatedDate: "2025-01-01T00:00:01.000Z"
-        };
+        this.docData['verificationStatus'] = "verified";
+        this.docData['hasPassedScreening']= false;
+        this.docData['updatedDate'] = "2025-01-01T00:00:01.000Z";
         this.attributesStatus = structuredClone(formData);
 
         this.fetchData();
@@ -99,7 +104,7 @@ export default {
             error: false,
             docSchema: [],
             docData: {},
-            attributesStatus: {}
+            attributesStatus: {},
         }
     },
     methods: {
@@ -156,14 +161,17 @@ export default {
             this.docData[key] = value;
         },
         saveChanges() {
-            let notes = 'Catatan:';
+            const notes = [];
             Object.keys(this.attributesStatus).forEach(attributeName => {
-                if (this.attributesStatus[attributeName] != true) {
-                    console.log(`Atribut ${attributeName} belum sesuai`);
+                if (this.attributesStatus[attributeName] === true) {
+                    notes[attributeName] = true;
+                } else {
+                    notes[attributeName] = false;
                 }
             })
-            console.log(this.attributesStatus);
-        }
+            console.log(notes);
+        },
+        ...mapActions(usePageStore, ['setPageTitle'])
     },
     beforeUnmount() {
         if (this.localPreview) {
@@ -182,27 +190,32 @@ export default {
 .previewpdf-container {
     width: 768px;
     height: 600px;
+    padding: 6px;
     display: flex;
     justify-content: center;
-    align-attributes: center;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 
     .loading-overlay {
-        border-radius: 8px;
-        width: 768px;
+        border-radius: 5px;
+        width: 100%;
         height: 100%;
         display: flex;
         justify-content: center;
-        align-attributes: center;
-        background-color: var(--dark);
-        color: var(--light);
-        mix-blend-mode: difference;
+        align-items: center;
+        background-color: var(--light);
+        mix-blend-mode: multiply;
     }
     
     .error-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-attributes: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
     }
 
     .preview-pdf {
@@ -211,8 +224,6 @@ export default {
 }
 
 .form-container {
-    width: 100%;
-    min-width: 300px;
 
     .form-header {
         display: flex;
@@ -222,7 +233,10 @@ export default {
     .form-body {
         display: flex;
         flex-direction: column;
-        gap: 6px;
+
+        .submit-control {
+            margin: 32px 0;
+        }
     }
 }
 </style>

@@ -10,7 +10,7 @@
                         { "name": "instansiPenerbit", "label": "Instansi Penerbit", "type": "text", "value": ""},
                         { "name": "noDokumen", "label": "Nomor Dokumen", "type": "text", "value": ""},
                         { "name": "tglTerbit", "label": "Tanggal Terbit", "type": "date", "value": ""},
-                        { "name": "masaBerlaku", "label": "Masa Berlaku", "type": "text", "value": ""}
+                        { "name": "masaBerlaku", "label": "Masa Berlaku", "type": "date", "value": ""}
                     ]
                 },
                 {

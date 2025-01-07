@@ -71,5 +71,16 @@ export default {
             },
             responseType: 'blob'
         }
+    },
+    updateDocData: (docData, docType, docId) => {
+        return {
+            method: 'PATCH',
+            url: `${ApiHost}/api/v1/document/docs/${docType}/${docId}`,
+            data: docData,
+            headers: {
+                "content-type": "application/json",
+                "authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }
     }
 }
