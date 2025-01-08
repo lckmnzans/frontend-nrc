@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import auth from './utils/auth';
 import DashboardView from '@/views/DashboardView.vue';
 import ResetView from '@/views/ResetPasswordView.vue';
@@ -6,7 +6,7 @@ import LoginV from '@/components/Login.vue';
 import ForgotV from '@/components/Forgot.vue';
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes: [
         {   name: 'login',
             path: '/login',
