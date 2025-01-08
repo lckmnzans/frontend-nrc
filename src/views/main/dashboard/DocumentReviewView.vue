@@ -176,7 +176,7 @@ export default {
                 }
             })
             
-            this.docData['verifiedStatus'] = 'verified';
+            this.docData['verificationStatus'] = 'verified';
             this.axios(api.updateDocData(this.docData, this.docType, this.docId))
             .then(response => {
                 if (response.status == 200) {
