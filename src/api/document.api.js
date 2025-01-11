@@ -25,7 +25,7 @@ export default {
             }
         }
     },
-    getListOfDocuments: (page, limit, docType, verificationStatus) => {
+    getListOfDocuments: (page, limit, docType, verificationStatus, keyword) => {
         const url = new URL(`${ApiHost}/api/v1/document/list-document`);
         const params = new URLSearchParams();
 
@@ -39,6 +39,7 @@ export default {
             params.append('docType', docType);
         }
         if (verificationStatus) params.append('verificationStatus', verificationStatus);
+        if (keyword) params.append('keyword', keyword);
 
         if (Array.from(params).length > 0) {
             url.search = params.toString();

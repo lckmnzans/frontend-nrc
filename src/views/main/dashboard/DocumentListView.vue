@@ -33,7 +33,7 @@
             </div>
             <div id="name-filter" class="filter-search">
                 <label for="document-name-search"><span class="text">Cari berdasar nama</span></label>
-                <input v-model="docFilter.keyword"type="text" class="form-control form-control-sm" id="document-name-search" placeholder="Nama dokumen" />
+                <input v-model="docFilter.keyword" type="text" class="form-control form-control-sm" id="document-name-search" :placeholder="this.docFilter.docType ? 'kata kunci' : this.docFilter.keyword" :disabled="!isDocTypeSet"/>
             </div>
             <button class="btn btn-primary btn-sm" type="submit" style="margin-top: auto;">Terapkan</button>
         </form>
@@ -126,6 +126,14 @@ export default {
         ...mapState(useDocumentsTypeStore, {
             documentType: 'documentTypeName'
         }),
+        isDocTypeSet() {
+            if (this.docFilter.docType) {
+                return true;
+            } else {
+                this.docFilter.keyword = '';
+                return false;
+            }
+        }
     },
     data() {
         return {
@@ -139,7 +147,7 @@ export default {
             this.loading = true;
             this.error = false;
 
-            this.axios(api.getListOfDocuments(this.currentPage, this.limit, this.docFilter.docType, this.docFilter.docStatus))
+            this.axios(api.getListOfDocuments(this.currentPage, this.limit, this.docFilter.docType, this.docFilter.docStatus, this.docFilter.keyword))
             .then((response) => {
                 if (response.status == 200) {
                     const body = response.data;
