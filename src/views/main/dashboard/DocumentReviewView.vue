@@ -95,9 +95,7 @@ export default {
             return obj;
         }, {});
         this.docData = structuredClone(formData);
-        this.docData['verificationStatus'] = "verified";
-        this.docData['hasPassedScreening']= false;
-        this.docData['updatedDate'] = "2025-01-01T00:00:01.000Z";
+        this.docData['verificationStatus'] = 'unverified';
         this.attributesStatus = structuredClone(formData);
 
         this.fetchData();

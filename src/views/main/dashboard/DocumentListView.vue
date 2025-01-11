@@ -64,6 +64,7 @@
                             <td>{{ parseToLocalTime(doc.createdDate) }}</td>
                             <td>
                                 <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
+                                <span class="badge bg-info text-dark" v-if="doc.hasPassedScreening">OCR</span>
                             </td>
                             <td>
                                 <div class="button">
@@ -168,7 +169,7 @@ export default {
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = filename + '.pdf';
+                    link.download = filename;
                     document.body.appendChild(link);
                     link.click();
 
