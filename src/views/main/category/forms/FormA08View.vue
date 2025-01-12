@@ -13,24 +13,37 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama *</label>
-                    <input type="text" class="form-control" v-model="docData.nama"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.nama" required />
+                        <span class="material-icons" v-if="!attributeStatus.nama">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jumlah Saham *</label>
-                    <input type="text" class="form-control" v-model="docData.jmlSaham"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.jmlSaham" required />
+                        <span class="material-icons" v-if="!attributeStatus.jmlSaham">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nilai Saham *</label>
-                    <input type="text" class="form-control" v-model="docData.nilaiSaham"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.nilaiSaham" required />
+                        <span class="material-icons" v-if="!attributeStatus.nilaiSaham">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Presentase *</label>
-                    <input type="text" class="form-control" v-model="docData.presentase"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.presentase" required />
+                        <span class="material-icons" v-if="!attributeStatus.presentase">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -110,6 +123,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

@@ -13,32 +13,51 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama PIC *</label>
-                    <input type="text" class="form-control" v-model="docData.namaPic"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.namaPic" required />
+                        <span class="material-icons" v-if="!attributeStatus.namaPic">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama PT Penjual *</label>
-                    <input type="text" class="form-control" v-model="docData.namaPtPenjual"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.namaPtPenjual" required />
+                        <span class="material-icons" v-if="!attributeStatus.namaPtPenjual">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.PPJB *</label>
-                    <input type="text" class="form-control" v-model="docData.noPPJB"/>
+                    <label for="" class="form-label">No. PPJB *</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noPPJB" required />
+                        <span class="material-icons" v-if="!attributeStatus.noPPJB">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal PPJB *</label>
-                    <input type="date" class="form-control" v-model="docData.tglPPJB" />
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.tglPPJB" required />
+                        <span class="material-icons" v-if="!attributeStatus.tglPPJB">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Lokasi *</label>
-                    <input type="text" class="form-control" v-model="docData.lokasi" />
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.lokasi" required />
+                        <span class="material-icons" v-if="!attributeStatus.lokasi">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Luas *</label>
-                    <input type="text" class="form-control" v-model="docData.luas" />
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.luas" required />
+                        <span class="material-icons" v-if="!attributeStatus.luas">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -120,6 +139,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

@@ -13,28 +13,44 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama Dokumen *</label>
-                    <input type="text" class="form-control" v-model="docData.namaDokumen" required/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.namaDokumen" required />
+                        <span class="material-icons" v-if="!attributeStatus.namaDokumen">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Instansi Penerbit</label>
-                    <input type="text" class="form-control" v-model="docData.instansiPenerbit"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.instansiPenerbit" />
+                        <span class="material-icons" v-if="!attributeStatus.instansiPenerbit">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Dokumen</label>
-                    <input type="text" class="form-control" v-model="docData.noDokumen"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noDokumen" />
+                        <span class="material-icons" v-if="!attributeStatus.noDokumen">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="date" class="form-control" v-model="docData.tglTerbit"/> 
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.tglTerbit" />
+                        <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Masa Berlaku s/d</label>
-                    <input type="date" class="form-control" v-model="docData.masaBerlaku"/> 
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.masaBerlaku" />
+                        <span class="material-icons" v-if="!attributeStatus.masaBerlaku">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -115,6 +131,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

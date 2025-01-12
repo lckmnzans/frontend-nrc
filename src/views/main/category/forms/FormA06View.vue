@@ -13,7 +13,10 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama Proyek *</label>
-                    <input type="text" class="form-control" v-model="docData.namaProyek"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.namaProyek" required/>
+                        <span class="material-icons" v-if="!attributeStatus.namaProyek">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
@@ -95,6 +98,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

@@ -13,20 +13,30 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama *</label>
-                    <input type="text" class="form-control" v-model="docData.nama"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.nama" required />
+                        <span class="material-icons" v-if="!attributeStatus.nama">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jabatan *</label>
-                    <input type="text" class="form-control" v-model="docData.jabatan"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.jabatan" required />
+                        <span class="material-icons" v-if="!attributeStatus.jabatan">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Diangkat Berdasarkan Akta *</label>
-                    <input type="text" class="form-control" v-model="docData.diangkatBerdasarkanAkta"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.diangkatBerdasarkanAkta" required />
+                        <span class="material-icons" v-if="!attributeStatus.diangkatBerdasarkanAkta">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -105,6 +115,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

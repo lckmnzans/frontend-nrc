@@ -12,33 +12,52 @@
             <h4>Formulir Sertifikat</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Sertifikat *</label>
-                    <input type="text" class="form-control" v-model="docData.noSertifikat"/>
+                    <label for="" class="form-label">No. Sertifikat *</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noSertifikat" required />
+                        <span class="material-icons" v-if="!attributeStatus.noSertifikat">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit *</label>
-                    <input type="date" class="form-control" v-model="docData.tglTerbit"/>
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.tglTerbit" required />
+                        <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Masa Berlaku *</label>
-                    <input type="date" class="form-control" v-model="docData.masaBerlaku">
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.masaBerlaku" required />
+                        <span class="material-icons" v-if="!attributeStatus.masaBerlaku">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jenis Sertifikat *</label>
-                    <input type="text" class="form-control" v-model="docData.jenisSertifikat"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.jenisSertifikat" required />
+                        <span class="material-icons" v-if="!attributeStatus.jenisSertifikat">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Lokasi *</label>
-                    <input type="text" class="form-control" v-model="docData.lokasi"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.lokasi" required />
+                        <span class="material-icons" v-if="!attributeStatus.lokasi">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Luas *</label>
-                    <input type="text" class="form-control" v-model="docData.luas"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.luas" required />
+                        <span class="material-icons" v-if="!attributeStatus.luas">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -120,6 +139,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

@@ -12,29 +12,45 @@
             <h4>Formulir Surat Keluar</h4>
             <form>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Surat</label>
-                    <input type="text" class="form-control" v-model="docData.noSurat"/>
+                    <label for="" class="form-label">No. Surat</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noSurat" />
+                        <span class="material-icons" v-if="!attributeStatus.noSurat">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
-                    <input type="date" class="form-control" v-model="docData.tglTerbit"/>
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.tglTerbit" />
+                        <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Perihal</label>
-                    <input type="text" class="form-control" v-model="docData.perihal" />
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.perihal" />
+                        <span class="material-icons" v-if="!attributeStatus.perihal">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Drafter *</label>
-                    <input type="text" class="form-control" v-model="docData.drafter" />
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.drafter" required />
+                        <span class="material-icons" v-if="!attributeStatus.drafter">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tujuan Surat *</label>
-                    <input type="text" class="form-control" v-model="docData.tujuanSurat" />
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.tujuanSurat" required />
+                        <span class="material-icons" v-if="!attributeStatus.tujuanSurat">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -115,6 +131,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

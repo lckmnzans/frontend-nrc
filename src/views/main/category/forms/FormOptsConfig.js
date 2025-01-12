@@ -25,6 +25,7 @@ export default {
             selectedFile: null,
             loading: false,
             error: false,
+            attributeStatus: {}
         };
     },
     methods: {
@@ -98,6 +99,8 @@ export default {
                                     this.docData[key] = body.data[key];
                                 }
                             });
+                            const attributeStatus = JSON.parse(body.data.notes);
+                            this.attributeStatus = attributeStatus;
                             this.fetchFile(body.data.docName);
                         } else {
                             console.error('Dokumen gagal diambil.');

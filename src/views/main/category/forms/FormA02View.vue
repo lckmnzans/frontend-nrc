@@ -13,32 +13,51 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama Kontrak *</label>
-                    <input type="text" class="form-control" v-model="docData.namaKontrak"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.namaKontrak" required />
+                        <span class="material-icons" v-if="!attributeStatus.namaKontrak">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Proyek</label>
-                    <input type="text" class="form-control" v-model="docData.noProyek"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noProyek" />
+                        <span class="material-icons" v-if="!attributeStatus.noProyek">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Kontrak</label>
-                    <input type="date" class="form-control" v-model="docData.tglKontrak"/>
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.tglKontrak" />
+                        <span class="material-icons" v-if="!attributeStatus.tglKontrak">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Kontrak</label>
-                    <input type="text" class="form-control" v-model="docData.noKontrak"/> 
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noKontrak" />
+                        <span class="material-icons" v-if="!attributeStatus.noKontrak">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Pemberi Kerja</label>
-                    <input type="text" class="form-control" v-model="docData.pemberiKerja"/> 
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.pemberiKerja" />
+                        <span class="material-icons" v-if="!attributeStatus.pemberiKerja">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jenis Dokumen *</label>
-                    <input type="text" class="form-control" v-model="docData.jenisDokumen"/> 
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.jenisDokumen" required />
+                        <span class="material-icons" v-if="!attributeStatus.jenisDokumen">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -120,6 +139,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

@@ -13,60 +13,51 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama</label>
-                    <input type="text" class="form-control" v-model="docData.nama"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.nama" />
+                        <span class="material-icons" v-if="!attributeStatus.nama">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Dokumen *</label>
-                    <input type="text" class="form-control" v-model="docData.noDokumen"/>
+                    <label for="" class="form-label">No.Sertifikat</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noSertifikat" />
+                        <span class="material-icons" v-if="!attributeStatus.noSertifikat">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Jabatan</label>
-                    <input type="text" class="form-control" v-model="docData.jabatan"/>
+                    <label for="" class="form-label">Tanggal Terbit</label>
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.tglTerbit" />
+                        <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Tempat Tanggal Lahir</label>
-                    <input type="text" class="form-control" v-model="docData.ttl"/>
+                    <label for="" class="form-label">Masa Berlaku</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.masaBerlaku" />
+                        <span class="material-icons" v-if="!attributeStatus.masaBerlaku">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Pendidikan Terakhir</label>
-                    <input type="text" class="form-control" v-model="docData.pendidikanTerakhir"/> 
+                    <label for="" class="form-label">Jenis Sertifikat Keahlian</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.jenisSertifikatKeahlian" />
+                        <span class="material-icons" v-if="!attributeStatus.jenisSertifikatKeahlian">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Instansi Pendidikan</label>
-                    <input type="text" class="form-control" v-model="docData.instansiPendidikan"/> 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Tahun Lulus</label>
-                    <input type="month" class="form-control" v-model="docData.tahunLulus"/> 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Pengalaman Kerja</label>
-                    <input type="text" class="form-control" v-model="docData.pengalamanKerja"/> 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Proyek Terakhir</label>
-                    <input type="text" class="form-control" v-model="docData.proyekTerakhir"/> 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Alamat KTP</label>
-                    <input type="text" class="form-control" v-model="docData.alamatKtp"/> 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Email *</label>
-                    <input type="text" class="form-control" v-model="docData.email"/> 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">No.HP *</label>
-                    <input type="text" class="form-control" v-model="docData.noHp"/> 
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">No.NPWP *</label>
-                    <input type="text" class="form-control" v-model="docData.noNPWP"/> 
+                    <label for="" class="form-label">Jabatan *</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.jabatan" required />
+                        <span class="material-icons" v-if="!attributeStatus.jabatan">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -155,6 +146,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>

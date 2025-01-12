@@ -19,6 +19,10 @@
                 </div>
             </div>
             <form class="form-body" @submit.prevent="saveChanges">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="valid" id="doctype-validity-check" v-model="attributesStatus.docTypeValidity">
+                    <label class="form-check-label" for="doctype-validity-check">Jenis dokumen sesuai</label>
+                </div>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -94,9 +98,10 @@ export default {
             obj[attribute.name] = attribute.value;
             return obj;
         }, {});
-        this.docData = structuredClone(formData);
+        this.docData = JSON.parse(JSON.stringify(formData));
         this.docData['verificationStatus'] = 'unverified';
-        this.attributesStatus = structuredClone(formData);
+        this.attributesStatus = JSON.parse(JSON.stringify(formData));
+        this.attributesStatus['docTypeValidity'] = false;
 
         this.fetchData();
     },
@@ -165,16 +170,10 @@ export default {
             this.docData[key] = value;
         },
         saveChanges() {
-            const notes = [];
-            Object.keys(this.attributesStatus).forEach(attributeName => {
-                if (this.attributesStatus[attributeName] === true) {
-                    notes[attributeName] = true;
-                } else {
-                    notes[attributeName] = false;
-                }
-            })
+            const notes = JSON.stringify(this.attributesStatus);
             
             this.docData['verificationStatus'] = 'verified';
+            this.docData['notes'] = notes;
             this.axios(api.updateDocData(this.docData, this.docType, this.docId))
             .then(response => {
                 if (response.status == 200) {
@@ -186,6 +185,13 @@ export default {
             .catch(err => {
                 console.log('Permintaan tidak bisa diproses. Error: ' + err);
             })
+        },
+        testChanges() {
+            const notes = JSON.stringify(this.attributesStatus);
+            this.docData['verificationStatus'] = 'verified';
+            console.log(this.docData);
+            console.log(this.attributesStatus);
+            console.log(notes);
         },
         ...mapActions(usePageStore, ['setPageTitle']),
         ...mapActions(useToastStore, ['setToast'])

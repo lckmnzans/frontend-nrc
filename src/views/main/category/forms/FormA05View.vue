@@ -13,24 +13,37 @@
             <form>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama Dokumen *</label>
-                    <input type="text" class="form-control" v-model="docData.namaDokumen"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.namaDokumen" required />
+                        <span class="material-icons" v-if="!attributeStatus.namaDokumen">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Laporan</label>
-                    <input type="text" class="form-control" v-model="docData.noLaporan"/>
+                    <label for="" class="form-label">No. Laporan</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noLaporan" />
+                        <span class="material-icons" v-if="!attributeStatus.noLaporan">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Laporan</label>
-                    <input type="date" class="form-control" v-model="docData.tglLaporan"/>
+                    <div class="input-control">
+                        <input type="date" class="form-control" v-model="docData.tglLaporan" />
+                        <span class="material-icons" v-if="!attributeStatus.tglLaporan">error</span>
+                    </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Periode</label>
-                    <input type="text" class="form-control" v-model="docData.periode"/>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.periode" />
+                        <span class="material-icons" v-if="!attributeStatus.periode">error</span>
+                    </div>
                 </div>
                 <div class="alert alert-info" role="alert" v-if="ocrable">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
+
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             @update:local-preview="localPreview = $event"
@@ -110,6 +123,14 @@ export default {
         .preview-pdf {
             height: 600px;
         }
+    }
+
+    .input-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        gap: 6px;
     }
 }
 </style>
