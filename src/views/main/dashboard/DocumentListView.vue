@@ -65,6 +65,7 @@
                             <td>
                                 <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
                                 <span class="badge bg-info text-dark" v-if="doc.hasPassedScreening">OCR</span>
+                                <span class="badge bg-warning text-dark" v-if="doc.verificationStatus == 'verified' ? !docTypeValidity(doc.notes) : false">Jenis dokumen invalid</span>
                             </td>
                             <td>
                                 <div class="button">
@@ -207,6 +208,15 @@ export default {
             } else {
                 return results[1];
             }
+        },
+        docTypeValidity(stringObj) {
+            try {
+                const obj = JSON.parse(stringObj);
+                return obj.isDocTypeValid;
+            } catch (err) {
+                console.log('Error :' + err);
+            }
+            return true;
         },
         goToVerif(docType, docId) {
             this.$router.push({ path: `/review/${docType}/${docId}` });
