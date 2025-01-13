@@ -210,13 +210,8 @@ export default {
             }
         },
         docTypeValidity(stringObj) {
-            try {
-                const obj = JSON.parse(stringObj);
-                return obj.isDocTypeValid;
-            } catch (err) {
-                console.log('Error :' + err);
-            }
-            return true;
+            const obj = JSON.parse(stringObj);
+            return obj.docTypeValidity;
         },
         goToVerif(docType, docId) {
             this.$router.push({ path: `/review/${docType}/${docId}` });
