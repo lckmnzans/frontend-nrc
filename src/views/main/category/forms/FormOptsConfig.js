@@ -129,6 +129,14 @@ export default {
                     this.error = true;
                 });
         },
+        setAttributesNull() {    
+            if (this.mode == 'create') {
+                this.attributeStatus = JSON.parse(JSON.stringify(this.docData));
+                Object.keys(this.attributeStatus).forEach(key => {
+                    this.attributeStatus[key] = true;
+                });
+            }
+        },
         ...mapActions(useToastStore, {
             setToast: 'setToast',
         }),

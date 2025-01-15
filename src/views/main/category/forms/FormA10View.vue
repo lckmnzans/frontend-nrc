@@ -70,6 +70,7 @@ export default {
     },
     created() {
         this.fetchData();
+        this.setAttributesNull();
     },
     computed: {
         isRequiredFormEmpty() {
