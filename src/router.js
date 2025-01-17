@@ -44,6 +44,9 @@ const router = createRouter({
                     component: () => import('@/views/main/dashboard/HomeView.vue'),
                     children: [
                         {   path: '',
+                            component: () => import('@/views/main/dashboard/MainDashboardView.vue')
+                        },
+                        {   path: 'list',
                             component: () => import('@/views/main/dashboard/DocumentListView.vue'),
                         },
                         {   path: 'edit/:docType/:docId',

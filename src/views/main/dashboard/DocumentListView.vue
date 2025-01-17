@@ -31,6 +31,13 @@
                     <option value="unverified">Belum diverifikasi</option>
                 </select>
             </div>
+            <div id="date-filter" class="filter-date">
+                <label for="document-date-filter"><span class="text">Tanggal dokumen ditambahkan</span></label>
+                <div class="input-group" id="document-date-filter">
+                    <input type="date" class="form-control form-control-sm" id="document-start-date-filter" v-model="docFilter.startDate" />
+                    <input type="date" class="form-control form-control-sm" id="document-end-date-filter" v-model="docFilter.endDate" />
+                </div>
+            </div>
             <div id="name-filter" class="filter-search">
                 <label for="document-name-search"><span class="text">Cari berdasar nama</span></label>
                 <input v-model="docFilter.keyword" type="text" class="form-control form-control-sm" id="document-name-search" :placeholder="this.docFilter.docType ? 'kata kunci' : this.docFilter.keyword" :disabled="!isDocTypeSet"/>
@@ -148,7 +155,7 @@ export default {
             this.loading = true;
             this.error = false;
 
-            this.axios(api.getListOfDocuments(this.currentPage, this.limit, this.docFilter.docType, this.docFilter.docStatus, this.docFilter.keyword))
+            this.axios(api.getListOfDocuments(this.currentPage, this.limit, this.docFilter.docType, this.docFilter.docStatus, this.docFilter.startDate, this.docFilter.endDate, this.docFilter.keyword))
             .then((response) => {
                 if (response.status == 200) {
                     const body = response.data;
@@ -171,7 +178,7 @@ export default {
             })
         },
         async downloadDoc(filename) {
-            this.axios(api.getDocFile(filename))
+            this.axios(api.getDocFile(filename, true))
             .then(response => {
                 if (response.status == 200) {
                     const blob = response.data;

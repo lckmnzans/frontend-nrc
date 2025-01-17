@@ -6,6 +6,8 @@ export const useDocumentsListStore = defineStore('documents-list', {
       docFilter: {
         docType: '',
         docStatus: '',
+        startDate: '',
+        endDate: '',
         keyword: ''
       },
       currentPage: 1,

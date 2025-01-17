@@ -103,8 +103,14 @@ export default {
                                     this.docData[key] = body.data[key];
                                 }
                             });
-                            const attributeStatus = JSON.parse(body.data.notes);
-                            this.attributeStatus = attributeStatus;
+                            if (body.data.notes) {
+                                this.attributeStatus = JSON.parse(body.data.notes);
+                            } else {
+                                this.attributeStatus = JSON.parse(JSON.stringify(this.docData));
+                                Object.keys(this.attributeStatus).forEach(key => {
+                                    this.attributeStatus[key] = true;
+                                });
+                            }
                             this.fetchFile(body.data.docName);
                         } else {
                             console.error('Dokumen gagal diambil.');
@@ -117,7 +123,7 @@ export default {
         },
         async fetchFile(filename) {
             this.error = false;
-            this.axios(api.getDocFile(filename))
+            this.axios(api.getDocFile(filename, true))
                 .then((response) => {
                     if (response.status === 200) {
                         this.localPreview = URL.createObjectURL(response.data);

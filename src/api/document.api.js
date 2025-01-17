@@ -25,7 +25,7 @@ export default {
             }
         }
     },
-    getListOfDocuments: (page, limit, docType, verificationStatus, keyword) => {
+    getListOfDocuments: (page, limit, docType, verificationStatus, startDate, endDate, keyword) => {
         const url = new URL(`${ApiHost}/api/v1/document/list-document`);
         const params = new URLSearchParams();
 
@@ -39,6 +39,8 @@ export default {
             params.append('docType', docType);
         }
         if (verificationStatus) params.append('verificationStatus', verificationStatus);
+        if (startDate) params.append('startDate', startDate);
+        if (endDate) params.append('endDate', endDate);
         if (keyword) params.append('keyword', keyword);
 
         if (Array.from(params).length > 0) {
@@ -63,14 +65,28 @@ export default {
             }
         }
     },
-    getDocFile: (fileId) => {
-        return {
-            method: 'GET',
-            url: `${ApiHost}/api/v1/document/file/${fileId}`,
-            headers: {
-                "authorization": "Bearer " + localStorage.getItem("token")
-            },
-            responseType: 'blob'
+    getDocFile: (fileId, pdfOnly) => {
+        const url = new URL(`${ApiHost}/api/v1/document/file/${fileId}`);
+        if (pdfOnly) {
+            const params = new URLSearchParams();
+            params.append('pdfOnly', true);
+            url.search = params.toString();
+            return {
+                method: 'GET',
+                url: url.toString(),
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("token")
+                },
+                responseType: 'blob'
+            }
+        } else {
+            return {
+                method: 'GET',
+                url: url.toString(),
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("token")
+                }
+            }
         }
     },
     updateDocData: (docData, docType, docId) => {
