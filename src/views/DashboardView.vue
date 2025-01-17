@@ -24,10 +24,12 @@
 import Sidebar from '@/components/Sidebar.vue';
 import Alert from '@/components/Alert.vue';
 import Toast from '@/components/Toast.vue';
+import api from '@/api/account.api';
 import { mapState, mapActions } from 'pinia';
 import { usePageStore } from '@/store';
 import { useAlertStore } from '@/store/alertStore';
 import { useToastStore } from '@/store/toastStore';
+import { useUserStore } from '@/store/userStore';
 export default {
     components: {
         Sidebar, Alert, Toast
@@ -35,20 +37,7 @@ export default {
     inject: ['$auth'],
     created() {
         this.token = this.$auth.getToken();
-        // const token = this.$auth.getToken();
-        // const tokenAge = this.$auth.getTokenAge();
-
-        // if (!token) {
-        //     console.log('Anda belum punya akses ke halaman ini');
-        //     this.$router.push({ name: 'login' });
-        // } else if (tokenAge <= Date.now()) {
-        //     this.setToast('Sesi anda sudah habis masa waktu', 3000);
-        //     this.$auth.logout();
-        //     this.$router.replace({ name: 'login' });
-        // } else {
-        //     this.token = token;
-        //     this.$router.replace({ name: 'home' })
-        // }
+        this.fetchProfile();
     },
     computed: {
         ...mapState(useToastStore, {
@@ -75,6 +64,23 @@ export default {
         goToProfile() {
             this.$router.push({ path: '/profile' });
         },
+        async fetchProfile() {
+            const userId = JSON.parse(this.$auth.getUser()).id;
+            this.axios(api.getAccount(userId))
+            .then(response => {
+                if (response.status = 200) {
+                    const body = response.data;
+                    this.user = { username: body.data.username, email: body.data.email };
+                    this.saveProfile(this.user);
+                    console.log('Data berhasil diambil');
+                } else {
+                    console.log('Data gagal diambil');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        },
         ...mapActions(useAlertStore, {
             setAlert: 'setAlert',
             setAlertState: 'setAlertState'
@@ -82,6 +88,9 @@ export default {
         ...mapActions(useToastStore, {
             setToast: 'setToast',
             setToastState: 'setToastState'
+        }),
+        ...mapActions(useUserStore, {
+            saveProfile: 'saveProfile'
         })
     }
 }

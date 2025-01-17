@@ -50,9 +50,9 @@
 </template>
 <script>
 import router from '@/router';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import { usePageStore, useDocumentsTypeStore } from '@/store';
-
+import { useUserStore } from '@/store/userStore';
 export default {
     inject: ['$auth'],
     emits: ['sidebarExpanded'],
@@ -81,8 +81,12 @@ export default {
         },
         logout() {
             this.$auth.logout();
+            this.clear();
             router.replace({ name: 'login' });
-        }
+        },
+        ...mapActions(useUserStore, {
+            clear: 'clear'
+        })
     }
 }
 </script>

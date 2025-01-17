@@ -15,7 +15,10 @@
             </div>
 
             <div class="mb-3 submit-control">
-                <button type="submit" class="btn btn-primary btn-sm" :disabled="isFormEmpty">Unggah</button>
+                <button type="submit" class="btn btn-primary btn-sm" :disabled="isFormEmpty">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>
+                    <span class="text" v-else>Unggah</span>
+                </button>
             </div>
         </form>
     </div>
@@ -27,6 +30,10 @@ export default {
         disabledState: {
             type: Boolean,
             default: true
+        },
+        loading: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
@@ -73,6 +80,10 @@ export default {
     .submit-control {
         display: flex;
         justify-content: space-between;
+
+        button {
+            min-width: 100px;
+        }
     }
 
 }

@@ -19,6 +19,8 @@
 <script>
 import LoadingOverlay from '@/components/Loading.vue';
 import api from '@/api/account.api';
+import { mapActions } from 'pinia';
+import { useUserStore } from '@/store/userStore';
 export default {
     components: { LoadingOverlay },
     inject: ['$auth'],
@@ -44,6 +46,7 @@ export default {
                 if (response.status = 200) {
                     const body = response.data;
                     this.user = { username: body.data.username, email: body.data.email };
+                    this.saveProfile(this.user);
                     console.log('Data berhasil diambil');
                 } else {
                     console.log('Data gagal diambil');
@@ -58,7 +61,10 @@ export default {
         },
         goChangePassword() {
             this.$router.push({ path: `/profile/${this.user.username}/change-password` });
-        }
+        },
+        ...mapActions(useUserStore, {
+            saveProfile: 'saveProfile'
+        })
     }
 }
 </script>

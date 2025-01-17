@@ -39,6 +39,7 @@
 
             <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
+            :loading="loading"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
             />

@@ -36,16 +36,9 @@ import api from '@/api/account.api';
 export default {
     components: { FontAwesomeIcon },
     inject: ['$auth'],
-    created() {
-        // this.token = this.$auth.getToken();
-        // if (this.token) {
-        //     this.$router.replace({ path: '/' });
-        // }
-    },
     data() {
         return {
             isPasswordVisible: false,
-            // token: '',
             user: {
                 username: '',
                 password: ''

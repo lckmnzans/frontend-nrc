@@ -46,12 +46,6 @@ export default {
             password2: '' 
         }
     },
-    created() {
-        // const token = this.$auth.getToken();
-        // if (token !== null) {
-        //     this.$router.replace({ name: 'home' });
-        // }
-    },
     methods: {
         isPasswordsEquals() {
             return this.password === this.password2;

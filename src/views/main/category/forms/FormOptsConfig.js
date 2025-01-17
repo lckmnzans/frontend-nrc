@@ -56,8 +56,9 @@ export default {
                 return;
             }
 
+            this.loading = true;
             this.axios(api.upload(file, this.docType))
-                .then((response) => {
+                .then(async (response) => {
                     if (response.status === 200) {
                         const body = response.data;
                         const data = {
@@ -66,13 +67,16 @@ export default {
                             ...this.docData,
                         };
                         this.selectedFile = null;
-                        this.uploadDocument(data);
+                        await this.uploadDocument(data);
                     } else {
                         console.error('File gagal diunggah.');
                     }
                 })
                 .catch((error) => {
                     console.error('Error:', error);
+                })
+                .finally(() => {
+                    this.loading = false;
                 });
         },
         async uploadDocument(data) {

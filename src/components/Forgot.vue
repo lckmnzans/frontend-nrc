@@ -23,15 +23,8 @@
 import api from '@/api/account.api';
 export default {
     inject: ['$auth'],
-    created() {
-        // this.token = this.$auth.getToken();
-        // if (this.token) {
-        //     this.$router.replace({ path: '/' });
-        // }
-    },
     data() {
         return {
-            // token: '',
             username: '',
             email: ''
         }
