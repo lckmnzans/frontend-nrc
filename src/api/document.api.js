@@ -1,5 +1,6 @@
 const ApiHost = process.env.VUE_APP_BACKEND_URL;
 export default {
+    ApiHost,
     upload: (document, docType) => {
         const formData = new FormData();
         formData.append('document', document);
@@ -65,28 +66,11 @@ export default {
             }
         }
     },
-    getDocFile: (fileId, pdfOnly) => {
-        const url = new URL(`${ApiHost}/api/v1/document/file/${fileId}`);
-        if (pdfOnly) {
-            const params = new URLSearchParams();
-            params.append('pdfOnly', true);
-            url.search = params.toString();
-            return {
-                method: 'GET',
-                url: url.toString(),
-                headers: {
-                    "authorization": "Bearer " + localStorage.getItem("token")
-                },
-                responseType: 'blob'
-            }
-        } else {
-            return {
-                method: 'GET',
-                url: url.toString(),
-                headers: {
-                    "authorization": "Bearer " + localStorage.getItem("token")
-                }
-            }
+    getPdf: (filename) => {
+        return {
+            method: 'GET',
+            url: `${ApiHost}/api/v1/document/pdf/${filename}?requestedFile=pdf`,
+            responseType: 'blob'
         }
     },
     updateDocData: (docData, docType, docId) => {

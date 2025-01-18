@@ -150,7 +150,7 @@ export default {
             }
         },
         async fetchFile(filename) {
-            this.axios(api.getDocFile(filename, true))
+            this.axios(api.getPdf(filename))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;

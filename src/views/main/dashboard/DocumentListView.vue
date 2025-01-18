@@ -1,4 +1,22 @@
 <template>
+    <div>
+        <div class="modal fade" id="modalPreviewPdf" tabindex="-1" aria-labelledby="modalPreviewPdfLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPreviewPdfLabel">Pratinjau PDF</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img :src="modalPreview" width="400px"/>
+                </div>
+                <div class="modal-footer">
+                    ...
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="list-container" >
         <h4>Dokumen Terbaru</h4>
         <p>Daftar dokumen yang masuk sistem</p>
@@ -52,10 +70,11 @@
             </div>
             <div class="table-container" v-else-if="!loading && !error">
                 <span class="text">Mendapatkan {{ totalDocuments }} dokumen</span>
-                <table class="table table-hover" >
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">No.</th>
+                            <th scope="col">Preview</th>
                             <th scope="col">Jenis Dokumen</th>
                             <th scope="col">Nama Dokumen/File</th>
                             <th scope="col">Waktu Unggah</th>
@@ -64,8 +83,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(doc, index) in docs" :key="index">
+                        <tr v-for="(doc, index) in docs" :key="index" data-bs-toggle="modal" data-bs-target="#modalPreviewPdf" @click.prevent="modalPreview = `${api}/api/v1/document/pdf/${docs[index].docName}`">
                             <td>{{ limit * (currentPage-1) + index + 1 }}</td>
+                            <td><img :src="`${api}/api/v1/document/pdf/${doc.docName}`" alt="Preview Document" width="100" height="100"></td>
                             <td>{{ documentType(doc.docType) }}</td>
                             <td>{{ doc.docName }}</td>
                             <td>{{ parseToLocalTime(doc.createdDate) }}</td>
@@ -147,7 +167,9 @@ export default {
         return {
             loading: false,
             error: false,
-            role: 'admin'
+            role: 'admin',
+            api: api.ApiHost,
+            modalPreview: ''
         };
     },
     methods: {
@@ -178,7 +200,7 @@ export default {
             })
         },
         async downloadDoc(filename) {
-            this.axios(api.getDocFile(filename, true))
+            this.axios(api.getPdf(filename))
             .then(response => {
                 if (response.status == 200) {
                     const blob = response.data;
