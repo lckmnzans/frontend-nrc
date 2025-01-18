@@ -11,11 +11,11 @@
 
         <h3>Menu Dashboard</h3>
         <div class="menu">
-            <router-link class="button" to="/">
+            <router-link class="button" :to="`/`" active-class="active">
                 <span class="material-icons">home</span>
                 <span class="text">Home</span>
             </router-link>
-            <a class="button" @click.prevent="toggleSubmenu" style="cursor: context-menu;">
+            <a class="button" @click.prevent="toggleSubmenu" style="cursor: context-menu;" >
                 <span class="material-icons">list_alt</span>
                 <span class="text">Kategori</span>
                 <span class="material-icons submenu-icon">
@@ -24,23 +24,19 @@
             </a>
             <ul v-if="isSubmenuVisible" class="submenu">
                 <li v-for="page in pages" :key="page.page">
-                    <router-link class="button submenu-item" :to="`/category/${page.page}`">
+                    <router-link class="button submenu-item" :to="`/category/${page.page}`" active-class="active">
                         <span class="material-icons">label_important</span>
                         <span class="text">{{ page.content }}</span>
                     </router-link>
                 </li>
             </ul>
-            <router-link v-if="isSuperadmin" class="button" to="/accounts">
+            <router-link v-if="isSuperadmin" class="button" :to="`/accounts`" active-class="active">
                 <span class="material-icons">groups</span>
                 <span class="text">Accounts</span>
             </router-link>
         </div>
         <div class="flex"></div>
         <div class="menu">
-            <!-- <router-link class="button" to="/test">
-                <span class="material-icons">adb</span>
-                <span class="text">Test</span>
-            </router-link> -->
             <router-link class="button" to="/login" @click="logout">
                 <span class="material-icons">logout</span>
                 <span class="text">Keluar</span>
@@ -49,7 +45,6 @@
     </aside>
 </template>
 <script>
-import router from '@/router';
 import { mapState, mapActions } from 'pinia';
 import { usePageStore, useDocumentsTypeStore } from '@/store';
 import { useUserStore } from '@/store/userStore';
@@ -179,7 +174,7 @@ aside {
                 transition: 0.2s ease-out;
             }
 
-            &:hover, &.router-link-exact-active {
+            &:hover, &.active {
                 background-color: var(--dark-alt);
 
                 .material-icons, .text {
@@ -187,7 +182,7 @@ aside {
                 }
             }
 
-            &.router-link-exact-active {
+            &.active {
                 border-right: 5px solid var(--primary);
             }
         }

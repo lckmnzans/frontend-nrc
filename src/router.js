@@ -4,6 +4,8 @@ import DashboardView from '@/views/DashboardView.vue';
 import ResetView from '@/views/ResetPasswordView.vue';
 import LoginV from '@/components/Login.vue';
 import ForgotV from '@/components/Forgot.vue';
+import ProfileView from '@/views/main/profile/ProfileView.vue';
+import HomeView from '@/views/main/dashboard/HomeView.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -25,7 +27,7 @@ const router = createRouter({
             component: DashboardView,
             children: [
                 {   path: 'profile',
-                    component: () => import('@/views/main/profile/ProfileView.vue'),
+                    component: ProfileView,
                     children: [
                         {   name: 'your-profile',
                             path: '',
@@ -41,7 +43,7 @@ const router = createRouter({
                 {   name: 'home',
                     alias: 'dashboard',
                     path: '',
-                    component: () => import('@/views/main/dashboard/HomeView.vue'),
+                    component: HomeView,
                     children: [
                         {   path: '',
                             component: () => import('@/views/main/dashboard/MainDashboardView.vue')
@@ -147,7 +149,8 @@ const router = createRouter({
                 }
             ]
         }
-    ]
+    ],
+    linkActiveClass: 'active'
 })
 
 router.beforeEach((to,from,next) => {
