@@ -177,7 +177,15 @@ export default {
             this.loading = true;
             this.error = false;
 
-            this.axios(api.getListOfDocuments(this.currentPage, this.limit, this.docFilter.docType, this.docFilter.docStatus, this.docFilter.startDate, this.docFilter.endDate, this.docFilter.keyword))
+            this.axios(api.getListOfDocuments(
+                this.currentPage,
+                this.limit,
+                this.docFilter.docType,
+                this.docFilter.docStatus,
+                this.docFilter.startDate,
+                this.docFilter.endDate,
+                this.docFilter.keyword)
+            )
             .then((response) => {
                 if (response.status == 200) {
                     const body = response.data;
@@ -294,19 +302,16 @@ export default {
             position: absolute;
             width: 100%;
             height: 30vh;
-            // padding: 4rem;
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: rgba(0, 0, 0, 0.5);
-            // margin: 1px;
             border-radius: 8px;
             z-index: 9999;
         }
 
         .error-container {
             position: absolute;
-            // padding: 25px;
             width: 100%;
             height: 30vh;
             display: flex;

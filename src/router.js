@@ -6,6 +6,10 @@ import LoginV from '@/components/Login.vue';
 import ForgotV from '@/components/Forgot.vue';
 import ProfileView from '@/views/main/profile/ProfileView.vue';
 import HomeView from '@/views/main/dashboard/HomeView.vue';
+import Category1View from '@/views/main/category/Category1View.vue';
+import Category2View from '@/views/main/category/Category2View.vue';
+import Category3View from '@/views/main/category/Category3View.vue';
+import AccountView from '@/views/main/account/AccountsView.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -65,7 +69,7 @@ const router = createRouter({
                     path: 'category',
                     children: [
                         {   path: '1',
-                            component: () => import('@/views/main/category/Category1View.vue'),
+                            component: Category1View,
                             children: [
                                 {   path: '',
                                     redirect: '/category/1/A01',
@@ -103,7 +107,7 @@ const router = createRouter({
                             ]
                         },
                         {   path: '2',
-                            component: () => import('@/views/main/category/Category2View.vue'),
+                            component: Category2View,
                             children: [
                                 {   path: '',
                                     redirect: '/category/2/B01'
@@ -117,7 +121,7 @@ const router = createRouter({
                             ]
                         },
                         {   path: '3',
-                            component: () => import('@/views/main/category/Category3View.vue'),
+                            component: Category3View,
                             children: [
                                 {   path: '',
                                     redirect: '/category/3/C01'
@@ -133,7 +137,7 @@ const router = createRouter({
                     ]
                 },
                 {   path: 'accounts',
-                    component: () => import('@/views/main/account/AccountsView.vue'),
+                    component: AccountView,
                     children: [
                         {   path: '',
                             component: () => import('@/views/main/account/ListAccountView.vue')
