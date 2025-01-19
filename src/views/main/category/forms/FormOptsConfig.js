@@ -123,7 +123,7 @@ export default {
         },
         async fetchFile(filename) {
             this.error = false;
-            this.axios(api.getDocFile(filename, true))
+            this.axios(api.getPdf(filename))
                 .then((response) => {
                     if (response.status === 200) {
                         this.localPreview = URL.createObjectURL(response.data);
