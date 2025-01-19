@@ -83,9 +83,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(doc, index) in docs" :key="index" data-bs-toggle="modal" data-bs-target="#modalPreviewPdf" @click.prevent="modalPreview = `${api}/api/v1/document/pdf/${docs[index].docName}`">
+                        <tr v-for="(doc, index) in docs" :key="index">
                             <td>{{ limit * (currentPage-1) + index + 1 }}</td>
-                            <td><img :src="`${api}/api/v1/document/pdf/${doc.docName}`" alt="Preview Document" width="100" height="100"></td>
+                            <td data-bs-toggle="modal" data-bs-target="#modalPreviewPdf" @click.prevent="modalPreview = `${api}/api/v1/document/pdf/${docs[index].docName}`"><img :src="`${api}/api/v1/document/pdf/${doc.docName}`" alt="Preview Document" width="100" height="100"></td>
                             <td>{{ documentType(doc.docType) }}</td>
                             <td>{{ doc.docName }}</td>
                             <td>{{ parseToLocalTime(doc.createdDate) }}</td>
