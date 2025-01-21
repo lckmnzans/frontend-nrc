@@ -1,4 +1,10 @@
 # frontend-nrc
+enter project directory and run these commands through terminal
+
+## Install vue-cli
+```
+npm install -g @vue/cli
+```
 
 ## Project setup
 ```

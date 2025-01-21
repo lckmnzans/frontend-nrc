@@ -1,17 +1,20 @@
 <template>
     <div>
-        <div class="modal fade" id="modalPreviewPdf" tabindex="-1" aria-labelledby="modalPreviewPdfLabel" aria-hidden="true">
+        <div class="modal fade" id="modalView" tabindex="-1" aria-labelledby="modalViewLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalPreviewPdfLabel">Pratinjau PDF</h5>
+                    <h5 class="modal-title" id="modalViewLabel">Pratinjau PDF</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <img :src="modalPreview" width="400px"/>
                 </div>
                 <div class="modal-footer">
-                    ...
+                    <div v-if="deleting" class="col">
+                        <button class="btn btn-danger">Lanjutkan</button>
+                        <button class="btn btn-secondary">Batalkan</button>
+                    </div>
                 </div>
                 </div>
             </div>
@@ -79,13 +82,17 @@
                             <th scope="col">Nama Dokumen/File</th>
                             <th scope="col">Waktu Unggah</th>
                             <th scope="col">Status</th>
-                            <th scope="col" colspan="3">Aksi</th>
+                            <th scope="col" colspan="4">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(doc, index) in docs" :key="index">
                             <td>{{ limit * (currentPage-1) + index + 1 }}</td>
-                            <td data-bs-toggle="modal" data-bs-target="#modalPreviewPdf" @click.prevent="modalPreview = `${api}/api/v1/document/pdf/${docs[index].docName}`"><img :src="`${api}/api/v1/document/pdf/${doc.docName}`" alt="Preview Document" width="100" height="100"></td>
+                            <td @click.prevent="modalPreview = `${api}/api/v1/document/pdf/${docs[index].docName}`"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalView">
+                            <img :src="`${api}/api/v1/document/pdf/${doc.docName}`" alt="Preview Document" width="100" height="100">
+                            </td>
                             <td>{{ documentType(doc.docType) }}</td>
                             <td>{{ doc.docName }}</td>
                             <td>{{ parseToLocalTime(doc.createdDate) }}</td>
@@ -96,7 +103,7 @@
                             </td>
                             <td>
                                 <div class="button">
-                                    <button title="unduh" @click.prevent="downloadDoc(doc.docName)"><span class="material-icons">download_for_offline</span></button>
+                                    <button title="unduh" @click.prevent="downloadDoc(doc.docName)"  style="background-color: slategray;color: #fff;"><span class="material-icons">download_for_offline</span></button>
                                 </div>
                             </td>
                             <td>
@@ -107,6 +114,11 @@
                             <td>
                                 <div class="button" v-if="role == 'superadmin'">
                                     <router-link :to="`/review/${doc.docType}/${doc._id}`"><span class="material-icons">task_alt</span></router-link>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="button" v-if="role == 'superadmin'">
+                                    <button title="hapus" @click.prevent="deleteDoc(doc._id, doc.docName)" data-bs-toggle="modal" data-bs-target="#modalView" style="background-color: red;color: #fff;"><span class="material-icons">delete_forever</span></button>
                                 </div>
                             </td>
                         </tr>
@@ -169,7 +181,8 @@ export default {
             error: false,
             role: 'admin',
             api: api.ApiHost,
-            modalPreview: ''
+            modalPreview: '',
+            deleting: false
         };
     },
     methods: {
@@ -228,6 +241,11 @@ export default {
             .catch(err => {
                 console.log('Terjadi kesalahan saat mengunduh dokumen. Error: ', err);
             });
+        },
+        deleteDoc(docId, filename) {
+            this.modalPreview = `${api.ApiHost}/api/v1/document/pdf/${filename}`;
+            this.deleting = true;
+
         },
         parseToLocalTime(strDate) {
             const date = new Date(strDate);
@@ -347,7 +365,9 @@ export default {
     align-items: center;
 
     button {
-        border: none;
+        border: 1px solid #fff;
+        padding: 1px;
+        border-radius: 6px;
         background: none;
 
         .icon-verified {

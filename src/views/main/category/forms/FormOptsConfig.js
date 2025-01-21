@@ -1,4 +1,3 @@
-// sharedComponentConfig.js
 import api from '@/api/document.api';
 import { useToastStore } from '@/store/toastStore';
 import { mapActions } from 'pinia';
