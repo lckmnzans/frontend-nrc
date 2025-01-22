@@ -29,6 +29,10 @@ export default {
     },
     methods: {
         async handleUpdate() {
+            Object.keys(this.attributeStatus).forEach(key => {
+                this.attributeStatus[key] = true;
+            })
+            this.docData['notes'] = JSON.stringify(this.attributeStatus);
             this.axios(api.updateDocData(this.docData, this.docType, this.docId))
                 .then((response) => {
                     if (response.status === 200) {
