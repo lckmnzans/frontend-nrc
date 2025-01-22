@@ -73,6 +73,9 @@ export default {
             responseType: 'blob'
         }
     },
+    getPdfThumbnail: (filename) => {
+        return `${ApiHost}/api/v1/document/pdf/${filename}`
+    },
     updateDocData: (docData, docType, docId) => {
         return {
             method: 'PATCH',

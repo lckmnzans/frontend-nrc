@@ -62,6 +62,7 @@ export default {
                         const body = response.data;
                         const data = {
                             docName: body.data.file.filename,
+                            fileRef: body.data.file._id,
                             docType: body.data.file.documentType,
                             ...this.docData,
                         };
