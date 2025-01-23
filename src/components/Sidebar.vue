@@ -77,7 +77,6 @@ export default {
         logout() {
             this.$auth.logout();
             this.clear();
-            router.replace({ name: 'login' });
         },
         ...mapActions(useUserStore, {
             clear: 'clear'

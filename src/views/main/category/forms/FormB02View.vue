@@ -14,35 +14,35 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No. Surat</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noSurat" />
+                        <input type="text" class="form-control" v-model="docData.noSurat" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noSurat">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
                     <div class="input-control">
-                        <input type="date" class="form-control" v-model="docData.tglTerbit" />
+                        <input type="date" class="form-control" v-model="docData.tglTerbit" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Perihal</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.perihal" />
+                        <input type="text" class="form-control" v-model="docData.perihal" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.perihal">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Drafter *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.drafter" required />
+                        <input type="text" class="form-control" v-model="docData.drafter" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.drafter">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tujuan Surat *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.tujuanSurat" required />
+                        <input type="text" class="form-control" v-model="docData.tujuanSurat" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.tujuanSurat">error</span>
                     </div>
                 </div>

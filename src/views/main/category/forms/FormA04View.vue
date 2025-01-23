@@ -14,91 +14,91 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.nama"/>
+                        <input type="text" class="form-control" v-model="docData.nama" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.nama">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Dokumen *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noDokumen"/>
+                        <input type="text" class="form-control" v-model="docData.noDokumen" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noDokumen">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jabatan</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.jabatan"/>
+                        <input type="text" class="form-control" v-model="docData.jabatan" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.jabatan">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tempat Tanggal Lahir</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.ttl"/>
+                        <input type="text" class="form-control" v-model="docData.ttl" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.ttl">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Pendidikan Terakhir</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.pendidikanTerakhir"/>
+                        <input type="text" class="form-control" v-model="docData.pendidikanTerakhir" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.pendidikanTerakhir">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Instansi Pendidikan</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.instansiPendidikan"/>
+                        <input type="text" class="form-control" v-model="docData.instansiPendidikan" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.instansiPendidikan">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tahun Lulus</label>
                     <div class="input-control">
-                        <input type="month" class="form-control" v-model="docData.tahunLulus"/> 
+                        <input type="month" class="form-control" v-model="docData.tahunLulus" :disabled="role == 'user'"/> 
                         <span class="material-icons" v-if="!attributeStatus.tahunLulus">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Pengalaman Kerja</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.pengalamanKerja"/>
+                        <input type="text" class="form-control" v-model="docData.pengalamanKerja" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.pengalamanKerja">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Proyek Terakhir</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.proyekTerakhir"/> 
+                        <input type="text" class="form-control" v-model="docData.proyekTerakhir" :disabled="role == 'user'"/> 
                         <span class="material-icons" v-if="!attributeStatus.proyekTerakhir">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Alamat KTP</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.alamatKtp"/>
+                        <input type="text" class="form-control" v-model="docData.alamatKtp" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.alamatKtp">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Email *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.email"/>
+                        <input type="text" class="form-control" v-model="docData.email" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.email">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.HP *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noHp"/>
+                        <input type="text" class="form-control" v-model="docData.noHp" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noHp">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.NPWP *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noNPWP"/>
+                        <input type="text" class="form-control" v-model="docData.noNPWP" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noNPWP">error</span>
                     </div>
                 </div>

@@ -14,28 +14,28 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Pengirim</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.pengirim" />
+                        <input type="text" class="form-control" v-model="docData.pengirim" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.pengirim">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No. Surat</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noSurat" />
+                        <input type="text" class="form-control" v-model="docData.noSurat" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noSurat">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
                     <div class="input-control">
-                        <input type="date" class="form-control" v-model="docData.tglTerbit" />
+                        <input type="date" class="form-control" v-model="docData.tglTerbit" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Perihal</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.perihal" />
+                        <input type="text" class="form-control" v-model="docData.perihal" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.perihal">error</span>
                     </div>
                 </div>

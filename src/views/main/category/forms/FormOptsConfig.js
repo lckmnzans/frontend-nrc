@@ -24,6 +24,7 @@ export default {
             selectedFile: null,
             loading: false,
             error: false,
+            role: localStorage.getItem('role'),
             attributeStatus: {}
         };
     },

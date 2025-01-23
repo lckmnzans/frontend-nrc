@@ -14,28 +14,28 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.nama" required />
+                        <input type="text" class="form-control" v-model="docData.nama" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.nama">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jumlah Saham *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.jmlSaham" required />
+                        <input type="text" class="form-control" v-model="docData.jmlSaham" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.jmlSaham">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nilai Saham *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.nilaiSaham" required />
+                        <input type="text" class="form-control" v-model="docData.nilaiSaham" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.nilaiSaham">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Presentase *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.presentase" required />
+                        <input type="text" class="form-control" v-model="docData.presentase" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.presentase">error</span>
                     </div>
                 </div>

@@ -14,7 +14,7 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Dokumen *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noDokumen" required/>
+                        <input type="text" class="form-control" v-model="docData.noDokumen" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noDokumen">error</span>
                     </div>
                 </div>

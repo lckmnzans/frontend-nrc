@@ -41,7 +41,8 @@ export const useDocumentsTypeStore = defineStore('documents-type', {
 export const useDocumentsSchemaStore = defineStore('documents-schema', {
   state: () => {
     return {
-      formsData: []
+      /** @type {{formId: string, formSchema: Array}[]}*/
+      formsData: [],
     }
   },
   getters: {

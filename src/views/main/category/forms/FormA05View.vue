@@ -14,28 +14,28 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama Dokumen *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.namaDokumen" required />
+                        <input type="text" class="form-control" v-model="docData.namaDokumen" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.namaDokumen">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No. Laporan</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noLaporan" />
+                        <input type="text" class="form-control" v-model="docData.noLaporan" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noLaporan">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Laporan</label>
                     <div class="input-control">
-                        <input type="date" class="form-control" v-model="docData.tglLaporan" />
+                        <input type="date" class="form-control" v-model="docData.tglLaporan" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.tglLaporan">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Periode</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.periode" />
+                        <input type="text" class="form-control" v-model="docData.periode" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.periode">error</span>
                     </div>
                 </div>

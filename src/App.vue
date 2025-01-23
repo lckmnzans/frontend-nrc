@@ -18,31 +18,31 @@ export default {
         async fetchDocumentsSchema() {
             const res = await fetch('docSchema.json');
             const data = await res.json();
-            const docCategories = await data.categories;
+            const categories = await data.categories;
 
-            for (let categoryId in docCategories) {
-                const subPagesItem = [];
-
+            for (let categoryId in categories) {
                 this.pages.push({
                     page: Number.parseInt(categoryId) + 1,
-                    content: docCategories[categoryId].category_name
+                    content: categories[categoryId].category_name
                 });
-                const subDocCategories = docCategories[categoryId].subcategories;
-                for (let subCategoryId in subDocCategories) {
+
+                const subCategories = categories[categoryId].subcategories;
+                const subPages = [];
+                for (let subCategoryId in subCategories) {
                     this.documents.push({
-                        docTypeId: subDocCategories[subCategoryId].subcategory_id,
-                        docTypeName: subDocCategories[subCategoryId].subcategory_name
+                        docTypeId: subCategories[subCategoryId].subcategory_id,
+                        docTypeName: subCategories[subCategoryId].subcategory_name
                     });
-                    subPagesItem.push({
-                        subPageId: subDocCategories[subCategoryId].subcategory_id,
-                        subPageTitle: subDocCategories[subCategoryId].subcategory_name
+                    subPages.push({
+                        subPageId: subCategories[subCategoryId].subcategory_id,
+                        subPageTitle: subCategories[subCategoryId].subcategory_name
                     });
                     this.formsData.push({ 
-                        formId: subDocCategories[subCategoryId].subcategory_id,
-                        formSchema: subDocCategories[subCategoryId].form_schema
+                        formId: subCategories[subCategoryId].subcategory_id,
+                        formSchema: subCategories[subCategoryId].form_schema
                     });
                 };
-                this.subPages.push(subPagesItem);
+                this.subPages.push(subPages);
             };
             return;
         }

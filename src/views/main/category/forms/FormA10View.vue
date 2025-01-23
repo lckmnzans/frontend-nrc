@@ -14,28 +14,28 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama Dokumen *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.namaDokumen" required />
+                        <input type="text" class="form-control" v-model="docData.namaDokumen" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.namaDokumen">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Instansi Penerbit *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.instansiPenerbit" required />
+                        <input type="text" class="form-control" v-model="docData.instansiPenerbit" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.instansiPenerbit">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No. Dokumen *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noDokumen" required />
+                        <input type="text" class="form-control" v-model="docData.noDokumen" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noDokumen">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit *</label>
                     <div class="input-control">
-                        <input type="date" class="form-control" v-model="docData.tglTerbit" required />
+                        <input type="date" class="form-control" v-model="docData.tglTerbit" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
                     </div>
                 </div>

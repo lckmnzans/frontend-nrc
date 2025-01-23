@@ -14,42 +14,42 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama Kontrak *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.namaKontrak" required />
+                        <input type="text" class="form-control" v-model="docData.namaKontrak" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.namaKontrak">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Proyek</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noProyek" />
+                        <input type="text" class="form-control" v-model="docData.noProyek" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noProyek">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Kontrak</label>
                     <div class="input-control">
-                        <input type="date" class="form-control" v-model="docData.tglKontrak" />
+                        <input type="date" class="form-control" v-model="docData.tglKontrak" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.tglKontrak">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Kontrak</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noKontrak" />
+                        <input type="text" class="form-control" v-model="docData.noKontrak" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.noKontrak">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Pemberi Kerja</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.pemberiKerja" />
+                        <input type="text" class="form-control" v-model="docData.pemberiKerja" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.pemberiKerja">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jenis Dokumen *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.jenisDokumen" required />
+                        <input type="text" class="form-control" v-model="docData.jenisDokumen" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus.jenisDokumen">error</span>
                     </div>
                 </div>
