@@ -3,7 +3,7 @@
         <h4>Profile Anda</h4>
         <p>Ini adalah halaman ganti password</p>
         <LoadingOverlay :visible="loading" />
-        <form @submit.prevent="changePassword">
+        <form @submit.prevent="submitChange">
             <div class="form-group mb-3">
                 <label for="">Username</label>
                 <input type="text" :disabled="true" v-model="user.username" class="form-control">
@@ -50,9 +50,9 @@ export default {
         }
     },
     methods: {
-        async changePassword() {
+        async submitChange() {
             this.loading = true;
-            this.axios(api.changePassword(this.user))
+            this.axios(api.updateAccount(this.user, 'pass'))
             .then(response => {
                 if (response.status = 200) {
                     const body = response.data;

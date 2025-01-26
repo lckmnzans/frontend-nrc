@@ -77,7 +77,7 @@
                     <thead>
                         <tr>
                             <th scope="col">No.</th>
-                            <th scope="col">Preview</th>
+                            <th scope="col">Pratinjau</th>
                             <th scope="col">Jenis Dokumen</th>
                             <th scope="col">Nama Dokumen/File</th>
                             <th scope="col">Waktu Unggah</th>
@@ -103,7 +103,7 @@
                             </td>
                             <td>
                                 <div class="button">
-                                    <button title="unduh" @click.prevent="downloadDoc(doc.docName)"  style="background-color: slategray;color: #fff;"><span class="material-icons">download_for_offline</span></button>
+                                    <button title="unduh" @click.prevent="downloadDoc(doc.docName)"  style="color: slategray;"><span class="material-icons">download_for_offline</span></button>
                                 </div>
                             </td>
                             <td>
@@ -118,7 +118,7 @@
                             </td>
                             <td>
                                 <div class="button" v-if="role == 'superadmin'">
-                                    <button title="hapus" @click.prevent="deleteDoc(doc._id, doc.docName)" data-bs-toggle="modal" data-bs-target="#modalView" style="background-color: red;color: #fff;"><span class="material-icons">delete_forever</span></button>
+                                    <button title="hapus" @click.prevent="deleteDoc(doc._id, doc.docName)" data-bs-toggle="modal" data-bs-target="#modalView" style="color: red;"><span class="material-icons">delete_forever</span></button>
                                 </div>
                             </td>
                         </tr>
@@ -268,9 +268,6 @@ export default {
             const obj = JSON.parse(stringObj);
             return obj.docTypeValidity;
         },
-        goToVerif(docType, docId) {
-            this.$router.push({ path: `/review/${docType}/${docId}` });
-        },
         ...mapActions(usePageStore, ['setPageTitle']),
         ...mapActions(useToastStore, {
             setToast: 'setToast'
@@ -365,9 +362,7 @@ export default {
     align-items: center;
 
     button {
-        border: 1px solid #fff;
-        padding: 1px;
-        border-radius: 6px;
+        border:none;
         background: none;
 
         .icon-verified {

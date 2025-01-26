@@ -1,5 +1,6 @@
 const ApiHost = process.env.VUE_APP_BACKEND_URL;
 export default {
+    ApiHost,
     login: (userdata) => {
         return {
             method: 'POST',
@@ -85,14 +86,43 @@ export default {
             }
         }
     },
-    changePassword: (userdata) => {
+    updateAccount: (userdata, requestChange) => {
+        const url = `${ApiHost}/api/v1/account`;
+        if (requestChange == 'pass') {
+            return {
+                method: 'PATCH',
+                url: url + '?requestChange=pass',
+                data: {
+                    'username': userdata.username,
+                    'oldPassword': userdata.oldPassword,
+                    'newPassword': userdata.newPassword
+                },
+                headers: {
+                    'authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        } else if (requestChange == 'role') {
+            return {
+                method: 'PATCH',
+                url: url + '?requestChange=role',
+                data: {
+                    'username': userdata.username,
+                    'email': userdata.email,
+                    'role' : userdata.role
+                },
+                headers: {
+                    'authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        }
+    },
+    deleteAcc: (userdata) => {
         return {
-            method: 'PATCH',
+            method: 'DELETE',
             url: `${ApiHost}/api/v1/account`,
             data: {
                 'username': userdata.username,
-                'oldPassword': userdata.oldPassword,
-                'newPassword': userdata.newPassword
+                'email': userdata.email
             },
             headers: {
                 'authorization': 'Bearer ' + localStorage.getItem('token')

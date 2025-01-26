@@ -45,9 +45,9 @@ export const useDocumentsSchemaStore = defineStore('documents-schema', {
       formsData: [],
     }
   },
-  getters: {
-    formSchema: (state) => (docTypeId) => {
-      const forms = state.formsData.find(form => form.formId == docTypeId);
+  actions: {
+    formSchema(docTypeId) {
+      const forms = this.formsData.find(form => form.formId == docTypeId);
       return forms.formSchema;
     }
   }

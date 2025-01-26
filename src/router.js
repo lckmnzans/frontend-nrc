@@ -10,6 +10,9 @@ import Category1View from '@/views/main/category/Category1View.vue';
 import Category2View from '@/views/main/category/Category2View.vue';
 import Category3View from '@/views/main/category/Category3View.vue';
 import AccountView from '@/views/main/account/AccountsView.vue';
+import DocumentListView from '@/views/main/dashboard/DocumentListView.vue';
+import DocumentEditView from '@/views/main/dashboard/DocumentEditView.vue';
+import DocumentReviewView from '@/views/main/dashboard/DocumentReviewView.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -53,14 +56,14 @@ const router = createRouter({
                             component: () => import('@/views/main/dashboard/MainDashboardView.vue')
                         },
                         {   path: 'list',
-                            component: () => import('@/views/main/dashboard/DocumentListView.vue'),
+                            component: DocumentListView,
                         },
                         {   path: 'edit/:docType/:docId',
-                            component: () => import('@/views/main/dashboard/DocumentEditView.vue'),
+                            component: DocumentEditView,
                             props: true,
                         },
                         {   path: 'review/:docType/:docId',
-                            component: () => import('@/views/main/dashboard/DocumentReviewView.vue'),
+                            component: DocumentReviewView,
                             props: true
                          }
                     ]
@@ -144,6 +147,10 @@ const router = createRouter({
                         },
                         {   path: 'create',
                             component: () => import('@/views/main/account/CreateAccountView.vue')
+                        },
+                        {   path: 'edit/:userId',
+                            component: () => import('@/views/main/account/EditAccountView.vue'),
+                            props: true
                         }
                     ]
                 },

@@ -1,67 +1,68 @@
 <template>
-    <div class="edit-container">
-        <div class="previewpdf-container">
-            <Loading :visible="loading" v-if="loading"/>
-            <div class="error-container" v-else-if="!loading && error">
-                <p>Kesalahan dalam memuat data</p>
-                <button class="btn btn-outline-secondary" @click.prevent="fetchData">Muat ulang</button>
-            </div>
-            <PreviewPdf :pdf="localPreview" v-else-if="!loading && !error" />
-        </div>
-        <div class="form-container">
-            <div class="form-header">
-                <div class="form-check form-switch">
-                    <input type="checkbox" class="form-check-input" id="review-mode" autocomplete="off" v-model="viewMode" checked>
-                    <label class="form-check-label" for="review-mode">Mode Review</label>
+    <div class="container" style="margin-left: 0;">
+        <div class="row gap-3">
+            <div class="col border rounded-1 d-flex justify-content-center align-items-center" id="container-previewpdf">
+                <div class="spinner-border" role="status" v-if="loading">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-                <div class="alert" :class="`alert-${docData.verificationStatus == 'verified' ? 'info' : 'warning' }`">
-                    {{ docData.verificationStatus == 'verified' ? 'Sudah' : 'Belum' }} diverifikasi
+                <div class="d-flex flex-column" v-else-if="!loading && error">
+                    <p>Kesalahan dalam memuat data</p>
+                    <button class="btn btn-outline-secondary" @click.prevent="">Muat ulang</button>
+                </div>
+                <div v-else-if="!loading && !error">
+                    <div v-if="localPreview == null">
+                        <span class="text">Pdf tidak dimuat</span>
+                    </div>
+                    <PreviewPdf v-else :pdf="localPreview" />
                 </div>
             </div>
-            <form class="form-body" @submit.prevent="saveChanges">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="valid" id="doctype-validity-check" v-model="attributesStatus.docTypeValidity">
-                    <label class="form-check-label" for="doctype-validity-check">Jenis dokumen sesuai</label>
+            <div class="col border rounded-1" id="container-attributesdoc">
+                <div class="col">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="mode" type="checkbox" autocomplete="off" v-model="viewMode">
+                        <label class="form-check-label" for="mode">Mode Review</label>
+                    </div>
+                    <div class="alert" :class="`alert-${docData['verificationStatus'] == 'verified' ? 'info' : 'warning' }`">
+                        {{ docData['verificationStatus'] == 'verified' ? 'Sudah' : 'Belum' }} diverifikasi
+                    </div>
                 </div>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Atribut</th>
-                            <th style="min-width: 660px;">Nilai</th>
-                            <th>
-                                <span class="text">Kesesuaian data</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(attribute, index) in docSchema" :key="index">
-                            <td>{{ attribute.label }}</td>
-                            <td>
-                                <div v-if="viewMode">
-                                    {{ docData[attribute.name] }}
-                                </div>
-                                <div v-else>
-                                    <input :type="attribute.type" v-model="docData[attribute.name]" style="width: 100%; padding-left: 6px;">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" :value="true" :id="`check-${attribute.name}`" v-model="attributesStatus[attribute.name]">
-                                    <label class="form-check-label" :for="`check-${attribute.name}`">
-                                        Sudah Sesuai
-                                    </label>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <label class="form-label" for="notes">Catatan tambahan</label>
-                <textarea class="form-control" id="notes" rows="3"></textarea>
+                <div class="col">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Atribut</th>
+                                <th>Isian</th>
+                                <th>Kesesuaian data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(attribute, index) in docSchema" :key="index">
+                                <td>{{ attribute.label }}</td>
+                                <td>
+                                    <input class="form-control form-control-sm" :type="attribute.type" v-model="docData[attribute.name]" :disabled="viewMode"/>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" :value="true" :id="`check-${attribute.name}`" v-model="docData.notes[attribute.name]">
+                                        <label class="form-check-label" :for="`check-${attribute.name}`">
+                                            Sudah Sesuai
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <label class="form-label" for="notes">Catatan tambahan</label>
+                    <textarea class="form-control" id="notes" rows="3"></textarea>
 
-                <div class="submit-control">
-                    <button class="btn btn-primary btn-large" type="submit">Simpan perubahan</button>
+                    <button class="btn btn-primary" type="button" @click.prevent="updateDocument">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>
+                        <span class="text">Simpan perubahan</span>
+                    </button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
@@ -69,202 +70,156 @@
 <script>
 import Loading from '@/components/Loading.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
+import Forms from '@/components/Forms.vue';
 import api from '@/api/document.api';
-import { mapState, mapActions } from 'pinia';
-import { usePageStore, useDocumentsSchemaStore } from '@/store';
 import { useToastStore } from '@/store/toastStore';
+import { usePageStore } from '@/store';
+import { mapActions } from 'pinia';
+
 export default {
-    components: { Loading, PreviewPdf },
+    components: {
+        Loading,
+        PreviewPdf,
+        Forms
+    },
     props: {
-        docType: {
-            type: String,
-            required: true
-        },
         docId: {
             type: String,
             required: true
+        },
+        docType: {
+            type: String,
+            required: true
         }
-    },
-    computed: {
-        ...mapState(useDocumentsSchemaStore, {
-            formSchema:'formSchema'
-        })
-    },
-    created() {
-        this.setPageTitle('Review Dokumen');
-        const formSchema = this.formSchema(this.docType);
-        this.docSchema = formSchema;
-        const formData = formSchema.reduce((obj, attribute) => {
-            obj[attribute.name] = attribute.value;
-            return obj;
-        }, {});
-        this.docData = JSON.parse(JSON.stringify(formData));
-        this.docData['verificationStatus'] = 'unverified';
-        this.attributesStatus = JSON.parse(JSON.stringify(formData));
-        this.attributesStatus['docTypeValidity'] = false;
-
-        this.fetchData();
     },
     data() {
         return {
-            viewMode: true,
-            localPreview: '',
             loading: false,
             error: false,
+            localPreview: null,
+            viewMode: true,
             docSchema: [],
-            docData: {},
-            attributesStatus: {},
+            docData: {
+                verificationStatus: 'unverified',
+            },
+            attributesStatus: {
+                docTypeValidity: true,
+            }
         }
     },
+    watch: {
+        // viewMode() {
+        //     this.setToast('notif', `viewMode: ${this.viewMode}`, 2000);
+        // },
+    },
+    created() {
+        this.setPageTitle('Verifikasi dokumen');
+        // set skema form
+        var documentsSchema = JSON.parse(localStorage.getItem('documents-schema'));
+        this.docSchema = documentsSchema.find(doc => doc.formId == this.docType).formSchema;
+
+        // set initialize value untuk setiap field
+        this.docSchema.forEach(attribute => {
+            this.docData[attribute.name] = attribute.value;
+        })
+        this.docData['notes'] = '';
+
+        // ambil data document untuk mengisikan field
+        this.fetchDocument();
+    },
     methods: {
-        async fetchData() {
+        ...mapActions(useToastStore, ['setToast']),
+        ...mapActions(usePageStore, ['setPageTitle']),
+        async fetchDocument() {
+            this.axios(api.getDocData(this.docId))
+            .then(response => {
+                if (response.status == 200) {
+                    const body = response.data;
+                    Object.keys(this.docData).forEach((key) => {
+                        if (body.data.hasOwnProperty(key)) {
+                            this.docData[key] = body.data[key];
+                        }
+                    })
+                    
+                    try {
+                        this.docData.notes = JSON.parse(body.data.notes);
+                    } catch(err) {
+                        console.log(err);
+                    }
+
+                    this.fetchPdf(body.data['docName']);
+                } else {
+                    this.setToast('Error', 'Ada kesalahan dalam mengambil data dokumen.', 3000);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        },
+        async fetchPdf(filename) {
             this.loading = true;
             this.error = false;
 
-            if (this.docId) {
-                this.axios(api.getDocData(this.docId))
-                .then(response => {
-                    if (response.status == 200) {
-                        const body = response.data;
-                        console.log('Dokumen berhasil diambil');
-                        Object.keys(this.docData).forEach((key) => {
-                            if (body.data.hasOwnProperty(key)) {
-                                this.docData[key] = body.data[key];
-                            }
-                        })
-
-                        this.fetchFile(body.data.docName);
-                    } else {
-                        const body = response.data;
-                        console.log('Dokumen gagal diambil. Error: ' + body.message);
-                        this.error = true;
-                    }
-                })
-                .catch(err => {
-                    console.log('Permintaan tidak bisa diproses. Error: ' + err);
-                    this.error = true;
-                })
-                .finally(() => {
-                    this.loading = false;
-                })
-            }
-        },
-        async fetchFile(filename) {
             this.axios(api.getPdf(filename))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
-                    console.log('File berhasil diambil');
                     this.localPreview = URL.createObjectURL(body);
                 } else {
-                    const body = response.data;
-                    console.log('File gagal diambil. Error: ' + body.message);
+                    this.setToast('Error', 'Ada kesalahan dalam mengambil data dokumen.', 3000);
                     this.localPreview = null;
+                    this.error = true;
                 }
             })
             .catch(err => {
-                console.log('Permintaan tidak bisa diproses. Error: ' + err)
+                console.log(err);
+                this.error = true;
+            })
+            .finally(() => {
+                this.loading = false;
             })
         },
-        changeData(key, value) {
-            this.docData[key] = value;
-        },
-        saveChanges() {
-            const notes = JSON.stringify(this.attributesStatus);
-            
-            this.docData['verificationStatus'] = 'verified';
-            this.docData['notes'] = notes;
-            this.axios(api.updateDocData(this.docData, this.docType, this.docId))
+        async updateDocument() {
+            this.loading = true;
+            const docData = this.docData;
+            docData.notes = JSON.stringify(this.docData.notes);
+            this.axios(api.updateDocData(docData, this.docType, this.docId))
             .then(response => {
                 if (response.status == 200) {
                     const body = response.data;
-                    console.log('Dokumen berhasil diverifikasi');
-                    this.setToast('', 'Dokumen diverifikasi', 3000);
+                    this.setToast('Sukses', 'Dokumen diverifikasi', 3000);
                 }
             })
             .catch(err => {
-                console.log('Permintaan tidak bisa diproses. Error: ' + err);
+                console.log(err);
             })
-        },
-        testChanges() {
-            const notes = JSON.stringify(this.attributesStatus);
-            this.docData['verificationStatus'] = 'verified';
-            console.log(this.docData);
-            console.log(this.attributesStatus);
-            console.log(notes);
-        },
-        ...mapActions(usePageStore, ['setPageTitle']),
-        ...mapActions(useToastStore, ['setToast'])
+            .finally(() => {
+                this.loading = false;
+            })
+        }
     },
     beforeUnmount() {
         if (this.localPreview) {
             URL.revokeObjectURL(this.localPreview);
         }
-    }
+    },
 }
 </script>
+
 <style lang="scss" scoped>
-.edit-container {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
+.row {
+    gap: 2px;
 }
 
-.previewpdf-container {
-    width: 768px;
-    height: 600px;
-    padding: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-
-    .loading-overlay {
-        border-radius: 5px;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--light);
-        mix-blend-mode: multiply;
-    }
-    
-    .error-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-    }
+#container-previewpdf {
+    height:600px;
 
     .preview-pdf {
         height: 600px;
     }
 }
 
-.form-container {
-
-    .form-header {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-body {
-        display: flex;
-        flex-direction: column;
-
-        .submit-control {
-            margin: 21px 0;
-        }
-
-        td {
-            padding-top: 16px;
-            padding-bottom: 16px;
-        }
-    }
+#container-attributesdoc {
+    min-width: 490px;
 }
 </style>

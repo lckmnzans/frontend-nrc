@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import api from '@/api/account.api';
 import { mapState } from 'pinia';
 import { usePageStore, useDocumentsTypeStore, useDocumentsSchemaStore } from '@/store';
 export default {
@@ -14,9 +15,12 @@ export default {
     created() {
         this.fetchDocumentsSchema();
     },
+    beforeUpdate() {
+        this.fetchDocumentsSchema();
+    },
     methods: {
         async fetchDocumentsSchema() {
-            const res = await fetch('docSchema.json');
+            const res = await fetch(`${api.ApiHost}/api/v1/document`);
             const data = await res.json();
             const categories = await data.categories;
 
@@ -44,6 +48,7 @@ export default {
                 };
                 this.subPages.push(subPages);
             };
+            localStorage.setItem('documents-schema', JSON.stringify(this.formsData));
             return;
         }
     }
