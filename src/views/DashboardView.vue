@@ -72,13 +72,12 @@ export default {
                     const body = response.data;
                     this.user = { username: body.data.username, email: body.data.email };
                     this.saveProfile(this.user);
-                    console.log('Data berhasil diambil');
                 } else {
                     console.log('Data gagal diambil');
                 }
             })
-            .catch(error => {
-                console.error(error);
+            .catch(err => {
+                console.log(err);
             })
         },
         ...mapActions(useAlertStore, {

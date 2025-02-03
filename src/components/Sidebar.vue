@@ -94,9 +94,10 @@ aside {
     min-height: 100vh;
     overflow: hidden;
     padding: 1rem;
+    border-right: 1px solid #ddd;
 
-    background-color: var(--dark);
-    color: var(--light);
+    background-color: #fff;
+    color: var(--dark);
 
     transition: 0.2s ease-out;
 
@@ -109,6 +110,7 @@ aside {
 
         img {
             width: 2rem;
+            transition: 0.2s ease-in;
         }
     }
 
@@ -126,7 +128,7 @@ aside {
 
             .material-icons {
                 font-size: 2rem;
-                color: var(--light);
+                color: var(--dark);
                 transition: 0.2s ease-out;
             }
 
@@ -164,25 +166,26 @@ aside {
 
             .material-icons {
                 font-size: 2rem;
-                color: var(--light);
+                color: var(--dark);
                 transition: 0.2s ease-out;
             }
 
             .text {
-                color: var(--light);
+                color: var(--dark);
                 transition: 0.2s ease-out;
             }
 
             &:hover, &.active {
-                background-color: var(--dark-alt);
+                background-color: var(--primary);
 
                 .material-icons, .text {
-                    color: var(--primary);
+                    color: var(--light);
                 }
             }
 
             &.active {
-                border-right: 5px solid var(--primary);
+                border-right: 5px solid var(--dark-alt);
+                border-bottom: 1px solid var(--dark);
             }
         }
 
@@ -202,6 +205,11 @@ aside {
 
     &.is-expanded {
         width: var(--sidebar-width);
+
+        .logo img {
+            width: 100px;
+            transition: 0.2s ease-out;
+        }
 
         .menu-toggle-wrap {
             top: -3.5rem;

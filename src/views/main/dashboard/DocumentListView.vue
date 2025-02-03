@@ -11,10 +11,7 @@
                     <img :src="modalPreview" width="400px"/>
                 </div>
                 <div class="modal-footer">
-                    <div v-if="deleting" class="col">
-                        <button class="btn btn-danger">Lanjutkan</button>
-                        <button class="btn btn-secondary">Batalkan</button>
-                    </div>
+                    <span></span>
                 </div>
                 </div>
             </div>
@@ -82,7 +79,7 @@
                             <th scope="col">Nama Dokumen/File</th>
                             <th scope="col">Waktu Unggah</th>
                             <th scope="col">Status</th>
-                            <th scope="col" colspan="4">Aksi</th>
+                            <th scope="col" colspan="3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,11 +111,6 @@
                             <td>
                                 <div class="button" v-if="role == 'superadmin'">
                                     <router-link :to="`/review/${doc.docType}/${doc._id}`"><span class="material-icons">task_alt</span></router-link>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="button" v-if="role == 'superadmin'">
-                                    <button title="hapus" @click.prevent="deleteDoc(doc._id, doc.docName)" data-bs-toggle="modal" data-bs-target="#modalView" style="color: red;"><span class="material-icons">delete_forever</span></button>
                                 </div>
                             </td>
                         </tr>
@@ -241,11 +233,6 @@ export default {
             .catch(err => {
                 console.log('Terjadi kesalahan saat mengunduh dokumen. Error: ', err);
             });
-        },
-        deleteDoc(docId, filename) {
-            this.modalPreview = `${api.ApiHost}/api/v1/document/pdf/${filename}`;
-            this.deleting = true;
-
         },
         parseToLocalTime(strDate) {
             const date = new Date(strDate);

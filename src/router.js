@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import auth from './utils/auth';
 import DashboardView from '@/views/DashboardView.vue';
 import ResetView from '@/views/ResetPasswordView.vue';
-import LoginV from '@/components/Login.vue';
-import ForgotV from '@/components/Forgot.vue';
+import LoginView from '@/views/LoginView.vue';
+import ForgotView from '@/views/ForgotView.vue';
 import ProfileView from '@/views/main/profile/ProfileView.vue';
 import HomeView from '@/views/main/dashboard/HomeView.vue';
 import Category1View from '@/views/main/category/Category1View.vue';
@@ -19,11 +19,11 @@ const router = createRouter({
     routes: [
         {   name: 'login',
             path: '/login',
-            component: LoginV
+            component: LoginView
         },
         {   name: 'forgot-password',
             path: '/forgot-password',
-            component: ForgotV
+            component: ForgotView
         },
         {   name: 'reset-password',
             path: '/reset-password',
@@ -47,12 +47,12 @@ const router = createRouter({
                         }
                     ]
                 },
-                {   name: 'home',
-                    alias: 'dashboard',
-                    path: '',
+                {   path: '',
                     component: HomeView,
                     children: [
-                        {   path: '',
+                        {   name: 'home',
+                            alias: 'dashboard',
+                            path: '',
                             component: () => import('@/views/main/dashboard/MainDashboardView.vue')
                         },
                         {   path: 'list',
