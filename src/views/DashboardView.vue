@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard">
-        <Sidebar />
+        <Sidebar :pages :documents />
         <div class="content">
             <div class="top-bar">
                 <h4>{{ pageTitle }}</h4>
@@ -38,6 +38,8 @@ export default {
     created() {
         this.token = this.$auth.getToken();
         this.fetchProfile();
+        this.pages = JSON.parse(localStorage.getItem('pages'));
+        this.documents = JSON.parse(localStorage.getItem('documents-type'));
     },
     computed: {
         ...mapState(useToastStore, {
@@ -57,7 +59,9 @@ export default {
     },
     data() {
         return {
-            token: ''
+            token: '',
+            pages: [],
+            documents: []
         }
     },
     methods: {
@@ -99,6 +103,7 @@ export default {
     display: flex;
     height: 100vh;
     width: 100vw;
+    background-color: #ddd;
 
     Sidebar {
         flex: 0 0 auto;
@@ -114,7 +119,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: var(--primary);
+            background-color: var(--primary-alt-6);
             color: var(--light);
             padding: 1rem 2rem;
 

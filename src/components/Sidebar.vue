@@ -23,7 +23,7 @@
                 </span>
             </a>
             <ul v-if="isSubmenuVisible" class="submenu">
-                <li v-for="page in pages" :key="page.page">
+                <li v-for="(page, index) in pages" :key="index">
                     <router-link class="button submenu-item" :to="`/category/${page.page}`" active-class="active">
                         <span class="material-icons">label_important</span>
                         <span class="text">{{ page.content }}</span>
@@ -37,7 +37,7 @@
         </div>
         <div class="flex"></div>
         <div class="menu">
-            <router-link class="button" to="/login" @click="logout">
+            <router-link class="button" to="/login" @click="logout" id="btn-logout">
                 <span class="material-icons">logout</span>
                 <span class="text">Keluar</span>
             </router-link>
@@ -51,9 +51,15 @@ import { useUserStore } from '@/store/userStore';
 export default {
     inject: ['$auth'],
     emits: ['sidebarExpanded'],
-    computed: {
-        ...mapState(usePageStore, ['pages']),
-        ...mapState(useDocumentsTypeStore, ['documents'])
+    props: {
+        pages: {
+            type: Array,
+            required: true
+        },
+        documents: {
+            type: Array,
+            required: true
+        }
     },
     data() {
         return {
@@ -76,6 +82,10 @@ export default {
         },
         logout() {
             this.$auth.logout();
+            localStorage.removeItem('documents-type');
+            localStorage.removeItem('documents-schema');
+            localStorage.removeItem('pages');
+            localStorage.removeItem('subPages');
             this.clear();
         },
         ...mapActions(useUserStore, {
@@ -94,9 +104,9 @@ aside {
     min-height: 100vh;
     overflow: hidden;
     padding: 1rem;
-    border-right: 1px solid #ddd;
 
-    background-color: #fff;
+    // background-color: #fff;
+    background-image: linear-gradient(var(--light), var(--primary-alt-3));
     color: var(--dark);
 
     transition: 0.2s ease-out;
@@ -134,7 +144,7 @@ aside {
 
             &:hover {
                 .material-icons {
-                    color: var(--primary);
+                    color: var(--primary-alt-3);
                     transform: translateX(0.5rem);
                 }
             }
@@ -176,7 +186,7 @@ aside {
             }
 
             &:hover, &.active {
-                background-color: var(--primary);
+                background-color: var(--primary-alt-6);
 
                 .material-icons, .text {
                     color: var(--light);
@@ -184,8 +194,8 @@ aside {
             }
 
             &.active {
-                border-right: 5px solid var(--dark-alt);
-                border-bottom: 1px solid var(--dark);
+                border-right: 1px solid var(--primary);
+                background-image: linear-gradient(to left, var(--primary), var(--primary-alt-3));
             }
         }
 
@@ -200,6 +210,20 @@ aside {
                     opacity: 0;
                 }
             }
+        }
+    }
+
+    #btn-logout {
+        background-color: var(--secondary);
+        border: 1px solid var(--secondary);
+
+        .material-icons, .text {
+            color: var(--light);
+        }
+
+        &:hover {
+            border-right: 1px solid var(--grey);
+            border-bottom: 1px solid var(--grey);
         }
     }
 
@@ -236,6 +260,10 @@ aside {
                 opacity: 1;
                 transition: 0.2s ease-out;
             }
+        }
+
+        #btn-logout {
+            margin: 0 1rem;
         }
     }
 

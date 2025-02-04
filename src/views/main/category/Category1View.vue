@@ -14,9 +14,9 @@ export default {
     components: {
         TabBar
     },
-    computed: {
-        ...mapState(usePageStore, ['getSubPagesByPage'])
-    },
+    // computed: {
+    //     ...mapState(usePageStore, ['getSubPagesByPage'])
+    // },
     created() {
         this.setPageTitle('Dokumen Badan Usaha');
         const pages = this.getSubPagesByPage(0);
@@ -32,6 +32,10 @@ export default {
     methods: {
         routeLinkBuilder(target) {
             return `/category/1/${target}`;
+        },
+        getSubPagesByPage(page) {
+            const pages = JSON.parse(localStorage.getItem('subpages'));
+            return pages[page];
         },
         ...mapActions(usePageStore, ['setPageTitle'])
     }

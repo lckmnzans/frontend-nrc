@@ -1,10 +1,10 @@
 <template>
     <div class="tab-navigation">
         <ul :class="{ 'no-left-space': !hasLeftSpace }">
-            <li v-for="(page, index) in pages" :key="index" class="tab-item-wrapper">
+            <li v-for="(page, index) in pages" :key="index" class="tab-item-wrapper nav-item">
                 <router-link 
                     :to="routeLinkBuilder(page.pageId)"
-                    class="tab-item"
+                    class="tab-item nav-link"
                     :class="{ active: this.$route.path === `${routeLinkBuilder(page.pageId)}` }"
                 >
                     {{ page.pageTitle }}
@@ -47,7 +47,7 @@ export default {
     ul {
         display: flex;
         list-style: none;
-        background-color: var(--primary);
+        background-color: var(--primary-alt-6);
         margin: 0;
         padding: 0.5rem 0 0 1rem;
         gap: 2px;

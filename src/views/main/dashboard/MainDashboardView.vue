@@ -49,63 +49,63 @@
             </div>
         </div>
         <div class="dashboard-menu">
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('')">
+            <div class="box-clickable" @click.prevent="toListDocument('')">
                 <span class="material-icons">folder</span>
                 <span class="text">Semua Dokumen</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A01')">
+            <div class="box-clickable" @click.prevent="toListDocument('A01')">
                 <span class="material-icons">folder</span>
                 <span class="text">Legalitas</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A02')">
+            <div class="box-clickable" @click.prevent="toListDocument('A02')">
                 <span class="material-icons">folder</span>
                 <span class="text">Kontrak</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A03')">
+            <div class="box-clickable" @click.prevent="toListDocument('A03')">
                 <span class="material-icons">folder</span>
                 <span class="text">Tenaga Ahli</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A04')">
+            <div class="box-clickable" @click.prevent="toListDocument('A04')">
                 <span class="material-icons">folder</span>
                 <span class="text">CV</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A05')">
+            <div class="box-clickable" @click.prevent="toListDocument('A05')">
                 <span class="material-icons">folder</span>
                 <span class="text">Keuangan</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A06')">
+            <div class="box-clickable" @click.prevent="toListDocument('A06')">
                 <span class="material-icons">folder</span>
                 <span class="text">Proyek</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A07')">
+            <div class="box-clickable" @click.prevent="toListDocument('A07')">
                 <span class="material-icons">folder</span>
                 <span class="text">Pengurus</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A08')">
+            <div class="box-clickable" @click.prevent="toListDocument('A08')">
                 <span class="material-icons">folder</span>
                 <span class="text">Pemegang Saham</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A09')">
+            <div class="box-clickable" @click.prevent="toListDocument('A09')">
                 <span class="material-icons">folder</span>
                 <span class="text">Peralatan</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('A10')">
+            <div class="box-clickable" @click.prevent="toListDocument('A10')">
                 <span class="material-icons">folder</span>
                 <span class="text">Lain-lain</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('B01')">
+            <div class="box-clickable" @click.prevent="toListDocument('B01')">
                 <span class="material-icons">folder</span>
                 <span class="text">Surat Masuk</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('B02')">
+            <div class="box-clickable" @click.prevent="toListDocument('B02')">
                 <span class="material-icons">folder</span>
                 <span class="text">Surat Keluar</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('C01')">
+            <div class="box-clickable" @click.prevent="toListDocument('C01')">
                 <span class="material-icons">folder</span>
                 <span class="text">Sertifikat</span>
             </div>
-            <div class="box-clickable btn btn-outline-primary" @click.prevent="toListDocument('C02')">
+            <div class="box-clickable" @click.prevent="toListDocument('C02')">
                 <span class="material-icons">folder</span>
                 <span class="text">SPJB</span>
             </div>
@@ -193,16 +193,14 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        background-color: #fff;
         min-width: 600px;
-        border-bottom: 1px solid #ddd;
 
         .dashboard-info {
             width: 32.5%;
             display: flex;
             padding: 1rem 2rem;
             background-color: #fff;
-            border-right: 1px solid #ccc;
+            border: 1px solid #ccc;
             justify-content: space-between;
 
             .box-text {
@@ -240,10 +238,19 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #fff;
+            background-color: var(--primary-alt-3);
+            border: 1px solid var(--primary-alt-3);
+            padding: 1rem;
 
             &:hover {
-                background-color: var(--primary);
+                background-image: linear-gradient(to left, var(--primary-alt-6), var(--primary-alt-3));
+                border-bottom: 1px solid var(--dark);
+                border-radius: 6px;
+                cursor: pointer;
+
+                .material-icons, .text {
+                    color: var(--light);
+                }
             }
 
             .material-icons {

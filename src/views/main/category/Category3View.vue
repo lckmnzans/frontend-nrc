@@ -14,9 +14,9 @@ export default {
     components: {
         TabBar
     },
-    computed: {
-        ...mapState(usePageStore, ['getSubPagesByPage'])
-    },
+    // computed: {
+    //     ...mapState(usePageStore, ['getSubPagesByPage'])
+    // },
     created() {
         this.setPageTitle('Dokumen Kepemilikan Tanah');
         const pages = this.getSubPagesByPage(2);
@@ -32,6 +32,10 @@ export default {
     methods: {
         routeLinkBuilder(target) {
             return `/category/3/${target}`;
+        },
+        getSubPagesByPage(page) {
+            const pages = JSON.parse(localStorage.getItem('subpages'));
+            return pages[page];
         },
         ...mapActions(usePageStore, ['setPageTitle'])
     }

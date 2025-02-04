@@ -21,6 +21,7 @@ export default {
     methods: {
         async fetchDocumentsSchema() {
             const res = await fetch(`${api.ApiHost}/api/v1/document`);
+            // const res = await fetch('docSchema.json');
             const data = await res.json();
             const categories = await data.categories;
 
@@ -48,7 +49,11 @@ export default {
                 };
                 this.subPages.push(subPages);
             };
+            
             localStorage.setItem('documents-schema', JSON.stringify(this.formsData));
+            localStorage.setItem('documents-type', JSON.stringify(this.documents))
+            localStorage.setItem('pages', JSON.stringify(this.pages));
+            localStorage.setItem('subpages', JSON.stringify(this.subPages));
             return;
         }
     }
@@ -66,12 +71,16 @@ export default {
 }
 
 :root {
-    --primary: #3498db;
+    --primary: rgba(0, 39, 176, 1);
+    --primary-alt-6: rgba(0, 39, 176, 0.6);
+    --primary-alt-3: rgba(0, 39, 176, 0.3);
+    --secondary: rgba(207, 52, 32, 1);
+    --secondary-alt-6: rgba(207, 52, 32, 0.6);
+    --secondary-alt-3: rgba(207, 52, 32, 0.3);
     --grey: #64748b;
-    --green: rgb(92, 194, 46);
-    --dark: #1e293b;
-    --dark-alt: #334155;
-    --light: #f1f5f9;
+    --dark: rgba(30, 30, 30, 1);
+    --dark-alt: rgba(44, 38, 36, 1);
+    --light: rgba(248, 251, 252, 1);
     --sidebar-width: 300px;
 }
 

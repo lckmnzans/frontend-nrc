@@ -1,12 +1,40 @@
 <template>
     <div class="form-container">
-        <div class="previewpdf-container">
-            <Loading :visible="loading" v-if="loading" />
-            <div class="error-container" v-else-if="!loading && !localPreview">
-                <span class="text" v-if="error">Gagal menampilkan PDF</span>
-                <span class="text" v-else>PDF belum dipilih</span>
+        <div>
+            <div class="previewpdf-container">
+                <Loading :visible="loading" v-if="loading" />
+                <div class="error-container" v-else-if="!loading && !localPreview">
+                    <span class="text" v-if="error">Gagal menampilkan PDF</span>
+                    <span class="text" v-else>PDF belum dipilih</span>
+                </div>
+                <PreviewPdf :pdf="localPreview" v-else-if="!loading && localPreview"/>
             </div>
-            <PreviewPdf :pdf="localPreview" v-else-if="!loading && localPreview"/>
+            <div class="mt-3 d-grid gap-3">
+                <div class="form-group d-flex flex-row">
+                    <label class="form-label col-3" for="file-ktp">Dokumen KTP</label>
+                    <input
+                    type="file"
+                    class="form-control"
+                    id="file-ktp"
+                    accept="application/pdf" />
+                </div>
+                <div class="form-group d-flex flex-row">
+                    <label class="form-label col-3" for="file-npwp">Dokumen NPWP</label>
+                    <input
+                    type="file"
+                    class="form-control"
+                    id="file-npwp"
+                    accept="application/pdf" />
+                </div>
+                <div class="form-group d-flex flex-row">
+                    <label class="form-label col-3" for="file-ijazah">Dokumen Ijazah</label>
+                    <input
+                    type="file"
+                    class="form-control"
+                    id="file-ijazah"
+                    accept="application/pdf" />
+                </div>
+            </div>
         </div>
         <div class="input-form">
             <h4>Formulir CV</h4>
