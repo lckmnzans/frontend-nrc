@@ -1,40 +1,12 @@
 <template>
     <div class="form-container">
-        <div>
-            <div class="previewpdf-container">
-                <Loading :visible="loading" v-if="loading" />
-                <div class="error-container" v-else-if="!loading && !localPreview">
-                    <span class="text" v-if="error">Gagal menampilkan PDF</span>
-                    <span class="text" v-else>PDF belum dipilih</span>
-                </div>
-                <PreviewPdf :pdf="localPreview" v-else-if="!loading && localPreview"/>
+        <div class="previewpdf-container">
+            <Loading :visible="loading" v-if="loading" />
+            <div class="error-container" v-else-if="!loading && !localPreview">
+                <span class="text" v-if="error">Gagal menampilkan PDF</span>
+                <span class="text" v-else>PDF belum dipilih</span>
             </div>
-            <div class="mt-3 d-grid gap-3">
-                <div class="form-group d-flex flex-row">
-                    <label class="form-label col-3" for="file-ktp">Dokumen KTP</label>
-                    <input
-                    type="file"
-                    class="form-control"
-                    id="file-ktp"
-                    accept="application/pdf" />
-                </div>
-                <div class="form-group d-flex flex-row">
-                    <label class="form-label col-3" for="file-npwp">Dokumen NPWP</label>
-                    <input
-                    type="file"
-                    class="form-control"
-                    id="file-npwp"
-                    accept="application/pdf" />
-                </div>
-                <div class="form-group d-flex flex-row">
-                    <label class="form-label col-3" for="file-ijazah">Dokumen Ijazah</label>
-                    <input
-                    type="file"
-                    class="form-control"
-                    id="file-ijazah"
-                    accept="application/pdf" />
-                </div>
-            </div>
+            <PreviewPdf :pdf="localPreview" v-else-if="!loading && localPreview"/>
         </div>
         <div class="input-form">
             <h4>Formulir CV</h4>
@@ -84,7 +56,7 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tahun Lulus</label>
                     <div class="input-control">
-                        <input type="month" class="form-control" v-model="docData.tahunLulus" :disabled="role == 'user'"/> 
+                        <input type="text" class="form-control" v-model="docData.tahunLulus" :disabled="role == 'user'"/> 
                         <span class="material-icons" v-if="!attributeStatus.tahunLulus">error</span>
                     </div>
                 </div>
@@ -135,12 +107,24 @@
                 </div>
             </form>
 
-            <PdfForm v-if="mode == 'create'"
+            <!-- <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             :loading="loading"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
-            />
+            /> -->
+
+            <div v-if="mode == 'create'">
+                <PdfForm 
+                @update:local-preview="localPreview = $event"
+                @add:file="selectedFile = $event"
+                @add:files="additionalFiles = $event" />
+                
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpload" :disabled="isRequiredFormEmpty || !selectedFile || loading">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>
+                    <span class="text">Unggah</span>
+                </button>
+            </div>
             <div v-else-if="mode == 'edit'">
                 <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">Simpan</button>
             </div>
@@ -149,9 +133,10 @@
 </template>
 <script>
 import Loading from '@/components/Loading.vue';
-import PdfForm from '@/components/PdfForm.vue';
+import PdfForm from '@/components/PdfsForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import FormOptions from '@/views/main/category/forms/FormOptsConfig';
+import api from '@/api/document.api';
 
 export default {
     ...FormOptions,
@@ -189,6 +174,64 @@ export default {
                 noNPWP:''
             },
             ocrable: true,
+            additionalFiles: []
+        }
+    },
+    methods: {
+        ...FormOptions.methods,
+        async handleUpload() {
+            if (this.isRequiredFormEmpty) {
+                this.setToast('', 'Ada form yang perlu diisi', 3000);
+            } else {
+                if (this.selectedFile) {
+                    this.loading = true;
+
+                    this.axios(api.uploadAll(this.selectedFile, this.additionalFiles, this.docType))
+                    .then(async response => {
+                        const body = response.data;
+
+                        if (response.status == 200) {
+                            this.setToast('', 'Dokumen berhasil diunggah.', 3000);
+                            const file = body.data.file;
+                            console.log(file);
+
+                            const formData = {
+                                docName: file.filename,
+                                fileRef: [file._id],
+                                docType: file.documentType,
+                                ...this.docData,
+                            }
+                            await this.uploadFormData(formData); 
+                        } else {
+                            console.log('Dokumen gagal diunggah');
+                        }
+                    })
+                    .catch(err => {
+                        console.log('Error', err);
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    })
+                } else {
+                    alert('Tidak ada file yang dipilih');
+                }
+            }
+        },
+        async uploadFormData(data) {
+            this.axios(api.uploadDocData(data, data.docType))
+            .then((response) => {
+                const body = response.data;
+
+                if (response.status === 200) {
+                    this.setToast('', 'Dokumen berhasil diunggah.', 3000);
+                    console.log(body);
+                } else {
+                    console.error('Dokumen gagal diunggah.');
+                }
+            })
+            .catch((err) => {
+                console.error('Error:', err);
+            });
         }
     }
 }

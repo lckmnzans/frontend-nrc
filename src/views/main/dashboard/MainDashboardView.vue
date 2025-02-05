@@ -23,7 +23,7 @@
                 <span class="material-icons">archive</span>
             </div>
         </div>
-        <div class="dashboard-menu">
+        <div class="dashboard-shortcut">
             <div class="dropdown">
                 <button class="btn btn-secondary" type="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="display: flex; align-items: center; justify-content: center;">
                     <span class="text">Tambah Dokumen</span>
@@ -225,11 +225,25 @@ export default {
         }
     }
 
+    .dashboard-shortcut {
+        margin: 1rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+
+        .dropdown-menu {
+            box-shadow: 1px 1px 6px var(--primary-alt-3);
+
+            .dropdown-item:hover {
+                background-color: var(--grey);
+            }
+        }
+    }
+
     .dashboard-menu {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        margin: 1rem 0 0;
         gap: 1rem 2rem;
 
         .box-clickable {

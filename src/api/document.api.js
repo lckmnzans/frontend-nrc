@@ -15,6 +15,26 @@ export default {
             }
         }
     },
+    uploadAll: (document, additionalDocuments, docType) => {
+        const formData = new FormData();
+        formData.append('docType', docType);
+        formData.append('documents', document);
+        if (additionalDocuments.length > 0) {
+            for (let i = 0; i < additionalDocuments.length; i++) {
+                formData.append('documents', additionalDocuments[i]);
+            }
+        }
+
+        return {
+            method: 'POST',
+            url: `${ApiHost}/api/v1/document/multi`,
+            data: formData,
+            headers: {
+                "authorization": "Bearer " + localStorage.getItem("token"),
+                "content-type": "multipart/form-data"
+            }
+        }
+    },
     uploadDocData: (docData, docType) => {
         return {
             method: 'POST',
