@@ -136,7 +136,6 @@ import Loading from '@/components/Loading.vue';
 import PdfForm from '@/components/PdfsForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import FormOptions from '@/views/main/category/forms/FormOptsConfig';
-import api from '@/api/document.api';
 
 export default {
     ...FormOptions,
@@ -174,64 +173,6 @@ export default {
                 noNPWP:''
             },
             ocrable: true,
-            additionalFiles: []
-        }
-    },
-    methods: {
-        ...FormOptions.methods,
-        async handleUpload() {
-            if (this.isRequiredFormEmpty) {
-                this.setToast('', 'Ada form yang perlu diisi', 3000);
-            } else {
-                if (this.selectedFile) {
-                    this.loading = true;
-
-                    this.axios(api.uploadAll(this.selectedFile, this.additionalFiles, this.docType))
-                    .then(async response => {
-                        const body = response.data;
-
-                        if (response.status == 200) {
-                            this.setToast('', 'Dokumen berhasil diunggah.', 3000);
-                            const file = body.data.file;
-                            console.log(file);
-
-                            const formData = {
-                                docName: file.filename,
-                                fileRef: [file._id],
-                                docType: file.documentType,
-                                ...this.docData,
-                            }
-                            await this.uploadFormData(formData); 
-                        } else {
-                            console.log('Dokumen gagal diunggah');
-                        }
-                    })
-                    .catch(err => {
-                        console.log('Error', err);
-                    })
-                    .finally(() => {
-                        this.loading = false;
-                    })
-                } else {
-                    alert('Tidak ada file yang dipilih');
-                }
-            }
-        },
-        async uploadFormData(data) {
-            this.axios(api.uploadDocData(data, data.docType))
-            .then((response) => {
-                const body = response.data;
-
-                if (response.status === 200) {
-                    this.setToast('', 'Dokumen berhasil diunggah.', 3000);
-                    console.log(body);
-                } else {
-                    console.error('Dokumen gagal diunggah.');
-                }
-            })
-            .catch((err) => {
-                console.error('Error:', err);
-            });
         }
     }
 }

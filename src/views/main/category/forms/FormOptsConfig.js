@@ -25,10 +25,14 @@ export default {
             loading: false,
             error: false,
             role: localStorage.getItem('role'),
-            attributeStatus: {}
+            attributeStatus: {},
+            additionalFiles: []
         };
     },
     methods: {
+        ...mapActions(useToastStore, {
+            setToast: 'setToast',
+        }),
         async handleUpdate() {
             Object.keys(this.attributeStatus).forEach(key => {
                 this.attributeStatus[key] = true;
@@ -47,56 +51,56 @@ export default {
                     console.error('Error:', err);
                 });
         },
-        async handleSubmit(file) {
-            if (this.isRequiredFormEmpty) {
-                this.setToast('', 'Form ada yang perlu diisi', 3000);
-            } else {
-                this.uploadFile(file);
-            }
-        },
-        async uploadFile(file) {
-            if (!file) {
-                alert('Tidak ada file yang dipilih.');
-                return;
-            }
+        // async handleSubmit(file) {
+        //     if (this.isRequiredFormEmpty) {
+        //         this.setToast('', 'Form ada yang perlu diisi', 3000);
+        //     } else {
+        //         this.uploadFile(file);
+        //     }
+        // },
+        // async uploadFile(file) {
+        //     if (!file) {
+        //         alert('Tidak ada file yang dipilih.');
+        //         return;
+        //     }
 
-            this.loading = true;
-            this.axios(api.upload(file, this.docType))
-                .then(async (response) => {
-                    if (response.status === 200) {
-                        const body = response.data;
-                        const data = {
-                            docName: body.data.file.filename,
-                            fileRef: [body.data.file._id],
-                            docType: body.data.file.documentType,
-                            ...this.docData,
-                        };
-                        this.selectedFile = null;
-                        await this.uploadDocument(data);
-                    } else {
-                        console.error('File gagal diunggah.');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-        async uploadDocument(data) {
-            this.axios(api.uploadDocData(data, data.docType))
-                .then((response) => {
-                    if (response.status === 200) {
-                        this.setToast('', 'Dokumen berhasil diunggah.', 3000);
-                    } else {
-                        console.error('Dokumen gagal diunggah.');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        },
+        //     this.loading = true;
+        //     this.axios(api.upload(file, this.docType))
+        //         .then(async (response) => {
+        //             if (response.status === 200) {
+        //                 const body = response.data;
+        //                 const data = {
+        //                     docName: body.data.file.filename,
+        //                     fileRef: [body.data.file._id],
+        //                     docType: body.data.file.documentType,
+        //                     ...this.docData,
+        //                 };
+        //                 this.selectedFile = null;
+        //                 await this.uploadDocument(data);
+        //             } else {
+        //                 console.error('File gagal diunggah.');
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error:', error);
+        //         })
+        //         .finally(() => {
+        //             this.loading = false;
+        //         });
+        // },
+        // async uploadDocument(data) {
+        //     this.axios(api.uploadDocData(data, data.docType))
+        //         .then((response) => {
+        //             if (response.status === 200) {
+        //                 this.setToast('', 'Dokumen berhasil diunggah.', 3000);
+        //             } else {
+        //                 console.error('Dokumen gagal diunggah.');
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error:', error);
+        //         });
+        // },
         async fetchData() {
             if (this.docId) {
                 this.axios(api.getDocData(this.docId))
@@ -144,6 +148,60 @@ export default {
                     this.error = true;
                 });
         },
+        async handleUpload() {
+            if (this.isRequiredFormEmpty) {
+                this.setToast('', 'Ada form yang perlu diisi', 3000);
+            } else {
+                if (this.selectedFile) {
+                    this.loading = true;
+
+                    this.axios(api.uploadAll(this.selectedFile, this.additionalFiles, this.docType))
+                    .then(async response => {
+                        const body = response.data;
+
+                        if (response.status == 200) {
+                            this.setToast('', 'Dokumen berhasil diunggah.', 3000);
+                            const file = body.data.file;
+                            console.log(file);
+
+                            const formData = {
+                                docName: file.filename,
+                                fileRef: [file._id],
+                                docType: file.documentType,
+                                ...this.docData,
+                            }
+                            await this.uploadFormData(formData); 
+                        } else {
+                            console.log('Dokumen gagal diunggah');
+                        }
+                    })
+                    .catch(err => {
+                        console.log('Error', err);
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    })
+                } else {
+                    alert('Tidak ada file yang dipilih');
+                }
+            }
+        },
+        async uploadFormData(data) {
+            this.axios(api.uploadDocData(data, data.docType))
+            .then((response) => {
+                const body = response.data;
+
+                if (response.status === 200) {
+                    this.setToast('', 'Dokumen berhasil diunggah.', 3000);
+                    console.log(body);
+                } else {
+                    console.error('Dokumen gagal diunggah.');
+                }
+            })
+            .catch((err) => {
+                console.error('Error:', err);
+            });
+        },
         setAttributesNull() {    
             if (this.mode == 'create') {
                 this.attributeStatus = JSON.parse(JSON.stringify(this.docData));
@@ -152,9 +210,6 @@ export default {
                 });
             }
         },
-        ...mapActions(useToastStore, {
-            setToast: 'setToast',
-        }),
     },
     beforeUnmount() {
         if (this.localPreview) {

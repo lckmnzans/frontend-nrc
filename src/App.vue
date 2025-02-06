@@ -12,8 +12,8 @@ export default {
         ...mapState(useDocumentsTypeStore, ['documents']),
         ...mapState(useDocumentsSchemaStore, ['formsData'])
     },
-    created() {
-        this.fetchDocumentsSchema();
+    async created() {
+        await this.fetchDocumentsSchema();
     },
     beforeUpdate() {
         this.fetchDocumentsSchema();

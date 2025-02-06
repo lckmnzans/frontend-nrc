@@ -53,6 +53,7 @@ export default {
         overflow-y: hidden;
         overflow-x: auto;
         z-index: 99;
+        background-color: #fff;
     }
 
     .tab-content {

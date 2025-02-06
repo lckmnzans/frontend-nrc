@@ -58,12 +58,24 @@
                 </div>
             </form>
 
-            <PdfForm v-if="mode == 'create'"
+            <!-- <PdfForm v-if="mode == 'create'"
             :disabled-state="isRequiredFormEmpty"
             :loading="loading"
             @update:local-preview="localPreview = $event"
             @submit="handleSubmit"
-            />
+            /> -->
+            
+            <div v-if="mode == 'create'">
+                <PdfForm 
+                @update:local-preview="localPreview = $event"
+                @add:file="selectedFile = $event"
+                @add:files="additionalFiles = $event" />
+                
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpload" :disabled="isRequiredFormEmpty || !selectedFile || loading">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>
+                    <span class="text">Unggah</span>
+                </button>
+            </div>
             <div v-else-if="mode == 'edit'">
                 <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">Simpan</button>
             </div>
@@ -72,7 +84,7 @@
 </template>
 <script>
 import Loading from '@/components/Loading.vue';
-import PdfForm from '@/components/PdfForm.vue';
+import PdfForm from '@/components/PdfsForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import FormOptions from '@/views/main/category/forms/FormOptsConfig';
 
