@@ -3,14 +3,21 @@
         <div class="header">
             <h4>Daftar Akun</h4>
             <div>
-                <router-link to="/accounts/create" class="btn btn-primary btn-sm" id="btn-to-create-account">
+                <router-link to="/accounts/create" class="btn btn-primary btn-sm" id="btn-to-create-account" >
                     <span class="text">Tambah Akun</span>
                     <span class="material-icons">add</span>
                 </router-link>
             </div>
         </div>
-        <div class="content">
-            <table class="table table-hover">
+        <div class="content" style="min-height: 160px;">
+            <div class="d-flex align-items-center justify-content-center" v-if="loading">
+                <span class="spinner-border"></span>
+            </div>
+            <div class="d-flex flex-column align-items-center justify-content-center" v-else-if="!loading && !hasAnyData">
+                <p>Data gagal diambil</p>
+                <button class="btn btn-outline-secondary" @click.prevent="getAllAccounts">Reload</button>
+            </div>
+            <table class="table table-hover" v-else-if="!loading && hasAnyData">
                 <thead>
                     <tr>
                         <th>Username</th>
@@ -44,6 +51,8 @@
 
 <script>
 import api from '@/api/account.api';
+import { useToastStore } from '@/store/toastStore';
+import { mapActions } from 'pinia';
 export default {
     inject: ['$auth'],
     created() {
@@ -52,40 +61,86 @@ export default {
             router.replace({ path: '/' });
         }
 
-        this.getAllAccounts();
+        this.$watch(() => this.load, this.getAllAccounts, { immediate: true });
+    },
+    computed: {
+        hasAnyData() {
+            return this.accounts.length >= 1;
+        }
     },
     data() {
         return {
+            response: {
+                error: false,
+                code: 0,
+            },
+            loading: false,
             accounts: []
         }
     },
     methods: {
+        ...mapActions(useToastStore, {setToast: 'setToast'}),
         async getAllAccounts() {
+            this.loading = true;
+            this.response.error = false;
+            this.response.code = 0;
+
             this.axios(api.getAllAccounts())
             .then(response => {
+                this.response.code = response.status;
+
                 if (response.status == 200) {
+                    this.response.error = false;
+
                     const body = response.data;
                     this.accounts = body.data.accounts;
                 } else {
-                    alert('Failed to fetch data');
+                    this.response.error = true;
+
+                    this.setToast('Ada Kesalahan', 'Kesalahan dalam memuat data', 3000);
                 }
             })
-            .catch(error => {
-                alert('An error occurred. Please try again later.')
+            .catch(err => {
+                if (err.response) {
+                    this.response.code = err.response['status'];
+                } else {
+                    this.response.code = 500;
+                }
+                this.response.error = true;
+                this.setToast('Ada Kesalahan', 'Kesalahan dalam memuat data', 3000);
+                console.log(err);
+            })
+            .finally(() => {
+                this.loading = false;
             })
         },
         approveResetRequest(userdata, isApproved) {
+            this.loading = true;
+            this.response.error = false;
+            this.response.code = 0;
+
             this.axios(api.approveRequest(userdata, isApproved))
             .then(response => {
+                this.response.code = response.status;
+
                 if (response.status = 200) {
-                    const body = response.data;
-                    alert('Permintaan berhasil diproses');
+                    this.response.error = false;
                 } else {
-                    alert('Gagal memproses permintaan');
+                    this.response.error = true;
                 }
             })
-            .catch(error => {
-                alert('Permintaan tidak bisa diproses, silahkan coba lagi')
+            .catch(err => {
+                if (err.response) {
+                    this.response.code = err.response['status'];
+                } else {
+                    this.response.code = 500;
+                }
+                this.response.error = true;
+                this.setToast('Ada Kesalahan', 'Permintaan tidak bisa diproses', 3000);
+                console.log(err);
+            })
+            .finally(() => {
+                this.loading = false;
             })
         },
         forgotPasswordRequest(resetStatus) {
@@ -120,6 +175,8 @@ export default {
 .content {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     th {
         background-color: var(--dark);
@@ -142,7 +199,7 @@ export default {
         }
     }
 
-    button {
+    table button {
         padding: 5px 10px;
         border: none;
         border-radius: 6px;

@@ -1,20 +1,20 @@
 const ApiHost = process.env.VUE_APP_BACKEND_URL;
 export default {
     ApiHost,
-    upload: (document, docType) => {
-        const formData = new FormData();
-        formData.append('document', document);
-        formData.append('docType', docType);
-        return {
-            method: 'POST',
-            url: `${ApiHost}/api/v1/document`, 
-            data: formData,
-            headers: {
-                "authorization": "Bearer " + localStorage.getItem("token"),
-                "content-type": "multipart/form-data"
-            }
-        }
-    },
+    // upload: (document, docType) => {
+    //     const formData = new FormData();
+    //     formData.append('document', document);
+    //     formData.append('docType', docType);
+    //     return {
+    //         method: 'POST',
+    //         url: `${ApiHost}/api/v1/document`, 
+    //         data: formData,
+    //         headers: {
+    //             "authorization": "Bearer " + localStorage.getItem("token"),
+    //             "content-type": "multipart/form-data"
+    //         }
+    //     }
+    // },
     uploadAll: (document, additionalDocuments, docType) => {
         const formData = new FormData();
         formData.append('docType', docType);
@@ -35,10 +35,15 @@ export default {
             }
         }
     },
-    uploadDocData: (docData, docType) => {
+    uploadDocData: (docData, docType, ocr) => {
+        const url = new URL(`${ApiHost}/api/v1/document/${docType}`);
+        const params = new URLSearchParams();
+        if (ocr) params.append('ocr', ocr);
+        url.search = params.toString();
+
         return {
             method: 'POST',
-            url: `${ApiHost}/api/v1/document/${docType}`,
+            url: url,
             data: docData,
             headers: {
                 "content-type": "application/json",

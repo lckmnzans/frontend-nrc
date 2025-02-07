@@ -62,10 +62,12 @@
             </div>
             <button class="btn btn-primary btn-sm" type="submit" style="margin-top: auto;">Terapkan</button>
         </form>
-        <div class="list-documents" >
-            <LoadingOverlay :visible="loading" v-if="loading"/>
-            <div class="error-container" v-else-if="!loading && error">
-                <p>Data Gagal Diambil</p>
+        <div class="list-documents" style="min-height: 160px;">
+            <div class="d-flex align-items-center justify-content-center" v-if="loading">
+                <span class="spinner-border"></span>
+            </div>
+            <div class="d-flex flex-column align-items-center justify-content-center" v-else-if="!loading && error">
+                <p>Data gagal diambil</p>
                 <button class="btn btn-outline-secondary" @click.prevent="fetchDocs">Reload</button>
             </div>
             <div class="table-container" v-else-if="!loading && !error">
@@ -130,16 +132,12 @@
     </div>
 </template>
 <script>
-import LoadingOverlay from '@/components/Loading.vue';
 import api from '@/api/document.api';
 import { mapState, mapWritableState, mapActions } from 'pinia';
 import { usePageStore, useDocumentsTypeStore } from '@/store';
 import { useToastStore } from '@/store/toastStore';
 import { useDocumentsListStore } from '@/store/documentsStore';
 export default {
-    components: {
-        LoadingOverlay
-    },
     inject: ['$auth'],
     created() {
         this.role = this.$auth.getRole();
@@ -165,6 +163,9 @@ export default {
                 this.docFilter.keyword = '';
                 return false;
             }
+        },
+        hasAnyData() {
+            return this.docs.length >= 1;
         }
     },
     data() {
@@ -295,10 +296,9 @@ export default {
     .list-documents {
         display: flex;
         flex-direction: row;
-        align-items: top;
-        justify-content: space-between;
+        align-items: center;
+        justify-content: center;
         margin-top: 1rem;
-        min-height: 30vh;
 
         .loading-overlay {
             position: absolute;
@@ -330,6 +330,11 @@ export default {
             flex-direction: column;
             width: 100%;
             min-height: 30vh;
+
+            th {
+                background-color: var(--dark);
+                color: var(--light);
+            }
         }
     }
 }

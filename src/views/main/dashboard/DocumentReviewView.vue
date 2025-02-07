@@ -17,12 +17,13 @@
                 </div>
             </div>
             <div class="col border rounded-1" id="container-attributesdoc">
-                <div class="col">
-                    <div class="form-check form-switch">
+                <div class="col mt-2">
+                    <h4 class="mb-1">Review Dokumen</h4>
+                    <div class="form-check form-switch mt-1">
                         <input class="form-check-input" id="mode" type="checkbox" autocomplete="off" v-model="viewMode">
                         <label class="form-check-label" for="mode">Mode Review</label>
                     </div>
-                    <div class="alert" :class="`alert-${docData['verificationStatus'] == 'verified' ? 'info' : 'warning' }`">
+                    <div class="alert mt-1" :class="`alert-${docData['verificationStatus'] == 'verified' ? 'info' : 'warning' }`">
                         {{ docData['verificationStatus'] == 'verified' ? 'Sudah' : 'Belum' }} diverifikasi
                     </div>
                 </div>
@@ -53,11 +54,11 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col">
+                <div class="col mb-3">
                     <label class="form-label" for="notes">Catatan tambahan</label>
                     <textarea class="form-control" id="notes" rows="3"></textarea>
 
-                    <button class="btn btn-primary" type="button" @click.prevent="updateDocument">
+                    <button class="btn btn-primary mt-3" type="button" @click.prevent="updateDocument">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>
                         <span class="text">Simpan perubahan</span>
                     </button>

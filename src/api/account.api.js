@@ -30,16 +30,6 @@ export default {
             }
         }
     },
-    forgot: (userdata) => {
-        return {
-            method: 'POST',
-            url: `${ApiHost}/api/v1/account/request-reset`,
-            data: {
-                username: userdata.username,
-                email: userdata.email
-            }
-        }
-    },
     getAccount: (id) => {
         return {
             method: 'GET',
@@ -55,6 +45,16 @@ export default {
             url: `${ApiHost}/api/v1/account`,
             headers: {
                 'authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }
+    },
+    forgotRequest: (userdata) => {
+        return {
+            method: 'POST',
+            url: `${ApiHost}/api/v1/account/request-reset`,
+            data: {
+                username: userdata.username,
+                email: userdata.email
             }
         }
     },
@@ -86,8 +86,8 @@ export default {
             }
         }
     },
-    updateAccount: (userdata, requestChange) => {
-        const url = `${ApiHost}/api/v1/account`;
+    updateAccount: (userid, userdata, requestChange) => {
+        const url = `${ApiHost}/api/v1/account/${userid}`;
         if (requestChange == 'pass') {
             return {
                 method: 'PATCH',

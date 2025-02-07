@@ -66,7 +66,7 @@ export default {
                 username: this.username,
                 email: this.email
             }
-            this.axios(api.forgot(formdata))
+            this.axios(api.forgotRequest(formdata))
             .then(response => {
                 this.response.code = response.status;
 

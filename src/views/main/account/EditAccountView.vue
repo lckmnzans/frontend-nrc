@@ -7,7 +7,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Anda yakin akan menghapus akun ini?</p>
+                    <p>Anda yakin ingin menghapus akun ini?</p>
                 </div>
                 <div class="modal-footer">
                     <div class="d-flex flex-row gap-3">
@@ -20,6 +20,7 @@
     </div>
     <div class="edit-account-view">
         <h4>Ubah Akun</h4>
+        <LoadingOverlay :visible="loading" />
         <form>
             <div class="mb-3" id="form-row-1">
                 <div class="form-group">
@@ -34,7 +35,7 @@
             <div class="mb-3" id="form-row-2">
                 <div class="form-group">
                     <label for="" class="form-label">Role</label>
-                    <select class="form-select" v-model="user.role">
+                    <select class="form-select" v-model="user.role" :disabled="loading">
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                         <option value="superadmin">Superadmin</option>
@@ -43,24 +44,25 @@
             </div>
         </form>
         <div class="action-container">
-            <button @click.prevent="submitChange" :disabled="true" class="btn btn-primary">Simpan perubahan</button>
-            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalConfirmDelete">Hapus akun</button>
+            <button @click.prevent="submitChange" :disabled="isFormValid || loading || response.code == 500" class="btn btn-primary">Simpan perubahan</button>
+            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalConfirmDelete" :disabled="loading || response.code == 500">Hapus akun</button>
         </div>
     </div>
 </template>
 <script>
+import LoadingOverlay from '@/components/Loading.vue';
 import api from '@/api/account.api';
 import { mapActions } from 'pinia';
 import { useToastStore } from '@/store/toastStore';
-import TestView from '@/views/TestView.vue';
 export default {
-    inject: ['$auth'],
+    components: { LoadingOverlay },
     props: {
         userId: {
             type: String,
             required: true
         }
     },
+    inject: ['$auth'],
     created() {
         const role = this.$auth.getRole();
         if (role !== 'superadmin') {
@@ -75,63 +77,122 @@ export default {
     },
     data() {
         return {
+            response: {
+                error: false,
+                code: 0,
+            },
+            loading: false,
             user: {
                 username: 'username',
                 email: 'email@mail.co',
-                role: 'admin'
+                role: 'user'
             },
         }
     },
     methods: {
         ...mapActions(useToastStore, ['setToast']),
         fetchData() {
+            this.loading = true;
+            this.response.error = false;
+            this.response.code = 0;
+
             this.axios(api.getAccount(this.userId))
             .then(response => {
+                this.response.code = response.status;
+
                 if (response.status == 200) {
+                    this.response.error = false;
+                    
                     const body = response.data;
-                    console.log(body);
                     this.user.username = body.data.username;
                     this.user.email = body.data.email;
                     this.user.role = body.data.role;
+                } else {
+                    this.response.error = true;
                 }
             })
             .catch(err => {
+                if (err.response) {
+                    this.response.code = err.response['status'];
+                } else {
+                    this.response.code = 500;
+                }
+                this.response.error = true;
+                this.setToast('Ada Kesalahan', 'Kesalahan dalam memuat data', 3000);
                 console.log(err);
+            })
+            .finally(() => {
+                this.loading = false;
             })
         },
         submitChange() {
+            this.loading = true;
+            this.response.error = false;
+            this.response.code = 0;
+
             const userdata = this.user;
-            this.axios(api.updateAccount(userdata, 'role'))
+            this.axios(api.updateAccount(this.userId, userdata, 'role'))
             .then(response => {
+                this.response.code = response.status;
+
                 if (response.status = 200) {
-                    const body = response.data;
-                    this.setToast('Notif', 'Role berhasil diubah.', 2000);
-                    this.$router.back();
+                    this.response.error = false;
+
+                    this.setToast('', 'Role berhasil diubah.', 2000);
                 } else {
-                    const message = response.data.message;
-                    console.log(message);
-                    this.setToast('Notif', 'Role gagal diubah.', 2000);
+                    this.response.error = true;
+
+                    this.setToast('', 'Role gagal diubah.', 2000);
                 }
             })
-            .catch(error => {
-                alert('Permintaan tidak bisa diproses, silahkan coba lagi')
+            .catch(err => {
+                if (err.response) {
+                    this.response.code = err.response['status'];
+                } else {
+                    this.response.code = 500;
+                }
+                this.response.error = true;
+                this.setToast('Ada kesalahan', 'Kesalahan dalam mengirimkan data baru', 3000);
+                console.log(err);
+            })
+            .finally(() => {
+                this.loading = false;
             })
         },
         deleteAccount() {
+            this.loading = true;
+            this.response.error = false;
+            this.response.code = 0;
+
             const userdata = this.user;
             this.axios(api.deleteAcc(userdata))
             .then(response => {
+                this.response.code = response.status;
+
                 if (response.status == 200) {
-                    const body = response.data;
-                    const dataStr = JSON.stringify(body.data);
-                    console.log('Sukses menghapus akun. ' + dataStr);
+                    this.response.error = false;
+                    
+                    this.setToast('', 'Akun berhasil dihapus.', 2000);
+                    this.$router.back();
                 } else {
-                    console.log('Gagal menghapus akun.');
+                    this.response.error = true;
+
+                    this.setToast('', 'Akun gagal dihapus.', 2000);
                 }
             })
-            .catch(error => {
-                console.log('Terjadi kesalahan. Error: ' + error);
-            });
+            .catch(err => {
+                if (err.response) {
+                    this.response.code = err.response['status'];
+                } else {
+                    this.response.code = 500;
+                }
+                this.response.error = true;
+                this.setToast('Ada kesalahan', 'Kesalahan dalam memproses permintaan', 3000);
+                console.log(err);
+            })
+            .finally(() => {
+                this.loading = false;
+            })
         }
     }
 }
@@ -168,5 +229,20 @@ export default {
         justify-content: space-between;
         gap: 3rem;
     }
+}
+
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    border-radius: 6px;
 }
 </style>

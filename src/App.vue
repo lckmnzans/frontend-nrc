@@ -20,9 +20,9 @@ export default {
     },
     methods: {
         async fetchDocumentsSchema() {
-            const res = await fetch(`${api.ApiHost}/api/v1/document`);
-            // const res = await fetch('docSchema.json');
-            const data = await res.json();
+            // const res = this.axios.get(`${api.ApiHost}/api/v1/document`, { responseType: 'json' });
+            const res = this.axios.get('/docSchema.json', { responseType: 'json' });
+            const data = (await res).data;
             const categories = await data.categories;
 
             for (let categoryId in categories) {

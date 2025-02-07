@@ -20,7 +20,6 @@ export default {
             default: 'Notifikasi'
         },
         message: {
-            type: String,
             required: true
         },
         show: {

@@ -3,10 +3,10 @@
         <ul :class="{ 'no-left-space': !hasLeftSpace }">
             <li v-for="(page, index) in pages" :key="index" class="tab-item-wrapper nav-item">
                 <router-link 
-                    :to="routeLinkBuilder(page.pageId)"
-                    class="tab-item nav-link"
-                    :class="{ active: this.$route.path === `${routeLinkBuilder(page.pageId)}` }"
-                >
+                :to="routeLinkBuilder(page.pageId)"
+                class="tab-item nav-link"
+                :class="{ active: this.$route.path === `${routeLinkBuilder(page.pageId)}` }"
+                replace>
                     {{ page.pageTitle }}
                 </router-link>
             </li>

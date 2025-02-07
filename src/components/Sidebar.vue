@@ -45,8 +45,7 @@
     </aside>
 </template>
 <script>
-import { mapState, mapActions } from 'pinia';
-import { usePageStore, useDocumentsTypeStore } from '@/store';
+import { mapActions } from 'pinia';
 import { useUserStore } from '@/store/userStore';
 export default {
     inject: ['$auth'],
@@ -105,7 +104,6 @@ aside {
     overflow: hidden;
     padding: 1rem;
 
-    // background-color: #fff;
     background-image: linear-gradient(var(--light), var(--primary-alt-3));
     color: var(--dark);
 

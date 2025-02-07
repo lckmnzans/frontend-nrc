@@ -187,7 +187,7 @@ export default {
             }
         },
         async uploadFormData(data) {
-            this.axios(api.uploadDocData(data, data.docType))
+            this.axios(api.uploadDocData(data, data.docType, true))
             .then((response) => {
                 const body = response.data;
 
