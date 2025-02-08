@@ -11,7 +11,10 @@ export default {
         VuePdfApp
     },
     props: {
-        pdf: String
+        pdf: {
+            type: [String, ArrayBuffer],
+            required: true
+        }
     },
     data() {
         return {
@@ -30,7 +33,8 @@ export default {
 </script>
 <style scoped>
 .preview-pdf {
-    width: 768px;
+    width: inherit;
+    height: inherit;
     position: sticky;
 }
 </style>

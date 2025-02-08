@@ -41,10 +41,10 @@ export default {
             this.axios(api.updateDocData(this.docData, this.docType, this.docId))
                 .then((response) => {
                     if (response.status === 200) {
-                        this.setToast('', 'Dokumen berhasil diperbarui', 3000);
+                        this.setToast('', 'Dokumen berhasil disimpan', 3000);
                         this.$router.back();
                     } else {
-                        this.setToast('', 'Dokumen gagal diperbarui', 3000);
+                        this.setToast('', 'Dokumen gagal disimpan', 3000);
                     }
                 })
                 .catch((err) => {
@@ -162,12 +162,13 @@ export default {
                         if (response.status == 200) {
                             this.setToast('', 'Dokumen berhasil diunggah.', 3000);
                             const file = body.data.file;
-                            console.log(file);
+                            // console.log(file);
 
                             const formData = {
                                 docName: file.filename,
                                 fileRef: [file._id],
                                 docType: file.documentType,
+                                notes: '',
                                 ...this.docData,
                             }
                             await this.uploadFormData(formData); 

@@ -1,6 +1,6 @@
 <template>
     <div class="form-container" >
-        <div class="previewpdf-container">
+        <div id="previewpdf-container">
             <Loading :visible="loading" v-if="loading" />
             <div class="error-container" v-else-if="!loading && !localPreview">
                 <span class="text" v-if="error">Gagal menampilkan PDF</span>
@@ -10,43 +10,43 @@
         </div>
         <div class="input-form">
             <h4>Formulir Legalitas</h4>
-            <form>
+            <form class="d-flex flex-column">
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nama Dokumen *</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.namaDokumen" required :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.namaDokumen">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.namaDokumen">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Instansi Penerbit</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.instansiPenerbit" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.instansiPenerbit">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.instansiPenerbit">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No.Dokumen</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.noDokumen" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.noDokumen">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.noDokumen">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
                     <div class="input-control">
                         <input type="date" class="form-control" v-model="docData.tglTerbit" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.tglTerbit">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Masa Berlaku s/d</label>
                     <div class="input-control">
                         <input type="date" class="form-control" v-model="docData.masaBerlaku" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.masaBerlaku">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.masaBerlaku">error</span>
                     </div>
                 </div>
-                <div class="alert alert-info" role="alert" v-if="ocrable">
+                <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
                 </div>
             </form>
@@ -63,7 +63,8 @@
                 </button>
             </div>
             <div v-else-if="mode == 'edit'">
-                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">Simpan</button>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate" :disabled="isFormEmptied">Simpan</button>
             </div>
         </div>
     </div>
@@ -88,6 +89,9 @@ export default {
     computed: {
         isRequiredFormEmpty() {
             return this.docData.namaDokumen == '';
+        },
+        isFormEmptied() {
+            return Object.values(this.docData).includes('');
         }
     },
     data() {
@@ -115,7 +119,7 @@ export default {
     padding: 1.5rem;
     gap: 1rem;
 
-    .previewpdf-container {
+    #previewpdf-container {
         position: sticky;
         width: 768px;
         height: 600px;
@@ -134,10 +138,6 @@ export default {
             width: 100%;
             height: 100%;
         }
-
-        .preview-pdf {
-            height: 600px;
-        }
     }
 
     .input-control {
@@ -145,6 +145,7 @@ export default {
         flex-direction: row;
         align-items: center;
         justify-content: start;
+        min-width: 400px;
         gap: 6px;
     }
 }
