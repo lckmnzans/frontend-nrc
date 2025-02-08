@@ -1,6 +1,25 @@
 <template>
+    <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalConfirmDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConfirmDeleteLabel">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Anda yakin ingin menghapus dokumen ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex flex-row gap-3">
+                        <button id="btn-next" class="btn btn-danger" data-bs-dismiss="modal" @click.prevent="deleteDocument(docId, docName)">Lanjutkan</button>
+                        <button id="btn-cancel" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="form-container">
-        <div class="previewpdf-container">
+        <div id="previewpdf-container">
             <Loading :visible="loading" v-if="loading" />
             <div class="error-container" v-else-if="!loading && !localPreview">
                 <span class="text" v-if="error">Gagal menampilkan PDF</span>
@@ -8,46 +27,60 @@
             </div>
             <PreviewPdf :pdf="localPreview" v-else-if="!loading && localPreview"/>
         </div>
-        <div class="input-form">
-            <h4>Formulir Surat Keluar</h4>
-            <form>
+        <div >
+            <div class="d-flex justify-content-between align-items-center">
+                <h4>Formulir Surat Keluar</h4>
+                <button v-if="role == 'superadmin' && mode == 'edit'" class="border border-0" style="background-color: #fff; color: var(--secondary);" title="Hapus dokumen"
+                data-bs-toggle="modal" data-bs-target="#modalConfirmDelete"
+                >
+                    <span class="material-icons fs-4">delete</span>
+                </button>
+            </div>
+            <form class="d-flex flex-column">
                 <div class="form-group mb-3">
                     <label for="" class="form-label">No. Surat</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.noSurat" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.noSurat">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.noSurat">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tanggal Terbit</label>
                     <div class="input-control">
                         <input type="date" class="form-control" v-model="docData.tglTerbit" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.tglTerbit">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.tglTerbit">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Perihal</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.perihal" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.perihal">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.perihal">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Drafter *</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.drafter" required :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.drafter">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.drafter">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Tujuan Surat *</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.tujuanSurat" required :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus.tujuanSurat">error</span>
+                        <span class="material-icons" v-if="!attributeStatus?.tujuanSurat">error</span>
                     </div>
                 </div>
-                <div class="alert alert-info" role="alert" v-if="ocrable">
+                <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
+                </div>
+                <div class="form-group mb-3" v-else>
+                    <div class="input-header d-flex justify-content-between align-items-center">                
+                        <label for="additionalNotes" class="form-label">Catatan</label>
+                        <button class="border border-0" @click.prevent="isNotesEditable = !isNotesEditable;" title="Ubah catatan"><span class="material-icons fs-6">edit</span></button>
+                    </div>
+                    <textarea class="form-control" id="additionalNotes" rows="3" :value="attributeStatus?.additionalNotes" :disabled="!isNotesEditable" @change="attributeStatus.additionalNotes = $event.target.value"></textarea>
                 </div>
             </form>
 
@@ -63,7 +96,9 @@
                 </button>
             </div>
             <div v-else-if="mode == 'edit'">
-                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">Simpan</button>
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>Simpan
+                </button>
             </div>
         </div>
     </div>
@@ -88,6 +123,9 @@ export default {
     computed: {
         isRequiredFormEmpty() {
             return this.docData.drafter == '' || this.docData.tujuanSurat == '';
+        },
+        isFormEmptied() {
+            return Object.values(this.docData).includes('');
         }
     },
     data() {
@@ -115,7 +153,7 @@ export default {
     padding: 1.5rem;
     gap: 1rem;
 
-    .previewpdf-container {
+    #previewpdf-container {
         position: sticky;
         width: 768px;
         height: 600px;
@@ -134,10 +172,6 @@ export default {
             width: 100%;
             height: 100%;
         }
-
-        .preview-pdf {
-            height: 600px;
-        }
     }
 
     .input-control {
@@ -145,6 +179,7 @@ export default {
         flex-direction: row;
         align-items: center;
         justify-content: start;
+        min-width: 400px;
         gap: 6px;
     }
 }

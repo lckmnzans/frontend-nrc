@@ -111,5 +111,20 @@ export default {
                 "authorization": "Bearer " + localStorage.getItem("token")
             }
         }
+    },
+    deleteDocument: (docId, docName) => {
+        const docData = {
+            docId: docId,
+            filename: docName
+        }
+        return {
+            method: 'DELETE',
+            url: `${ApiHost}/api/v1/document/docfile`,
+            data: docData,
+            headers: {
+                "content-type": "application/json",
+                "authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }
     }
 }

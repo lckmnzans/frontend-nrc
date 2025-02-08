@@ -81,10 +81,6 @@ export default {
         },
         logout() {
             this.$auth.logout();
-            localStorage.removeItem('documents-type');
-            localStorage.removeItem('documents-schema');
-            localStorage.removeItem('pages');
-            localStorage.removeItem('subPages');
             this.clear();
         },
         ...mapActions(useUserStore, {
