@@ -3,6 +3,7 @@ import { useToastStore } from '@/store/toastStore';
 import { mapActions } from 'pinia';
 
 export default {
+    inject: ['$auth'],
     props: {
         mode: {
             type: String,
@@ -39,7 +40,10 @@ export default {
             this.loading = true;
             this.error = false;
 
-            this.axios(api.deleteDocument(docId, filename))
+            const role = this.$auth.getRole();
+            const softDelete = role == 'admin' ? true : false;
+
+            this.axios(api.deleteDocument(docId, filename, softDelete))
             .then(response => {
                 if (response.status == 200) {
                     this.error = false;

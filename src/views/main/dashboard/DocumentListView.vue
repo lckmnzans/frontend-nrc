@@ -99,6 +99,7 @@
                                 <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
                                 <span class="badge bg-info text-dark" v-if="doc.hasPassedScreening">OCR</span>
                                 <span class="badge bg-warning text-dark" v-if="doc.verificationStatus == 'verified' ? !docTypeValidity(doc.notes) : false">Jenis dokumen invalid</span>
+                                <span class="badge bg-danger" v-if="doc?.fileRef[0]?.deleted">Ditandai</span>
                             </td>
                             <td>
                                 <div class="button">
@@ -182,6 +183,9 @@ export default {
         async fetchDocs() {
             this.loading = true;
             this.error = false;
+            
+            const role = this.$auth.getRole();
+            const withFileDetail = role == 'superadmin' ? true : false;
 
             this.axios(api.getListOfDocuments(
                 this.currentPage,
@@ -190,7 +194,8 @@ export default {
                 this.docFilter.docStatus,
                 this.docFilter.startDate,
                 this.docFilter.endDate,
-                this.docFilter.keyword)
+                this.docFilter.keyword,
+                withFileDetail)
             )
             .then((response) => {
                 if (response.status == 200) {

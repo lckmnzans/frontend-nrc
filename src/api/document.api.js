@@ -51,7 +51,7 @@ export default {
             }
         }
     },
-    getListOfDocuments: (page, limit, docType, verificationStatus, startDate, endDate, keyword) => {
+    getListOfDocuments: (page, limit, docType, verificationStatus, startDate, endDate, keyword, withFileDetail) => {
         const url = new URL(`${ApiHost}/api/v1/document/list-document`);
         const params = new URLSearchParams();
 
@@ -68,6 +68,7 @@ export default {
         if (startDate) params.append('startDate', startDate);
         if (endDate) params.append('endDate', endDate);
         if (keyword) params.append('keyword', keyword);
+        if (withFileDetail) params.append('withFileDetail', withFileDetail);
 
         if (Array.from(params).length > 0) {
             url.search = params.toString();
@@ -112,14 +113,24 @@ export default {
             }
         }
     },
-    deleteDocument: (docId, docName) => {
+    deleteDocument: (docId, docName, softDelete) => {
+        const url = new URL(`${ApiHost}/api/v1/document/docfile`);
+        const params = new URLSearchParams();
+        if (softDelete) {
+            params.append('softDelete', softDelete);
+        }
+
+        if (Array.from(params).length > 0) {
+            url.search = params.toString();
+        }
+
         const docData = {
             docId: docId,
             filename: docName
         }
         return {
             method: 'DELETE',
-            url: `${ApiHost}/api/v1/document/docfile`,
+            url: url.toString(),
             data: docData,
             headers: {
                 "content-type": "application/json",

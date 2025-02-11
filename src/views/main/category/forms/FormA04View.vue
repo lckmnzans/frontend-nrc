@@ -1,4 +1,23 @@
 <template>
+    <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalConfirmDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConfirmDeleteLabel">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Anda yakin ingin menghapus dokumen ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex flex-row gap-3">
+                        <button id="btn-next" class="btn btn-danger" data-bs-dismiss="modal" @click.prevent="deleteDocument(docId, docName)">Lanjutkan</button>
+                        <button id="btn-cancel" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="form-container">
         <div id="previewpdf-container">
             <Loading :visible="loading" v-if="loading" />
