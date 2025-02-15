@@ -1,20 +1,7 @@
-const ApiHost = process.env.VUE_APP_BACKEND_URL;
+const ApiHost = process.env.VUE_APP_BACKEND_URL || '';
+const baseUrl = window.location.origin;
 export default {
     ApiHost,
-    // upload: (document, docType) => {
-    //     const formData = new FormData();
-    //     formData.append('document', document);
-    //     formData.append('docType', docType);
-    //     return {
-    //         method: 'POST',
-    //         url: `${ApiHost}/api/v1/document`, 
-    //         data: formData,
-    //         headers: {
-    //             "authorization": "Bearer " + localStorage.getItem("token"),
-    //             "content-type": "multipart/form-data"
-    //         }
-    //     }
-    // },
     uploadAll: (document, additionalDocuments, docType) => {
         const formData = new FormData();
         formData.append('docType', docType);
@@ -27,7 +14,7 @@ export default {
 
         return {
             method: 'POST',
-            url: `${ApiHost}/api/v1/document/multi`,
+            url: `/api/v1/document/multi`,
             data: formData,
             headers: {
                 "authorization": "Bearer " + localStorage.getItem("token"),
@@ -36,7 +23,7 @@ export default {
         }
     },
     uploadDocData: (docData, docType, ocr) => {
-        const url = new URL(`${ApiHost}/api/v1/document/${docType}`);
+        const url = new URL(`/api/v1/document/${docType}`, baseUrl);
         const params = new URLSearchParams();
         if (ocr) params.append('ocr', ocr);
         url.search = params.toString();
@@ -52,7 +39,7 @@ export default {
         }
     },
     getListOfDocuments: (page, limit, docType, verificationStatus, startDate, endDate, keyword, withFileDetail) => {
-        const url = new URL(`${ApiHost}/api/v1/document/list-document`);
+        const url = new URL('/api/v1/document/list-document', baseUrl);
         const params = new URLSearchParams();
 
         if (page) params.append('page', page);
@@ -86,7 +73,7 @@ export default {
     getDocData: (docId) => {
         return {
             method: 'GET',
-            url: `${ApiHost}/api/v1/document/docs/${docId}`,
+            url: `/api/v1/document/docs/${docId}`,
             headers: {
                 "authorization": "Bearer " + localStorage.getItem("token")
             }
@@ -95,17 +82,17 @@ export default {
     getPdf: (filename) => {
         return {
             method: 'GET',
-            url: `${ApiHost}/api/v1/document/pdf/${filename}?requestedFile=pdf`,
+            url: `/api/v1/document/pdf/${filename}?requestedFile=pdf`,
             responseType: 'blob'
         }
     },
     getPdfThumbnail: (filename) => {
-        return `${ApiHost}/api/v1/document/pdf/${filename}`
+        return `/api/v1/document/pdf/${filename}`
     },
     updateDocData: (docData, docType, docId) => {
         return {
             method: 'PATCH',
-            url: `${ApiHost}/api/v1/document/docs/${docType}/${docId}`,
+            url: `/api/v1/document/docs/${docType}/${docId}`,
             data: docData,
             headers: {
                 "content-type": "application/json",
@@ -114,7 +101,7 @@ export default {
         }
     },
     deleteDocument: (docId, docName, softDelete) => {
-        const url = new URL(`${ApiHost}/api/v1/document/docfile`);
+        const url = new URL(`/api/v1/document/docfile`, baseUrl);
         const params = new URLSearchParams();
         if (softDelete) {
             params.append('softDelete', softDelete);
