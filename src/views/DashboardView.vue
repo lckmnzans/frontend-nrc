@@ -45,10 +45,17 @@ export default {
         this.documents = JSON.parse(localStorage.getItem('documents-type'));
 
         if (this.user) {
-            this.socket = io();
+            const url = window.location.origin;
+            this.socket = io(url, {
+                transports:["websocket"],
+            });
 
             this.socket.emit("register", this.user.id);
-            console.log(`Registered as ${this.user.id}`);
+
+            this.socket.on("connect", () => {
+                console.log("Connected to Websocket server: ", this.socket.id);
+                console.log(`Registered as ${this.user.id}`);
+            })
 
             this.socket.on("webhook_event", (data) => {
                 this.notification = {
