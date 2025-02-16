@@ -124,5 +124,29 @@ export default {
                 "authorization": "Bearer " + localStorage.getItem("token")
             }
         }
+    },
+    translateDocument: (data) => {
+        const url = new URL(`/api/v1/document/pdf/translate`, baseUrl);
+        const requestData = {
+            userId: data.userId,
+            filename: data.filename
+        }
+        return {
+            method: 'POST',
+            url: url.toString(),
+            data: requestData,
+            headers: {
+                "content-type": "application/json",
+                "authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }
+    },
+    getTranslatedDocument: (req_id) => {
+        const url = new URL(`/api/v1/document/pdf/translate/${req_id}`, baseUrl);
+        return {
+            method: 'GET',
+            url: url.toString(),
+            responseType: 'blob'
+        }
     }
 }

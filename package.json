@@ -25,6 +25,7 @@
     "pdfjs-dist": "^4.9.155",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0",
+    "socket.io-client": "^4.8.1",
     "style-loader": "^4.0.0",
     "vue": "^3.2.13",
     "vue-axios": "^3.5.2",

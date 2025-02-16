@@ -105,6 +105,9 @@
                                 <div class="button">
                                     <button title="unduh" @click.prevent="downloadDoc(doc.docName)"  style="color: slategray;"><span class="material-icons">download_for_offline</span></button>
                                 </div>
+                                <div class="button" v-if="doc.docType == 'A01'">
+                                    <button title="terjemahkan" @click.prevent="translateDoc(doc.docName)" style="color: slateblue;"><span class="material-icons">translate</span></button>
+                                </div>
                             </td>
                             <td>
                                 <div class="button">
@@ -238,6 +241,25 @@ export default {
             })
             .catch(err => {
                 console.log('Terjadi kesalahan saat mengunduh dokumen. Error: ', err);
+            });
+        },
+        async translateDoc(filename) {
+            const user = JSON.parse(this.$auth.getUser());
+            const data = {
+                userId: user.id,
+                filename: filename,
+            }
+            this.axios(api.translateDocument(data))
+            .then(response => {
+                if (response.status == 200) {
+                    const data = response.data;
+                    console.log(data);
+                } else {
+                    console.log('Gagal mengirim permintaan untuk translasi dokumen. Status: ', response.status);
+                }
+            })
+            .catch(err => {
+                console.log('Terjadi kesalahan saat dalam mengirim permintaan. Error: ', err);
             });
         },
         parseToLocalTime(strDate) {

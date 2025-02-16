@@ -25,6 +25,8 @@ import Sidebar from '@/components/Sidebar.vue';
 import Alert from '@/components/Alert.vue';
 import Toast from '@/components/Toast.vue';
 import api from '@/api/account.api';
+import docApi from '@/api/document.api';
+import { io } from 'socket.io-client';
 import { mapState, mapActions } from 'pinia';
 import { usePageStore } from '@/store';
 import { useAlertStore } from '@/store/alertStore';
@@ -37,9 +39,48 @@ export default {
     inject: ['$auth'],
     created() {
         this.token = this.$auth.getToken();
+        this.user = JSON.parse(this.$auth.getUser());
         this.fetchProfile();
         this.pages = JSON.parse(localStorage.getItem('pages'));
         this.documents = JSON.parse(localStorage.getItem('documents-type'));
+
+        if (this.user) {
+            this.socket = io();
+
+            this.socket.emit("register", this.user.id);
+            console.log(`Registered as ${this.user.id}`);
+
+            this.socket.on("webhook_event", (data) => {
+                this.notification = {
+                    event: "webhook_event",
+                    data: data
+                };
+            });
+
+            this.socket.on("translation_completed", (data) => {
+                this.notification = {
+                    event: "translation_completed",
+                    data: data
+                }
+            })
+        }
+    },
+    watch: {
+        notification(newVal, oldVal) {
+            switch (newVal.event) {
+                case "webhook_event":
+                    this.setToast('Pesan Masuk', newVal, 3000);
+                    break;
+                case "translation_completed":
+                    this.setToast('Translate Dokumen', newVal?.data?.req_id, 30000);
+                    this.downloadTranslatedPdf(newVal?.data?.req_id);
+                    break;
+                default:
+                    break;
+            }
+
+            console.log(newVal, oldVal);
+        }
     },
     computed: {
         ...mapState(useToastStore, {
@@ -60,8 +101,11 @@ export default {
     data() {
         return {
             token: '',
+            socket: null,
+            user: {},
             pages: [],
-            documents: []
+            documents: [],
+            notification: null
         }
     },
     methods: {
@@ -83,6 +127,28 @@ export default {
             .catch(err => {
                 console.log(err);
             })
+        },
+        async downloadTranslatedPdf(reqId) {
+            this.axios(docApi.getTranslatedDocument(reqId))
+            .then(response => {
+                if (response.status == 200) {
+                    const blob = response.data;
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = reqId;
+                    document.body.appendChild(link);
+                    link.click();
+
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                } else {
+                    console.log('Gagal mengunduh dokumen. Status: ', response.status);
+                }
+            })
+            .catch(err => {
+                console.log('Terjadi kesalahan saat mengunduh dokumen. Error: ', err);
+            });
         },
         ...mapActions(useAlertStore, {
             setAlert: 'setAlert',
