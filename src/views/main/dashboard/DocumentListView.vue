@@ -87,10 +87,10 @@
                     <tbody>
                         <tr v-for="(doc, index) in docs" :key="index">
                             <td>{{ limit * (currentPage-1) + index + 1 }}</td>
-                            <td @click.prevent="modalPreview = `${api}/api/v1/document/pdf/${docs[index].docName}`"
+                            <td @click.prevent="modalPreview = `/api/v1/document/pdf/${docs[index].docName}`"
                             data-bs-toggle="modal" 
                             data-bs-target="#modalView">
-                            <img :src="`${api}/api/v1/document/pdf/${doc.docName}`" alt="Preview Document" width="100" height="100">
+                            <img :src="`/api/v1/document/pdf/${doc.docName}`" alt="Preview Document" width="100" height="100">
                             </td>
                             <td>{{ documentType(doc.docType) }}</td>
                             <td>{{ doc.docName }}</td>
