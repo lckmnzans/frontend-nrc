@@ -98,7 +98,7 @@
                             <td>
                                 <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
                                 <span class="badge bg-info text-dark" v-if="doc.hasPassedScreening">OCR</span>
-                                <span class="badge bg-warning text-dark" v-if="doc.verificationStatus == 'verified' ? !docTypeValidity(doc.notes) : false">Jenis dokumen invalid</span>
+                                <!-- <span class="badge bg-warning text-dark" v-if="doc.verificationStatus == 'verified' ? !docTypeValidity(doc.notes) : false">Jenis dokumen invalid</span> -->
                                 <span class="badge bg-danger" v-if="doc?.fileRef[0]?.deleted">Ditandai</span>
                             </td>
                             <td>
@@ -207,6 +207,7 @@ export default {
                     this.totalDocuments = body.totalDocuments;
                     this.currentPage = body.currentPage;
                     this.docs = body.documents;
+                    console.log(this.docs);
                     console.log('Dokumen berhasil didapatkan.');
                 } else {
                     this.error = true;
