@@ -54,7 +54,6 @@ export default {
 
             this.socket.on("connect", () => {
                 console.log("Connected to Websocket server: ", this.socket.id);
-                console.log(`Registered as ${this.user.id}`);
             })
 
             this.socket.on("webhook_event", (data) => {

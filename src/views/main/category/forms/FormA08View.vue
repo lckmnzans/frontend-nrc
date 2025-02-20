@@ -65,10 +65,10 @@
                         <span class="material-icons" v-if="!attributeStatus?.presentase">error</span>
                     </div>
                 </div>
-                <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
+                <!-- <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
-                </div>
-                <div class="form-group mb-3" v-else>
+                </div> -->
+                <div class="form-group mb-3" v-if="mode == 'edit'">
                     <div class="input-header d-flex justify-content-between align-items-center">                
                         <label for="additionalNotes" class="form-label">Catatan</label>
                         <button class="border border-0" @click.prevent="isNotesEditable = !isNotesEditable;" title="Ubah catatan"><span class="material-icons fs-6">edit</span></button>

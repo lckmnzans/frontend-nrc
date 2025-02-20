@@ -126,9 +126,9 @@ export default {
             ...FormOptions.data(),
             docType: 'B01',
             docData: {
-                namaDokumen:'',
-                instansiPenerbit:'',
-                noDokumen:'',
+                pengirim:'',
+                noSurat:'',
+                perihal:'',
                 tglTerbit:''
             },
             ocrable: true,
