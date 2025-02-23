@@ -6,7 +6,7 @@
 
         <ul>
             <li v-for="(notification, index) in notifications" :key="index">
-                {{ notification.message }} - {{ notification.payload }}
+                <div class="alert" :class="index == 0 ? 'alert-primary' : 'alert-secondary'" >{{ notification.message }} - {{ notification.payload }}</div>
             </li>
         </ul>
     </div>
@@ -25,8 +25,13 @@ export default {
     },
     methods: {
         registerUser() {
+            const url = window.location.origin;
+
             if (this.userId) {
-                this.socket = io();
+                this.socket = io(url, {
+                    transports:["websocket"]
+                });
+                
                 this.socket.emit("register", this.userId);
                 console.log(`Registered as ${this.userId}`);
 

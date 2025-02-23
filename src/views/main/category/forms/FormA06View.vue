@@ -30,7 +30,7 @@
         <div >
             <div class="d-flex justify-content-between align-items-center">
                 <h4>Formulir Proyek</h4>
-                <button v-if="role == 'superadmin' && mode == 'edit'" class="border border-0" style="background-color: #fff; color: var(--secondary);" title="Hapus dokumen"
+                <button v-if="role != 'user' && mode == 'edit'" class="border border-0" style="background-color: #fff; color: var(--secondary);" title="Hapus dokumen"
                 data-bs-toggle="modal" data-bs-target="#modalConfirmDelete"
                 >
                     <span class="material-icons fs-4">delete</span>

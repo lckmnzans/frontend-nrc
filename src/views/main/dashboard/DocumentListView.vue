@@ -98,15 +98,19 @@
                             <td>
                                 <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
                                 <span class="badge bg-info text-dark" v-if="doc.hasPassedScreening">OCR</span>
-                                <!-- <span class="badge bg-warning text-dark" v-if="doc.verificationStatus == 'verified' ? !docTypeValidity(doc.notes) : false">Jenis dokumen invalid</span> -->
                                 <span class="badge bg-danger" v-if="doc?.fileRef[0]?.deleted">Ditandai</span>
                             </td>
                             <td>
                                 <div class="button">
-                                    <button title="unduh" @click.prevent="downloadDoc(doc.docName)"  style="color: slategray;"><span class="material-icons">download_for_offline</span></button>
+                                    <button title="unduh" @click.prevent="downloadDoc(doc.docName)" style="color: slategray;"><span class="material-icons">file_download</span></button>
                                 </div>
                                 <div class="button" v-if="doc.docType == 'A01'">
-                                    <button title="terjemahkan" @click.prevent="translateDoc(doc.docName)" style="color: slateblue;"><span class="material-icons">translate</span></button>
+                                    <div class="spinner-grow spinner-grow-sm" role="status" v-if="getTranslationTask(doc.docName)?.status == 'pending'">
+                                        <span class="visually-hidden">loading...</span>
+                                    </div>
+                                    <button title="terjemahkan" @click.prevent="translateDoc(doc.docName)" style="color: slategray;" v-else>
+                                        <span class="material-icons">translate</span>
+                                    </button>
                                 </div>
                             </td>
                             <td>
@@ -155,7 +159,8 @@ export default {
             limit: 'limit',
             totalPages: 'totalPages',
             totalDocuments: 'totalDocuments',
-            docs: 'docs'
+            docs: 'docs',
+            translateTask: 'translateTask'
         }),
         ...mapState(useDocumentsTypeStore, {
             documentType: 'documentTypeName'
@@ -188,7 +193,7 @@ export default {
             this.error = false;
             
             const role = this.$auth.getRole();
-            const withFileDetail = role == 'superadmin' ? true : false;
+            const withFileDetail = true;
 
             this.axios(api.getListOfDocuments(
                 this.currentPage,
@@ -254,6 +259,7 @@ export default {
             .then(response => {
                 if (response.status == 200) {
                     const data = response.data;
+
                     console.log(data);
                 } else {
                     console.log('Gagal mengirim permintaan untuk translasi dokumen. Status: ', response.status);
@@ -287,6 +293,9 @@ export default {
         ...mapActions(usePageStore, ['setPageTitle']),
         ...mapActions(useToastStore, {
             setToast: 'setToast'
+        }),
+        ...mapActions(useDocumentsListStore, {
+            getTranslationTask: 'getTranslationTask'
         }),
         changePage(page) {
             this.currentPage = page;

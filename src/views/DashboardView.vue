@@ -32,6 +32,7 @@ import { usePageStore } from '@/store';
 import { useAlertStore } from '@/store/alertStore';
 import { useToastStore } from '@/store/toastStore';
 import { useUserStore } from '@/store/userStore';
+import { useDocumentsListStore } from '@/store/documentsStore';
 export default {
     components: {
         Sidebar, Alert, Toast
@@ -54,6 +55,11 @@ export default {
 
             this.socket.on("connect", () => {
                 console.log("Connected to Websocket server: ", this.socket.id);
+                const socketSession = {
+                    id: this.socket.id,
+                    userId: this.user.id,
+                }
+                sessionStorage.setItem('socket-session', JSON.stringify(socketSession));
             })
 
             this.socket.on("webhook_event", (data) => {
@@ -62,6 +68,13 @@ export default {
                     data: data
                 };
             });
+            
+            this.socket.on("translation_request", (data) => {
+                this.notification = {
+                    event: "translation_request",
+                    data: data
+                }
+            })
 
             this.socket.on("translation_completed", (data) => {
                 this.notification = {
@@ -77,8 +90,17 @@ export default {
                 case "webhook_event":
                     this.setToast('Pesan Masuk', newVal, 3000);
                     break;
+                case "translation_request":
+                    this.setToast('Translate Dokumen', `Permintaan terjemah dokumen diproses dengan id ${newVal?.data?.req_id}`, 30000);
+                    this.translateTask.push({
+                        reqId: newVal?.data?.req_id,
+                        docName: newVal?.data?.filename,
+                        status: 'pending'
+                    })
+                    break;
                 case "translation_completed":
-                    this.setToast('Translate Dokumen', newVal?.data?.req_id, 30000);
+                    this.setToast('Translate Dokumen', `Permintaan terjemah dokumen dengan id ${newVal?.data?.req_id} selesai diproses`, 30000);
+                    this.translateTask.pop();
                     this.downloadTranslatedPdf(newVal?.data?.req_id);
                     break;
                 default:
@@ -102,6 +124,9 @@ export default {
         }),
         ...mapState(usePageStore, {
             pageTitle: 'pageTitle'
+        }),
+        ...mapState(useDocumentsListStore, {
+            translateTask: 'translateTask'
         })
     },
     data() {
@@ -166,6 +191,9 @@ export default {
         }),
         ...mapActions(useUserStore, {
             saveProfile: 'saveProfile'
+        }),
+        ...mapActions(useDocumentsListStore, {
+            getTranslationTask: 'getTranslationTask'
         })
     }
 }
