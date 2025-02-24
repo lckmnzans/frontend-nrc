@@ -47,21 +47,21 @@
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Jumlah Saham *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.jmlSaham" required :disabled="role == 'user'"/>
+                        <input type="number" class="form-control" v-model="docData.jmlSaham" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.jmlSaham">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Nilai Saham *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.nilaiSaham" required :disabled="role == 'user'"/>
+                        <input type="number" class="form-control" v-model="docData.nilaiSaham" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.nilaiSaham">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="" class="form-label">Presentase *</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.presentase" required :disabled="role == 'user'"/>
+                        <input type="number" class="form-control" v-model="docData.presentase" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.presentase">error</span>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                 </button>
             </div>
             <div v-else-if="mode == 'edit'">
-                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate" :disabled="isFormEmptied || role == 'user'">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>Simpan
                 </button>
             </div>
@@ -127,9 +127,9 @@ export default {
             docType: 'A08',
             docData: {
                 nama: '',
-                jmlSaham:'',
-                nilaiSaham:'',
-                presentase:''
+                jmlSaham:0,
+                nilaiSaham:0,
+                presentase:0
             },
             ocrable: false,
         };

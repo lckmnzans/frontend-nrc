@@ -18,7 +18,7 @@
             </div>
     
             <div class="mb-3">
-                <button type="submit" :disabled="!isPasswordsEquals" class="btn btn-primary w-100">Forgot Password</button>
+                <button type="submit" :disabled="!isPasswordsEquals" class="btn btn-primary w-100">Lupa Kata Sandi</button>
             </div>
         </form><br>
     </div>

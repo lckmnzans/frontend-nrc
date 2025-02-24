@@ -89,7 +89,7 @@
                 </button>
             </div>
             <div v-else-if="mode == 'edit'">
-                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate">
+                <button class="btn btn-primary btn-sm" @click.prevent="handleUpdate" :disabled="isFormEmptied || role == 'user'">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="loading"></span>Simpan
                 </button>
             </div>

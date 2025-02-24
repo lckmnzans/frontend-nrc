@@ -125,6 +125,9 @@ export default {
             showAll: false
         }
     },
+    beforeRouteLeave(to,from) {
+        this.currentPage = 1;
+    },
     created() {
         this.getVerified();
         this.getUnverified();
@@ -132,6 +135,7 @@ export default {
     },
     computed: {
         ...mapWritableState(useDocumentsListStore, {
+            currentPage: 'currentPage',
             docFilter: 'docFilter'
         }),
     },

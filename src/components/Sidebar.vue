@@ -15,14 +15,14 @@
                 <span class="material-icons">home</span>
                 <span class="text">Home</span>
             </router-link>
-            <a class="button" @click.prevent="toggleSubmenu" style="cursor: context-menu;" >
+            <a class="button" @click.prevent="toggleSubmenu" style="cursor: context-menu;" v-if="!isRegularUser">
                 <span class="material-icons">list_alt</span>
                 <span class="text">Kategori</span>
                 <span class="material-icons submenu-icon">
                     {{ isSubmenuVisible ? 'expand_less' : 'expand_more' }}
                 </span>
             </a>
-            <ul v-if="isSubmenuVisible" class="submenu">
+            <ul v-if="isSubmenuVisible && !isRegularUser" class="submenu">
                 <li v-for="(page, index) in pages" :key="index">
                     <router-link class="button submenu-item" :to="`/category/${page.page}`" active-class="active">
                         <span class="material-icons">label_important</span>
@@ -64,7 +64,8 @@ export default {
         return {
             isSubmenuVisible: localStorage.getItem('isSubmenuExpanded') === 'true',
             isExpanded: localStorage.getItem('isMenuExpanded') === 'true',
-            isSuperadmin: localStorage.getItem('role') === 'superadmin'
+            isSuperadmin: localStorage.getItem('role') === 'superadmin',
+            isRegularUser: localStorage.getItem('role') === 'user',
         }
     },
     methods: {

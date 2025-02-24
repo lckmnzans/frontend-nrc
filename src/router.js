@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { usePageStore } from './store';
 import auth from './utils/auth';
 import DashboardView from '@/views/DashboardView.vue';
 import ResetView from '@/views/ResetPasswordView.vue';
@@ -38,12 +39,18 @@ const router = createRouter({
                     children: [
                         {   name: 'your-profile',
                             path: '',
-                            component: () => import('@/views/main/profile/YourProfileView.vue')
+                            component: () => import('@/views/main/profile/YourProfileView.vue'),
+                            meta: {
+                                title: 'Profil Anda'
+                            }
                         },      
                         {   name: 'change-password',
                             path: ':username/change-password',
                             component: () => import('@/views/main/profile/ChangePasswordView.vue'),
-                            props: true
+                            props: true,
+                            meta: {
+                                title: 'Ubah Kata Sandi'
+                            }
                         }
                     ]
                 },
@@ -53,18 +60,33 @@ const router = createRouter({
                         {   name: 'home',
                             alias: 'dashboard',
                             path: '',
-                            component: () => import('@/views/main/dashboard/MainDashboardView.vue')
+                            component: () => import('@/views/main/dashboard/MainDashboardView.vue'),
+                            meta: {
+                                title: 'Beranda'
+                            }
                         },
-                        {   path: 'list',
+                        {   name: 'list-document',
+                            path: 'list',
                             component: DocumentListView,
+                            meta: {
+                                title: 'Daftar Dokumen'
+                            }
                         },
-                        {   path: 'edit/:docType/:docId',
+                        {   name: 'edit-document',
+                            path: 'edit/:docType/:docId',
                             component: DocumentEditView,
                             props: true,
+                            meta: {
+                                title: 'Edit Dokumen'
+                            }
                         },
-                        {   path: 'review/:docType/:docId',
+                        {   name: 'review-document',
+                            path: 'review/:docType/:docId',
                             component: DocumentReviewView,
-                            props: true
+                            props: true,
+                            meta: {
+                                title: 'Review Dokumen'
+                            }
                          }
                     ]
                 },
@@ -73,6 +95,9 @@ const router = createRouter({
                     children: [
                         {   path: '1',
                             component: Category1View,
+                            meta: {
+                                title: 'Kategori Badan Usaha'
+                            },
                             children: [
                                 {   path: '',
                                     redirect: '/category/1/A01',
@@ -111,6 +136,9 @@ const router = createRouter({
                         },
                         {   path: '2',
                             component: Category2View,
+                            meta: {
+                                title: 'Kategori Surat Menyurat'
+                            },
                             children: [
                                 {   path: '',
                                     redirect: '/category/2/B01'
@@ -125,6 +153,9 @@ const router = createRouter({
                         },
                         {   path: '3',
                             component: Category3View,
+                            meta: {
+                                title: 'Kategori Kepemilikan Tanah'
+                            },
                             children: [
                                 {   path: '',
                                     redirect: '/category/3/C01'
@@ -139,24 +170,30 @@ const router = createRouter({
                         }
                     ]
                 },
-                {   path: 'accounts',
+                {   name: 'accounts',
+                    path: 'accounts',
                     component: AccountView,
                     children: [
                         {   path: '',
-                            component: () => import('@/views/main/account/ListAccountView.vue')
+                            component: () => import('@/views/main/account/ListAccountView.vue'),
+                            meta: {
+                                title: 'Daftar Akun'
+                            }
                         },
                         {   path: 'create',
-                            component: () => import('@/views/main/account/CreateAccountView.vue')
+                            component: () => import('@/views/main/account/CreateAccountView.vue'),
+                            meta: {
+                                title: 'Tambah Akun'
+                            }
                         },
                         {   path: 'edit/:userId',
                             component: () => import('@/views/main/account/EditAccountView.vue'),
-                            props: true
+                            props: true,
+                            meta: {
+                                title: 'Ubah Akun'
+                            }
                         }
                     ]
-                },
-                {   name: 'test',
-                    path: 'test',
-                    component: () => import('@/views/TestView.vue')
                 }
             ]
         }
@@ -165,23 +202,72 @@ const router = createRouter({
 })
 
 router.beforeEach((to,from,next) => {
+    const pageStore = usePageStore();
+    if (to.meta.title) {
+        pageStore.setPageTitle(to.meta.title);
+    } else {
+        if (to.name !== 'login' && to.name !== 'forgot-password' && to.name !== 'reset-password') {
+            const recordWithTitle = to.matched.find(record => record.meta && record.meta.title);
+            if (recordWithTitle) {
+                pageStore.setPageTitle(recordWithTitle.meta.title);
+            }
+        }
+    }
+
     const token = auth.getToken();
     const tokenAge = auth.getTokenAge();
+    const role = auth.getRole();
+    
     if (to.name === 'reset-password') {
-        next();
-    } else if (to.name !== 'login' && to.name !== 'forgot-password') {
-        if (!token) {
-            next({ name: 'login' });
-        } else if (tokenAge <= Date.now()) {
-            console.log('Anda perlu login kembali.');
-            auth.logout();
-            next({ name: 'login' });
-        } else {
-            next();
+        if (tokenValidity(token, tokenAge)) {
+            return next({ name: 'home'});
         }
-    } else {
-        next();
+        return next();
+    } 
+    
+    if (to.name !== 'login' && to.name !== 'forgot-password') {
+        if (tokenValidity(token, tokenAge)) {
+            if (role === 'user') {
+                // restricted route for role 'user'
+                const targetRoute = to.matched.some(record => record.name === 'category' || record.name === 'accounts' || record.name === 'review-document');
+                if (targetRoute) {
+                    return next({ name: 'home'});
+                }
+                return next();
+            }
+            if (role === 'admin') {
+                // restricted route for role 'admin'
+                const targetRoute = to.matched.some(record => record.name === 'accounts' || record.name === 'review-document');
+                if (targetRoute) {
+                    return next({ name: 'home'});
+                }
+                return next();
+            }
+            return next();
+        }
+        auth.logout();
+        return next({ name: 'login' });
     }
+
+    if (to.name === 'login' || to.name === 'forgot-password') {
+        if (!tokenValidity(token, tokenAge)) {
+            auth.logout();
+            return next();
+        }
+        return next({ name: 'home' });
+    }
+
+    return next();
 })
+
+const tokenValidity = (token, tokenAge) => {
+    if (token && tokenAge > Date.now()) {
+        return true;
+    } else if (token && tokenAge <= Date.now()) {
+        return false;
+    } else {
+        return false;
+    }
+}
 
 export default router;

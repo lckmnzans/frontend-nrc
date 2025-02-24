@@ -18,7 +18,7 @@ export default {
     //     ...mapState(usePageStore, ['getSubPagesByPage'])
     // },
     created() {
-        this.setPageTitle('Dokumen Surat Menyurat');
+        // this.setPageTitle('Dokumen Surat Menyurat');
         const pages = this.getSubPagesByPage(1);
         pages.forEach(page => this.pages.push({ 
             pageId: page.subPageId, pageTitle: page.subPageTitle })

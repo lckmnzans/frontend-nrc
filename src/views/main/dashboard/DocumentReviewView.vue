@@ -111,7 +111,7 @@ export default {
         }
     },
     created() {
-        this.setPageTitle('Verifikasi dokumen');
+        // this.setPageTitle('Verifikasi dokumen');
 
         // set skema formulir
         var documentsSchema = JSON.parse(localStorage.getItem('documents-schema'));

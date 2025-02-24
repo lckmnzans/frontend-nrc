@@ -149,7 +149,7 @@ export default {
     inject: ['$auth'],
     created() {
         this.role = this.$auth.getRole();
-        this.setPageTitle('Dashboard Utama');
+        // this.setPageTitle('Dashboard Utama');
         this.$watch(() => this.load, this.fetchDocs, { immediate: true});
     },
     computed: {

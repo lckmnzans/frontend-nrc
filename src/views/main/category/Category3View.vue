@@ -18,7 +18,7 @@ export default {
     //     ...mapState(usePageStore, ['getSubPagesByPage'])
     // },
     created() {
-        this.setPageTitle('Dokumen Kepemilikan Tanah');
+        // this.setPageTitle('Dokumen Kepemilikan Tanah');
         const pages = this.getSubPagesByPage(2);
         pages.forEach(page => this.pages.push({ 
             pageId: page.subPageId, pageTitle: page.subPageTitle })

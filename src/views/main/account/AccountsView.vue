@@ -8,7 +8,7 @@ import { mapActions } from 'pinia';
 import { usePageStore } from '@/store';
 export default {
     created() {
-        this.setPageTitle('Manajemen Akun');
+        // this.// setPageTitle('Manajemen Akun');
     },
     methods: {
         ...mapActions(usePageStore, ['setPageTitle'])

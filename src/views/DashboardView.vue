@@ -91,7 +91,7 @@ export default {
                     this.setToast('Pesan Masuk', newVal, 3000);
                     break;
                 case "translation_request":
-                    this.setToast('Translate Dokumen', `Permintaan terjemah dokumen diproses dengan id ${newVal?.data?.req_id}`, 30000);
+                    this.setToast('Terjemah Dokumen', `Permintaan terjemah dokumen sedang diproses`, 3000);
                     this.translateTask.push({
                         reqId: newVal?.data?.req_id,
                         docName: newVal?.data?.filename,
@@ -99,8 +99,11 @@ export default {
                     })
                     break;
                 case "translation_completed":
-                    this.setToast('Translate Dokumen', `Permintaan terjemah dokumen dengan id ${newVal?.data?.req_id} selesai diproses`, 30000);
-                    this.translateTask.pop();
+                    this.setToast('Terjemah Dokumen', `Permintaan terjemah dokumen selesai diproses`, 3000);
+                    const idTask = this.translateTask.findIndex(task => task.reqId == newVal?.data?.req_id);
+                    if (idTask != -1) {
+                        this.translateTask[idTask].status = 'completed';
+                    }
                     this.downloadTranslatedPdf(newVal?.data?.req_id);
                     break;
                 default:
