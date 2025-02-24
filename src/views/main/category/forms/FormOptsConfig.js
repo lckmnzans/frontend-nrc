@@ -48,12 +48,16 @@ export default {
                 if (response.status == 200) {
                     this.error = false;
 
-                    this.setToast('', 'Dokumen sukses dihapus', 3000);
+                    if (role == 'admin') {
+                        this.setToast('Hapus dokumen', 'Dokumen ditandai untuk dihapus', 3000);
+                    } else {
+                        this.setToast('Hapus dokumen', 'Dokumen sukses dihapus', 3000);
+                    }
                     this.$router.back();
                 } else {
                     this.error = true;
 
-                    this.setToast('', 'Dokumen gagal dihapus', 3000);
+                    this.setToast('Hapus dokumen', 'Dokumen gagal dihapus', 3000);
                 }
             })
             .catch(err => {
@@ -80,10 +84,10 @@ export default {
             this.axios(api.updateDocData(docData, this.docType, this.docId))
                 .then((response) => {
                     if (response.status === 200) {
-                        this.setToast('', 'Dokumen berhasil disimpan', 3000);
+                        this.setToast('Edit dokumen', 'Dokumen berhasil diperbarui', 3000);
                         this.$router.back();
                     } else {
-                        this.setToast('', 'Dokumen gagal disimpan', 3000);
+                        this.setToast('Edit dokumen', 'Dokumen gagal diperbarui', 3000);
                     }
                 })
                 .catch((err) => {
@@ -150,7 +154,6 @@ export default {
                         const body = response.data;
 
                         if (response.status == 200) {
-                            this.setToast('', 'Dokumen berhasil diunggah.', 3000);
                             const file = body.data.file;
 
                             const formData = {
@@ -182,9 +185,10 @@ export default {
                 const body = response.data;
 
                 if (response.status === 200) {
-                    this.setToast('', 'Dokumen berhasil diunggah.', 3000);
+                    this.setToast('Unggah dokumen', 'Dokumen berhasil diunggah.', 3000);
                     console.log(body);
                 } else {
+                    this.setToast('Unggah dokumen', 'Dokumen gagal diunggah', 3000);
                     console.error('Dokumen gagal diunggah.');
                 }
             })

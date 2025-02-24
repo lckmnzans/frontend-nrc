@@ -162,7 +162,7 @@ export default {
                 } else {
                     this.response.error = true;
                     
-                    this.setToast('', 'Data dokumen gagal diambil.', 3000);
+                    this.setToast('Review dokumen', 'Data dokumen gagal diambil.', 3000);
                 }
             })
             .catch(err => {
@@ -172,7 +172,7 @@ export default {
                     this.response.code = 500;
                 }
                 this.response.error = true;
-                this.setToast('', 'Ada kesalahan.', 3000);
+                this.setToast('Review dokumen', 'Ada kesalahan.', 3000);
                 console.log(err);
             })
             .finally(() => {
@@ -197,14 +197,14 @@ export default {
                         this.localPreview = result;
                     })
                     .catch(err => {
-                        this.setToast('', 'Gagal memuat dokumen PDF.', 3000);
+                        this.setToast('Review dokumen', 'Gagal memuat dokumen PDF.', 3000);
                         console.error(err);
                     })
                 } else {
                     this.response.error = true;
                     
                     this.localPreview = null;
-                    this.setToast('', 'Dokumen PDF gagal diambil.', 3000);
+                    this.setToast('Review dokumen', 'Dokumen PDF gagal diambil.', 3000);
                 }
             })
             .catch(err => {
@@ -214,7 +214,7 @@ export default {
                     this.response.code = 500;
                 }
                 this.response.error = true;
-                this.setToast('', 'Ada kesalahan.', 3000);
+                this.setToast('Review dokumen', 'Ada kesalahan.', 3000);
                 console.log(err);
             })
             .finally(() => {
@@ -237,11 +237,11 @@ export default {
                 if (response.status == 200) {
                     this.response.error = false;
                     
-                    this.setToast('', 'Dokumen berhasil diverifikasi', 3000);
+                    this.setToast('Review dokumen', 'Dokumen berhasil diverifikasi', 3000);
                 } else {
                     this.response.error = true;
 
-                    this.setToast('', 'Dokumen gagal diverifikasi', 3000);
+                    this.setToast('Review dokumen', 'Dokumen gagal diverifikasi', 3000);
                 }
             })
             .catch(err => {
@@ -251,7 +251,7 @@ export default {
                     this.response.code = 500;
                 }
                 this.response.error = true;
-                this.setToast('', 'Ada kesalahan.', 3000);
+                this.setToast('Review dokumen', 'Ada kesalahan.', 3000);
                 console.log(err);
             })
             .finally(() => {

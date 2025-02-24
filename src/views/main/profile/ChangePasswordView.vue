@@ -87,11 +87,11 @@ export default {
                 if (response.status = 200) {
                     this.response.error = false;
 
-                    this.setToast('', 'Password berhasil dirubah', 3000);
+                    this.setToast('Ganti password', 'Password berhasil dirubah', 3000);
                 } else {
                     this.response.error = true;
 
-                    this.setToast('', 'Gagal mengubah password', 3000);
+                    this.setToast('Ganti password', 'Gagal mengubah password', 3000);
                 }
             })
             .catch(err => {
@@ -101,7 +101,7 @@ export default {
                     this.response.code = 500;
                 }
                 this.response.error = true;
-                this.setToast('', 'Ada kesalahan.', 3000);
+                this.setToast('Ganti password', 'Ada kesalahan. Periksa apakah password lama sudah benar?', 3000);
                 console.log(err);
             })
             .finally(() => {

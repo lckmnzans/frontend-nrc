@@ -102,12 +102,12 @@ export default {
                 this.response.code = response.status;
                 if (response.status = 200) {
                     const body = response.data;
-                    this.setToast('', 'Akun berhasil dibuat.', 3000);
+                    this.setToast('Tambah akun', 'Akun berhasil dibuat.', 3000);
                     this.response.error = false;
                     this.$router.back();
                 } else {
                     const message = response.data.message;
-                    this.setToast('', 'Akun gagal dibuat', 3000);
+                    this.setToast('Tambah akun', 'Akun gagal dibuat', 3000);
                     this.response.error = true;
                 }
             })

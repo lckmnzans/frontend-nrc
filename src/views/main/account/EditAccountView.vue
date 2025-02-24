@@ -138,11 +138,11 @@ export default {
                 if (response.status = 200) {
                     this.response.error = false;
 
-                    this.setToast('', 'Role berhasil diubah.', 2000);
+                    this.setToast('Ganti role', 'Role berhasil diubah.', 2000);
                 } else {
                     this.response.error = true;
 
-                    this.setToast('', 'Role gagal diubah.', 2000);
+                    this.setToast('Ganti role', 'Role gagal diubah.', 2000);
                 }
             })
             .catch(err => {
@@ -152,7 +152,7 @@ export default {
                     this.response.code = 500;
                 }
                 this.response.error = true;
-                this.setToast('Ada kesalahan', 'Kesalahan dalam mengirimkan data baru', 3000);
+                this.setToast('Ganti role', 'Kesalahan dalam mengubah role', 3000);
                 console.log(err);
             })
             .finally(() => {
@@ -172,12 +172,12 @@ export default {
                 if (response.status == 200) {
                     this.response.error = false;
                     
-                    this.setToast('', 'Akun berhasil dihapus.', 2000);
+                    this.setToast('Hapus akun', 'Akun berhasil dihapus.', 2000);
                     this.$router.back();
                 } else {
                     this.response.error = true;
 
-                    this.setToast('', 'Akun gagal dihapus.', 2000);
+                    this.setToast('Hapus akun', 'Akun gagal dihapus.', 2000);
                 }
             })
             .catch(err => {
@@ -187,7 +187,7 @@ export default {
                     this.response.code = 500;
                 }
                 this.response.error = true;
-                this.setToast('Ada kesalahan', 'Kesalahan dalam memproses permintaan', 3000);
+                this.setToast('Hapus akun', 'Kesalahan dalam memproses permintaan', 3000);
                 console.log(err);
             })
             .finally(() => {
