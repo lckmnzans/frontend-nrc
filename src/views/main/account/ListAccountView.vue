@@ -34,12 +34,18 @@
                         <td>{{ user.role }}</td>
                         <td>{{ user.resetStatus }}</td>
                         <td class="action-button">
-                            <div id="actions-col-1">
-                                <button class="btn btn-approve" :disabled="forgotPasswordRequest(user.resetStatus)" @click.prevent="approveResetRequest(user, true)">Approve</button>
-                                <button class="btn btn-cancel" :disabled="forgotPasswordRequest(user.resetStatus)" @click.prevent="approveResetRequest(user, false)">Cancel</button>
+                            <div id="actions-col-1" v-if="user.role != 'superadmin'">
+                                <button class="btn btn-approve" :disabled="forgotPasswordRequest(user.resetStatus)" @click.prevent="approveResetRequest(user, true)" >Approve</button>
+                                <button class="btn btn-cancel" :disabled="forgotPasswordRequest(user.resetStatus)" @click.prevent="approveResetRequest(user, false)" >Cancel</button>
+                            </div>
+                            <div id="actions-col-1" v-else>
+                                <button class="btn" :disabled="true" style="color:white;background-color: white;">No Action</button>
+                                <button class="btn" :disabled="true"  style="color:white;background-color: white;">No Action</button>
                             </div>
                             <div id="actions-col-2">
-                                <router-link :to="`/accounts/edit/${user._id}`"><span class="material-icons">edit</span></router-link>
+                                <div v-if="user.role != 'superadmin'">
+                                    <router-link :to="`/accounts/edit/${user._id}`"><span class="material-icons">edit</span></router-link>
+                                </div>
                             </div>
                         </td>
                     </tr>

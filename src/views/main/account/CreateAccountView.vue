@@ -16,7 +16,7 @@
                     <select class="form-select" v-model="user.role">
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
-                        <option value="superadmin">Superadmin</option>
+                        <!-- <option value="superadmin">Superadmin</option> -->
                     </select>
                 </div>
             </div>
