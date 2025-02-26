@@ -186,6 +186,7 @@ export default {
 
                 if (response.status === 200) {
                     this.setToast('Unggah dokumen', 'Dokumen berhasil diunggah.', 3000);
+                    this.selectedFile = null;
                     console.log(body);
                 } else {
                     this.setToast('Unggah dokumen', 'Dokumen gagal diunggah', 3000);
@@ -209,6 +210,11 @@ export default {
         }
     },
     beforeUnmount() {
+        if (this.localPreview) {
+            URL.revokeObjectURL(this.localPreview);
+        }
+    },
+    beforeRouteLeave(to,from) {
         if (this.localPreview) {
             URL.revokeObjectURL(this.localPreview);
         }
