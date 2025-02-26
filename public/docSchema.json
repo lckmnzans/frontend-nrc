@@ -69,7 +69,9 @@
                 {
                     "subcategory_id": "A06",
                     "subcategory_name": "Proyek",
-                    "form_schema": []
+                    "form_schema": [
+                        { "name": "namaProyek", "label": "Nama Proyek", "type": "text", "value": ""}
+                    ]
                 },
                 {
                     "subcategory_id": "A07",
@@ -85,9 +87,9 @@
                     "subcategory_name": "Pemegang Saham",
                     "form_schema": [
                         { "name": "nama", "label": "Nama", "type": "text", "value": ""},
-                        { "name": "jmlSaham", "label": "Jumlah Saham", "type": "text", "value": ""},
-                        { "name": "nilaiSaham", "label": "Nilai Saham", "type": "text", "value": ""},
-                        { "name": "presentase", "label": "Presentase", "type": "text", "value": ""}
+                        { "name": "jmlSaham", "label": "Jumlah Saham", "type": "number", "value": ""},
+                        { "name": "nilaiSaham", "label": "Nilai Saham", "type": "number", "value": ""},
+                        { "name": "presentase", "label": "Presentase", "type": "number", "value": ""}
                     ]
                 },
                 {

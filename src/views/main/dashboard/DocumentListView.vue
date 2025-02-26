@@ -18,12 +18,41 @@
         </div>
     </div>
     <div class="list-container" >
-        <h4>Dokumen Terbaru</h4>
-        <p>Daftar dokumen yang masuk sistem</p>
+        <div class="d-flex flex-row justify-content-between">
+            <div>
+                <h4>Dokumen Terbaru</h4>
+                <p>Daftar dokumen yang masuk sistem</p>
+            </div>
+            <div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary" type="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="display: flex; align-items: center; justify-content: center;">
+                        <span class="text">Tambah Dokumen</span>
+                        <span class="material-icons">add</span>
+                    </button>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><router-link class="dropdown-item" to="/category/1/A01">Legalitas</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A02">Kontrak</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A03">Tenaga Ahli</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A04">CV</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A05">Keuangan</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A06">Proyek</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A07">Pengurus</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A08">Pemegang Saham</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A09">Peralatan</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/1/A10">Lain-lain</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/2/B01">Surat Masuk</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/2/B02">Surat Keluar</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/3/C01">Sertifikat</router-link></li>
+                        <li><router-link class="dropdown-item" to="/category/3/C02">SPJB</router-link></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <form class="filter-documents" @submit.prevent="fetchDocs">
             <div id="doctype-filter" class="filter-selection">
                 <label for="document-type-select"><span class="text">Jenis Dokumen</span></label>
-                <select v-model="docFilter.docType" class="form-select form-select-sm" id="document-type-select">
+                <select v-model="docFilter.docType" class="form-select form-select-sm" id="document-type-select" :disabled="!allDocs">
                     <option value="" selected>Semuanya</option>
                     <option value="A01">Legalitas</option>
                     <option value="A02">Kontrak</option>
@@ -77,8 +106,9 @@
                         <tr>
                             <th scope="col">No.</th>
                             <th scope="col">Pratinjau</th>
-                            <th scope="col">Jenis Dokumen</th>
-                            <th scope="col">Nama Dokumen/File</th>
+                            <th scope="col" v-if="allDocs">Jenis Dokumen</th>
+                            <th scope="col" v-if="allDocs">Nama Dokumen/File</th>
+                            <th scope="col" v-if="!allDocs" v-for="(attribute, index) in filteredDocSchema" :key="index">{{ attribute?.label }}</th>
                             <th scope="col">Waktu Unggah</th>
                             <th scope="col">Status</th>
                             <th scope="col" colspan="3">Aksi</th>
@@ -92,8 +122,9 @@
                             data-bs-target="#modalView">
                             <img :src="`/api/v1/document/pdf/${doc.docName}`" alt="Preview Document" width="100" height="100">
                             </td>
-                            <td>{{ documentType(doc.docType) }}</td>
-                            <td>{{ doc.docName }}</td>
+                            <td v-if="allDocs">{{ documentType(doc.docType) }}</td>
+                            <td v-if="allDocs">{{ doc.docName }}</td>
+                            <td v-if="!allDocs" v-for="(attribute, index) in filteredDocSchema" :key="index">{{ doc[attribute?.name]}}</td>
                             <td>{{ parseToLocalTime(doc.createdDate) }}</td>
                             <td>
                                 <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
@@ -149,11 +180,17 @@ export default {
     inject: ['$auth'],
     created() {
         this.role = this.$auth.getRole();
+
+        // get schema for a certain docType
+        var documentsSchema = JSON.parse(localStorage.getItem('documents-schema'));
+        this.docSchema = documentsSchema.find(doc => doc.formId == this.docFilter?.docType)?.formSchema;
+
         // this.setPageTitle('Dashboard Utama');
         this.$watch(() => this.load, this.fetchDocs, { immediate: true});
     },
     computed: {
         ...mapWritableState(useDocumentsListStore, {
+            allDocs: 'allDocs',
             docFilter: 'docFilter',
             currentPage: 'currentPage',
             limit: 'limit',
@@ -175,7 +212,15 @@ export default {
         },
         hasAnyData() {
             return this.docs.length >= 1;
-        }
+        },
+        filteredDocSchema() {
+            if (this.docFilter.docType == 'A04') {
+                const hiddenFields = ["ttl", "pendidikanTerakhir", "instansiPendidikan", "tahunLulus", "alamatKtp"];
+                return this.docSchema.filter(attribute => !hiddenFields.includes(attribute.name));
+            } else {
+                return this.docSchema;
+            }
+        },
     },
     data() {
         return {
@@ -184,7 +229,8 @@ export default {
             role: 'admin',
             api: api.ApiHost,
             modalPreview: '',
-            deleting: false
+            deleting: false,
+            docSchema: []
         };
     },
     methods: {
@@ -194,6 +240,9 @@ export default {
             
             const role = this.$auth.getRole();
             const withFileDetail = true;
+            if (this.docFilter.docType) {
+                this.currentPage = 1;
+            }
 
             this.axios(api.getListOfDocuments(
                 this.currentPage,
@@ -346,7 +395,7 @@ export default {
             justify-content: center;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 8px;
-            z-index: 9999;
+            z-index: 997;
         }
 
         .error-container {

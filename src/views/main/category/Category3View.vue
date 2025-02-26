@@ -52,7 +52,7 @@ export default {
         position: sticky;
         overflow-y: hidden;
         overflow-x: auto;
-        z-index: 99;
+        z-index: 98;
         background-color: #fff;
     }
 

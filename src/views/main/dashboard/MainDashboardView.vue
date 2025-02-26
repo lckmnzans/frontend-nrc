@@ -122,7 +122,8 @@ export default {
             verifiedDocs: 0,
             unverifiedDocs: 0,
             archivedDocs: 0,
-            showAll: false
+            showAll: false,
+            countDocs: {}
         }
     },
     beforeRouteLeave(to,from) {
@@ -135,6 +136,7 @@ export default {
     },
     computed: {
         ...mapWritableState(useDocumentsListStore, {
+            allDocs: 'allDocs',
             currentPage: 'currentPage',
             docFilter: 'docFilter'
         }),
@@ -177,6 +179,7 @@ export default {
             })
         },
         toListDocument(docType) {
+            this.allDocs = (docType) ? false : true;
             this.docFilter = {
                 docType: docType,
                 docStatus: '',

@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useDocumentsListStore = defineStore('documents-list', {
   state: () => {
     return {
+      allDocs: true,
       docFilter: {
         docType: '',
         docStatus: '',

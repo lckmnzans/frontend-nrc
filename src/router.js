@@ -20,16 +20,25 @@ const router = createRouter({
     routes: [
         {   name: 'login',
             path: '/login',
-            component: LoginView
+            component: LoginView,
+            meta: {
+                indexed: true
+            }
         },
         {   name: 'forgot-password',
             path: '/forgot-password',
-            component: ForgotView
+            component: ForgotView,
+            meta: {
+                indexed: true
+            }
         },
         {   name: 'reset-password',
             path: '/reset-password',
             component: ResetView,
-            props: (route) => ({ token: route.query.token })
+            props: (route) => ({ token: route.query.token }),
+            meta: {
+                indexed: true
+            }
         },
         {   path: '/',
             component: DashboardView,
@@ -41,7 +50,8 @@ const router = createRouter({
                             path: '',
                             component: () => import('@/views/main/profile/YourProfileView.vue'),
                             meta: {
-                                title: 'Profil Anda'
+                                title: 'Profil Anda',
+                                indexed: true
                             }
                         },      
                         {   name: 'change-password',
@@ -49,7 +59,8 @@ const router = createRouter({
                             component: () => import('@/views/main/profile/ChangePasswordView.vue'),
                             props: true,
                             meta: {
-                                title: 'Ubah Kata Sandi'
+                                title: 'Ubah Kata Sandi',
+                                indexed: true
                             }
                         }
                     ]
@@ -62,14 +73,16 @@ const router = createRouter({
                             path: '',
                             component: () => import('@/views/main/dashboard/MainDashboardView.vue'),
                             meta: {
-                                title: 'Beranda'
+                                title: 'Beranda',
+                                indexed: true
                             }
                         },
                         {   name: 'list-document',
                             path: 'list',
                             component: DocumentListView,
                             meta: {
-                                title: 'Daftar Dokumen'
+                                title: 'Daftar Dokumen',
+                                indexed: true
                             }
                         },
                         {   name: 'edit-document',
@@ -77,7 +90,8 @@ const router = createRouter({
                             component: DocumentEditView,
                             props: true,
                             meta: {
-                                title: 'Edit Dokumen'
+                                title: 'Edit Dokumen',
+                                indexed: true
                             }
                         },
                         {   name: 'review-document',
@@ -85,7 +99,8 @@ const router = createRouter({
                             component: DocumentReviewView,
                             props: true,
                             meta: {
-                                title: 'Review Dokumen'
+                                title: 'Review Dokumen',
+                                indexed: true
                             }
                          }
                     ]
@@ -103,34 +118,64 @@ const router = createRouter({
                                     redirect: '/category/1/A01',
                                 },
                                 {   path: 'A01',
-                                    component: () => import('@/views/main/category/forms/FormA01View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA01View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A02',
-                                    component: () => import('@/views/main/category/forms/FormA02View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA02View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A03',
-                                    component: () => import('@/views/main/category/forms/FormA03View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA03View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A04',
-                                    component: () => import('@/views/main/category/forms/FormA04View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA04View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A05',
-                                    component: () => import('@/views/main/category/forms/FormA05View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA05View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A06',
-                                    component: () => import('@/views/main/category/forms/FormA06View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA06View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A07',
-                                    component: () => import('@/views/main/category/forms/FormA07View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA07View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A08',
-                                    component: () => import('@/views/main/category/forms/FormA08View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA08View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A09',
-                                    component: () => import('@/views/main/category/forms/FormA09View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA09View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'A10',
-                                    component: () => import('@/views/main/category/forms/FormA10View.vue')
+                                    component: () => import('@/views/main/category/forms/FormA10View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 }
                             ]
                         },
@@ -144,10 +189,16 @@ const router = createRouter({
                                     redirect: '/category/2/B01'
                                 },
                                 {   path: 'B01',
-                                    component: () => import('@/views/main/category/forms/FormB01View.vue')
+                                    component: () => import('@/views/main/category/forms/FormB01View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'B02',
-                                    component: () => import('@/views/main/category/forms/FormB02View.vue')
+                                    component: () => import('@/views/main/category/forms/FormB02View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 }
                             ]
                         },
@@ -161,10 +212,16 @@ const router = createRouter({
                                     redirect: '/category/3/C01'
                                 },
                                 {   path: 'C01',
-                                    component: () => import('@/views/main/category/forms/FormC01View.vue')
+                                    component: () => import('@/views/main/category/forms/FormC01View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                                 {   path: 'C02',
-                                    component: () => import('@/views/main/category/forms/FormC02View.vue')
+                                    component: () => import('@/views/main/category/forms/FormC02View.vue'),
+                                    meta: {
+                                        indexed: true
+                                    }
                                 },
                             ]
                         }
@@ -177,20 +234,23 @@ const router = createRouter({
                         {   path: '',
                             component: () => import('@/views/main/account/ListAccountView.vue'),
                             meta: {
-                                title: 'Daftar Akun'
+                                title: 'Daftar Akun',
+                                indexed: true
                             }
                         },
                         {   path: 'create',
                             component: () => import('@/views/main/account/CreateAccountView.vue'),
                             meta: {
-                                title: 'Tambah Akun'
+                                title: 'Tambah Akun',
+                                indexed: true
                             }
                         },
                         {   path: 'edit/:userId',
                             component: () => import('@/views/main/account/EditAccountView.vue'),
                             props: true,
                             meta: {
-                                title: 'Ubah Akun'
+                                title: 'Ubah Akun',
+                                indexed: true
                             }
                         }
                     ]
@@ -226,6 +286,9 @@ router.beforeEach((to,from,next) => {
     } 
     
     if (to.name !== 'login' && to.name !== 'forgot-password') {
+        if (!to.meta?.indexed) {
+            return next({ name: 'home'});
+        }
         if (tokenValidity(token, tokenAge)) {
             if (role === 'user') {
                 // restricted route for role 'user'

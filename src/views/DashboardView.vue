@@ -68,6 +68,13 @@ export default {
                     data: data
                 };
             });
+
+            this.socket.on("ocr_request", (data) => {
+                this.notification = {
+                    event: "ocr_request",
+                    data: data
+                }
+            })
             
             this.socket.on("translation_request", (data) => {
                 this.notification = {
@@ -90,6 +97,9 @@ export default {
                 case "webhook_event":
                     this.setToast('Pesan Masuk', newVal, 3000);
                     break;
+                case "ocr_request":
+                    this.setToast('Form input dokumen', "Dokumen sedang diproses OCR", 3000);
+                    break;
                 case "translation_request":
                     this.setToast('Terjemah Dokumen', `Permintaan terjemah dokumen sedang diproses`, 3000);
                     this.translateTask.push({
@@ -102,7 +112,7 @@ export default {
                     this.setToast('Terjemah Dokumen', `Permintaan terjemah dokumen selesai diproses`, 3000);
                     const idTask = this.translateTask.findIndex(task => task.reqId == newVal?.data?.req_id);
                     if (idTask != -1) {
-                        this.translateTask[idTask].status = 'completed';
+                        this.translateTask.splice(idTask, 1);
                     }
                     this.downloadTranslatedPdf(newVal?.data?.req_id);
                     break;
@@ -262,7 +272,7 @@ export default {
     margin-bottom: 1rem;
     margin-right: 1rem;
     position: fixed;
-    z-index: 998;
+    z-index: 999;
 }
 
 .alert-container {

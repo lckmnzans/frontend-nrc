@@ -100,6 +100,9 @@ aside {
     min-height: 100vh;
     overflow: hidden;
     padding: 1rem;
+    left:0;
+    position: sticky;
+    z-index: 998;
 
     background-image: linear-gradient(var(--light), var(--primary-alt-3));
     color: var(--dark);
@@ -264,7 +267,7 @@ aside {
 
     @media (max-width: 768px) {
         position: fixed;
-        z-index: 99;
+        z-index: 998;
     }
 }
 
