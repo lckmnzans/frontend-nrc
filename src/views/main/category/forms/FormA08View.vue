@@ -38,30 +38,30 @@
             </div>
             <form class="d-flex flex-column">
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama *</label>
+                    <label for="" class="form-label">Nama</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.nama" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.nama" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.nama">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Jumlah Saham *</label>
+                    <label for="" class="form-label">Jumlah Saham</label>
                     <div class="input-control">
-                        <input type="number" class="form-control" v-model="docData.jmlSaham" required :disabled="role == 'user'"/>
+                        <input type="number" class="form-control" v-model="docData.jmlSaham" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.jmlSaham">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nilai Saham *</label>
+                    <label for="" class="form-label">Nilai Saham</label>
                     <div class="input-control">
                         <input type="number" class="form-control" v-model="docData.nilaiSaham" required :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.nilaiSaham">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Presentase *</label>
+                    <label for="" class="form-label">Presentase</label>
                     <div class="input-control">
-                        <input type="number" class="form-control" v-model="docData.presentase" required :disabled="role == 'user'"/>
+                        <input type="number" class="form-control" v-model="docData.presentase" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.presentase">error</span>
                     </div>
                 </div>

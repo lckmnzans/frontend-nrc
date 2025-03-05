@@ -38,9 +38,9 @@
             </div>
             <form class="d-flex flex-column">
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama Proyek *</label>
+                    <label for="" class="form-label">Nama Proyek</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.namaProyek" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.namaProyek" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.namaProyek">error</span>
                     </div>
                 </div>
@@ -94,7 +94,7 @@ export default {
     },
     computed: {
         isRequiredFormEmpty() {
-            return this.docData.namaProyek == '';
+            return Object.values(this.docData).includes('');
         },
         isFormEmptied() {
             return Object.values(this.docData).includes('');

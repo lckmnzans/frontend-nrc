@@ -128,21 +128,21 @@
                             <td>{{ parseToLocalTime(doc.createdDate) }}</td>
                             <td>
                                 <span class="badge" :class="`bg-${verifyStatus(doc.verificationStatus, ['primary','secondary'])}`">{{ verifyStatus(doc.verificationStatus, ['Sudah', 'Belum']) }} diverifikasi</span>
-                                <span class="badge bg-info text-dark" v-if="doc.hasPassedScreening">OCR</span>
+                                <!-- <span class="badge bg-info text-dark" v-if="doc.hasPassedScreening">OCR</span> -->
                                 <span class="badge bg-danger" v-if="doc?.fileRef[0]?.deleted">Ditandai</span>
                             </td>
                             <td>
                                 <div class="button">
                                     <button title="unduh" @click.prevent="downloadDoc(doc.docName)" style="color: slategray;"><span class="material-icons">file_download</span></button>
                                 </div>
-                                <div class="button" v-if="doc.docType == 'A01'">
+                                <!-- <div class="button" v-if="doc.docType == 'A01'">
                                     <div class="spinner-grow spinner-grow-sm" role="status" v-if="getTranslationTask(doc.docName)?.status == 'pending'">
                                         <span class="visually-hidden">loading...</span>
                                     </div>
                                     <button title="terjemahkan" @click.prevent="translateDoc(doc.docName)" style="color: slategray;" v-else>
                                         <span class="material-icons">translate</span>
                                     </button>
-                                </div>
+                                </div> -->
                             </td>
                             <td>
                                 <div class="button">

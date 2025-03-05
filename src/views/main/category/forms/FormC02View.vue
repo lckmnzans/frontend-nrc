@@ -38,44 +38,44 @@
             </div>
             <form class="d-flex flex-column">
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama PIC *</label>
+                    <label for="" class="form-label">Nama PIC</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.namaPic" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.namaPic" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.namaPic">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama PT Penjual *</label>
+                    <label for="" class="form-label">Nama PT Penjual</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.namaPtPenjual" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.namaPtPenjual" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.namaPtPenjual">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No. PPJB *</label>
+                    <label for="" class="form-label">No. PPJB</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noPPJB" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.noPPJB" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.noPPJB">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Tanggal PPJB *</label>
+                    <label for="" class="form-label">Tanggal PPJB</label>
                     <div class="input-control">
-                        <input type="date" class="form-control" v-model="docData.tglPPJB" required :disabled="role == 'user'"/>
+                        <input type="date" class="form-control" v-model="docData.tglPPJB" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.tglPPJB">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Lokasi *</label>
+                    <label for="" class="form-label">Lokasi</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.lokasi" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.lokasi" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.lokasi">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Luas *</label>
+                    <label for="" class="form-label">Luas</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.luas" required :disabled="role == 'user'"/>
+                        <input type="number" class="form-control" v-model="docData.luas" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.luas">error</span>
                     </div>
                 </div>

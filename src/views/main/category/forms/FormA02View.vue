@@ -38,9 +38,9 @@
             </div>
             <form class="d-flex flex-column">
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama Kontrak *</label>
+                    <label for="" class="form-label">Nama Kontrak</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.namaKontrak" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.namaKontrak" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.namaKontrak">error</span>
                     </div>
                 </div>
@@ -73,16 +73,16 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Jenis Dokumen *</label>
+                    <label for="" class="form-label">Jenis Dokumen</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.jenisDokumen" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.jenisDokumen" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.jenisDokumen">error</span>
                     </div>
                 </div>
-                <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
+                <!-- <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
-                </div>
-                <div class="form-group mb-3" v-else>
+                </div> -->
+                <div class="form-group mb-3" v-if="mode == 'edit'">
                     <div class="input-header d-flex justify-content-between align-items-center">                
                         <label for="additionalNotes" class="form-label">Catatan</label>
                         <button class="border border-0" @click.prevent="isNotesEditable = !isNotesEditable;" title="Ubah catatan"><span class="material-icons fs-6">edit</span></button>
@@ -129,7 +129,7 @@ export default {
     },
     computed: {
         isRequiredFormEmpty() {
-            return this.docData.namaKontrak == '' || this.docData.jenisDokumen == '';
+            return Object.values(this.docData).includes('');
         },
         isFormEmptied() {
             return Object.values(this.docData).includes('');

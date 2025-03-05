@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="form-container">
+    <div class="form-container" >
         <div id="previewpdf-container">
             <Loading :visible="loading" v-if="loading" />
             <div class="error-container" v-else-if="!loading && !localPreview">
@@ -27,21 +27,39 @@
             </div>
             <PreviewPdf :pdf="localPreview" v-else-if="!loading && localPreview"/>
         </div>
-        <div >
+        <div>
             <div class="d-flex justify-content-between align-items-center">
-                <h4>Formulir Surat Keluar</h4>
+                <h4>Formulir {{ `test` }}</h4>
                 <button v-if="role != 'user' && mode == 'edit'" class="border border-0" style="background-color: #fff; color: var(--secondary);" title="Hapus dokumen"
                 data-bs-toggle="modal" data-bs-target="#modalConfirmDelete"
                 >
                     <span class="material-icons fs-4">delete</span>
                 </button>
             </div>
-            <form class="d-flex flex-column">
+            <Forms :form-id="docType" :form-data="docSchema" v-if="docSchema" :disabled="[true,false,false,true,true]" />
+            <form class="d-flex flex-column" v-else>
+                <div>
+                    <p>Render this instead</p>
+                </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No. Surat</label>
+                    <label for="" class="form-label">Nama Dokumen</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.noSurat" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus?.noSurat">error</span>
+                        <input type="text" class="form-control" v-model="docData.namaDokumen" required :disabled="role == 'user'"/>
+                        <span class="material-icons" v-if="!attributeStatus?.namaDokumen">error</span>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">Instansi Penerbit</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.instansiPenerbit" :disabled="role == 'user'"/>
+                        <span class="material-icons" v-if="!attributeStatus?.instansiPenerbit">error</span>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="" class="form-label">No.Dokumen</label>
+                    <div class="input-control">
+                        <input type="text" class="form-control" v-model="docData.noDokumen" :disabled="role == 'user'"/>
+                        <span class="material-icons" v-if="!attributeStatus?.noDokumen">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
@@ -52,30 +70,13 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Perihal</label>
+                    <label for="" class="form-label">Masa Berlaku s/d</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.perihal" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus?.perihal">error</span>
+                        <input type="date" class="form-control" v-model="docData.masaBerlaku" :disabled="role == 'user'"/>
+                        <span class="material-icons" v-if="!attributeStatus?.masaBerlaku">error</span>
                     </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Drafter</label>
-                    <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.drafter" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus?.drafter">error</span>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="" class="form-label">Tujuan Surat</label>
-                    <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.tujuanSurat" :disabled="role == 'user'"/>
-                        <span class="material-icons" v-if="!attributeStatus?.tujuanSurat">error</span>
-                    </div>
-                </div>
-                <!-- <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
-                    Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
-                </div> -->
-                <div class="form-group mb-3" v-if="mode == 'edit'">
+                <div class="form-group mb-3" v-if="mode == 'create'">
                     <div class="input-header d-flex justify-content-between align-items-center">                
                         <label for="additionalNotes" class="form-label">Catatan</label>
                         <button class="border border-0" @click.prevent="isNotesEditable = !isNotesEditable;" title="Ubah catatan"><span class="material-icons fs-6">edit</span></button>
@@ -108,21 +109,26 @@ import Loading from '@/components/Loading.vue';
 import PdfForm from '@/components/PdfsForm.vue';
 import PreviewPdf from '@/components/PreviewPdf.vue';
 import FormOptions from '@/views/main/category/forms/FormOptsConfig';
+import Forms from '@/components/Forms.vue';
 
 export default {
     ...FormOptions,
     components: {
         Loading,
         PdfForm,
-        PreviewPdf
+        PreviewPdf,
+        Forms
     },
     created() {
+        var documentsSchema = JSON.parse(localStorage.getItem('documents-schema'));
+        this.docSchema = documentsSchema.find(doc => doc.formId == this.docType)?.formSchema;
+
         this.fetchData();
         this.setAttributesNull();
     },
     computed: {
         isRequiredFormEmpty() {
-            return Object.values(this.docData).includes('');
+            return this.docData.namaDokumen == '';
         },
         isFormEmptied() {
             return Object.values(this.docData).includes('');
@@ -131,20 +137,21 @@ export default {
     data() {
         return {
             ...FormOptions.data(),
-            docType: 'B02',
+            docType: 'A01',
             docData: {
-                noSurat: '',
+                namaDokumen: '',
+                instansiPenerbit: '',
+                noDokumen: '',
                 tglTerbit: '',
-                perihal: '',
-                drafter: '',
-                tujuanSurat: ''
+                masaBerlaku: '',
             },
+            docSchema: [],
             ocrable: true,
-        };
+        }
     }
 }
 </script>
-<style scoped>
+<style style="scss" scoped>
 .form-container {
     display: flex;
     flex-direction: row;

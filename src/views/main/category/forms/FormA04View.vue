@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.Dokumen *</label>
+                    <label for="" class="form-label">No.Dokumen</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.noDokumen" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.noDokumen">error</span>
@@ -108,30 +108,30 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Email *</label>
+                    <label for="" class="form-label">Email</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.email" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.email">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.HP *</label>
+                    <label for="" class="form-label">No.HP</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.noHp" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.noHp">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">No.NPWP *</label>
+                    <label for="" class="form-label">No.NPWP</label>
                     <div class="input-control">
                         <input type="text" class="form-control" v-model="docData.noNPWP" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.noNPWP">error</span>
                     </div>
                 </div>
-                <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
+                <!-- <div class="alert alert-info" role="alert" v-if="ocrable && mode == 'create'">
                     Perhatian! Form yang dikosongkan akan diisi otomatis oleh sistem
-                </div>
-                <div class="form-group mb-3" v-else>
+                </div> -->
+                <div class="form-group mb-3" v-if="mode == 'edit'">
                     <div class="input-header d-flex justify-content-between align-items-center">                
                         <label for="additionalNotes" class="form-label">Catatan</label>
                         <button class="border border-0" @click.prevent="isNotesEditable = !isNotesEditable;" title="Ubah catatan"><span class="material-icons fs-6">edit</span></button>
@@ -178,7 +178,7 @@ export default {
     },
     computed: {
         isRequiredFormEmpty() {
-            return this.docData.noDokumen == '' || this.docData.email == '' || this.docData.noHp == '' || this.docData.noNPWP == '';
+            return Object.values(this.docData).includes('');
         },
         isFormEmptied() {
             return Object.values(this.docData).includes('');

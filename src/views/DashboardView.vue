@@ -45,83 +45,83 @@ export default {
         this.pages = JSON.parse(localStorage.getItem('pages'));
         this.documents = JSON.parse(localStorage.getItem('documents-type'));
 
-        if (this.user) {
-            const url = window.location.origin;
-            this.socket = io(url, {
-                transports:["websocket"],
-            });
+        // if (this.user) {
+        //     const url = window.location.origin;
+        //     this.socket = io(url, {
+        //         transports:["websocket"],
+        //     });
 
-            this.socket.emit("register", this.user.id);
+        //     this.socket.emit("register", this.user.id);
 
-            this.socket.on("connect", () => {
-                console.log("Connected to Websocket server: ", this.socket.id);
-                const socketSession = {
-                    id: this.socket.id,
-                    userId: this.user.id,
-                }
-                sessionStorage.setItem('socket-session', JSON.stringify(socketSession));
-            })
+        //     this.socket.on("connect", () => {
+        //         console.log("Connected to Websocket server: ", this.socket.id);
+        //         const socketSession = {
+        //             id: this.socket.id,
+        //             userId: this.user.id,
+        //         }
+        //         sessionStorage.setItem('socket-session', JSON.stringify(socketSession));
+        //     })
 
-            this.socket.on("webhook_event", (data) => {
-                this.notification = {
-                    event: "webhook_event",
-                    data: data
-                };
-            });
+        //     this.socket.on("webhook_event", (data) => {
+        //         this.notification = {
+        //             event: "webhook_event",
+        //             data: data
+        //         };
+        //     });
 
-            this.socket.on("ocr_request", (data) => {
-                this.notification = {
-                    event: "ocr_request",
-                    data: data
-                }
-            })
+        //     this.socket.on("ocr_request", (data) => {
+        //         this.notification = {
+        //             event: "ocr_request",
+        //             data: data
+        //         }
+        //     })
             
-            this.socket.on("translation_request", (data) => {
-                this.notification = {
-                    event: "translation_request",
-                    data: data
-                }
-            })
+        //     this.socket.on("translation_request", (data) => {
+        //         this.notification = {
+        //             event: "translation_request",
+        //             data: data
+        //         }
+        //     })
 
-            this.socket.on("translation_completed", (data) => {
-                this.notification = {
-                    event: "translation_completed",
-                    data: data
-                }
-            })
-        }
+        //     this.socket.on("translation_completed", (data) => {
+        //         this.notification = {
+        //             event: "translation_completed",
+        //             data: data
+        //         }
+        //     })
+        // }
     },
     watch: {
-        notification(newVal, oldVal) {
-            switch (newVal.event) {
-                case "webhook_event":
-                    this.setToast('Pesan Masuk', newVal, 3000);
-                    break;
-                case "ocr_request":
-                    this.setToast('Form input dokumen', "Dokumen sedang diproses OCR", 3000);
-                    break;
-                case "translation_request":
-                    this.setToast('Terjemah Dokumen', `Permintaan terjemah dokumen sedang diproses`, 3000);
-                    this.translateTask.push({
-                        reqId: newVal?.data?.req_id,
-                        docName: newVal?.data?.filename,
-                        status: 'pending'
-                    })
-                    break;
-                case "translation_completed":
-                    this.setToast('Terjemah Dokumen', `Permintaan terjemah dokumen selesai diproses`, 3000);
-                    const idTask = this.translateTask.findIndex(task => task.reqId == newVal?.data?.req_id);
-                    if (idTask != -1) {
-                        this.translateTask.splice(idTask, 1);
-                    }
-                    this.downloadTranslatedPdf(newVal?.data?.req_id);
-                    break;
-                default:
-                    break;
-            }
+        // notification(newVal, oldVal) {
+        //     switch (newVal.event) {
+        //         case "webhook_event":
+        //             this.setToast('Pesan Masuk', newVal, 3000);
+        //             break;
+        //         case "ocr_request":
+        //             this.setToast('Form input dokumen', "Dokumen sedang diproses OCR", 3000);
+        //             break;
+        //         case "translation_request":
+        //             this.setToast('Terjemah Dokumen', `Permintaan terjemah dokumen sedang diproses`, 3000);
+        //             this.translateTask.push({
+        //                 reqId: newVal?.data?.req_id,
+        //                 docName: newVal?.data?.filename,
+        //                 status: 'pending'
+        //             })
+        //             break;
+        //         case "translation_completed":
+        //             this.setToast('Terjemah Dokumen', `Permintaan terjemah dokumen selesai diproses`, 3000);
+        //             const idTask = this.translateTask.findIndex(task => task.reqId == newVal?.data?.req_id);
+        //             if (idTask != -1) {
+        //                 this.translateTask.splice(idTask, 1);
+        //             }
+        //             this.downloadTranslatedPdf(newVal?.data?.req_id);
+        //             break;
+        //         default:
+        //             break;
+        //     }
 
-            console.log(newVal, oldVal);
-        }
+        //     console.log(newVal, oldVal);
+        // }
     },
     computed: {
         ...mapState(useToastStore, {
@@ -138,18 +138,18 @@ export default {
         ...mapState(usePageStore, {
             pageTitle: 'pageTitle'
         }),
-        ...mapState(useDocumentsListStore, {
-            translateTask: 'translateTask'
-        })
+        // ...mapState(useDocumentsListStore, {
+        //     translateTask: 'translateTask'
+        // })
     },
     data() {
         return {
             token: '',
-            socket: null,
+            // socket: null,
             user: {},
             pages: [],
             documents: [],
-            notification: null
+            // notification: null
         }
     },
     methods: {
@@ -172,28 +172,28 @@ export default {
                 console.log(err);
             })
         },
-        async downloadTranslatedPdf(reqId) {
-            this.axios(docApi.getTranslatedDocument(reqId))
-            .then(response => {
-                if (response.status == 200) {
-                    const blob = response.data;
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = reqId;
-                    document.body.appendChild(link);
-                    link.click();
+        // async downloadTranslatedPdf(reqId) {
+        //     this.axios(docApi.getTranslatedDocument(reqId))
+        //     .then(response => {
+        //         if (response.status == 200) {
+        //             const blob = response.data;
+        //             const url = URL.createObjectURL(blob);
+        //             const link = document.createElement('a');
+        //             link.href = url;
+        //             link.download = reqId;
+        //             document.body.appendChild(link);
+        //             link.click();
 
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(url);
-                } else {
-                    console.log('Gagal mengunduh dokumen. Status: ', response.status);
-                }
-            })
-            .catch(err => {
-                console.log('Terjadi kesalahan saat mengunduh dokumen. Error: ', err);
-            });
-        },
+        //             document.body.removeChild(link);
+        //             URL.revokeObjectURL(url);
+        //         } else {
+        //             console.log('Gagal mengunduh dokumen. Status: ', response.status);
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log('Terjadi kesalahan saat mengunduh dokumen. Error: ', err);
+        //     });
+        // },
         ...mapActions(useAlertStore, {
             setAlert: 'setAlert',
             setAlertState: 'setAlertState'
@@ -205,9 +205,9 @@ export default {
         ...mapActions(useUserStore, {
             saveProfile: 'saveProfile'
         }),
-        ...mapActions(useDocumentsListStore, {
-            getTranslationTask: 'getTranslationTask'
-        })
+        // ...mapActions(useDocumentsListStore, {
+        //     getTranslationTask: 'getTranslationTask'
+        // })
     }
 }
 </script>

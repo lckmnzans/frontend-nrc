@@ -38,23 +38,23 @@
             </div>
             <form class="d-flex flex-column">
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Nama *</label>
+                    <label for="" class="form-label">Nama</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.nama" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.nama" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.nama">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Jabatan *</label>
+                    <label for="" class="form-label">Jabatan</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.jabatan" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.jabatan" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.jabatan">error</span>
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="" class="form-label">Diangkat Berdasarkan Akta *</label>
+                    <label for="" class="form-label">Diangkat Berdasarkan Akta</label>
                     <div class="input-control">
-                        <input type="text" class="form-control" v-model="docData.diangkatBerdasarkanAkta" required :disabled="role == 'user'"/>
+                        <input type="text" class="form-control" v-model="docData.diangkatBerdasarkanAkta" :disabled="role == 'user'"/>
                         <span class="material-icons" v-if="!attributeStatus?.diangkatBerdasarkanAkta">error</span>
                     </div>
                 </div>

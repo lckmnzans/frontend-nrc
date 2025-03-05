@@ -147,7 +147,7 @@
                         { "name": "masaBerlaku", "label": "Masa Berlaku", "type": "date", "value": ""},
                         { "name": "jenisSertifikat", "label": "Jenis Sertifikat", "type": "text", "value": ""},
                         { "name": "lokasi", "label": "Lokasi", "type": "text", "value": ""},
-                        { "name": "luas", "label": "Luas", "type": "text", "value": ""}
+                        { "name": "luas", "label": "Luas", "type": "number", "value": ""}
                     ]
                 },
                 {
@@ -159,7 +159,7 @@
                         { "name": "noPPJB", "label": "Nomor PPJB", "type": "text", "value": ""},
                         { "name": "tglPPJB", "label": "Tanggal PPJB", "type": "date", "value": ""},
                         { "name": "lokasi", "label": "Lokasi", "type": "text", "value": ""},
-                        { "name": "luas", "label": "Luas", "type": "text", "value": ""}
+                        { "name": "luas", "label": "Luas", "type": "number", "value": ""}
                     ]
                 }
             ]
